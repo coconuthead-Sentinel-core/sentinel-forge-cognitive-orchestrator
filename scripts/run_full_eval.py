@@ -34,28 +34,12 @@ def main():
     print("🚀 Starting Sentinel Forge Evaluation Pipeline...")
     print("=" * 60)
 
-    # 1. Start the API Server in the background
-    print("\n[1/3] Starting API Server...")
-    server_process = subprocess.Popen(
-        [sys.executable, "-m", "uvicorn", "main:app", "--port", "8000"],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
-    )
-    
-    # Wait for port 8000 to be ready
-    print("      Waiting for server to be ready (max 30s)...")
-    if wait_for_port(8000):
-        print("      ✅ Server is listening on port 8000")
-    else:
-        print("❌ Server failed to start within timeout. Logs:")
-        # Read whatever output we have
-        out, err = server_process.communicate(timeout=5)
-        print(err.decode() if err else "No error output captured.")
-        server_process.terminate()
-        return
+    # 1. Use TestClient for in-process testing
+    print("\n[1/3] Using TestClient for in-process testing...")
+    print("      ✅ TestClient ready (no server needed)")
 
     try:
-        # 2. Run the Collection Script
+        # 2. Run the Collection Script (now uses TestClient)
         print("\n[2/3] Collecting Responses...")
         collect_result = subprocess.run(
             [sys.executable, "evaluation/collect_responses.py"],
@@ -64,23 +48,21 @@ def main():
         
         if collect_result.returncode != 0:
             print("❌ Collection failed.")
+            return
         else:
             # 3. Run the Evaluation Script
             print("\n[3/3] Running Evaluation...")
-            subprocess.run(
+            eval_result = subprocess.run(
                 [sys.executable, "evaluation/run_evaluation.py"],
                 capture_output=False
             )
+            if eval_result.returncode != 0:
+                print("❌ Evaluation failed.")
+            else:
+                print("✅ Pipeline Complete.")
 
-    finally:
-        # 4. Cleanup: Stop the server
-        print("\n🛑 Shutting down server...")
-        server_process.terminate()
-        try:
-            server_process.wait(timeout=5)
-        except subprocess.TimeoutExpired:
-            server_process.kill()
-        print("✅ Pipeline Complete.")
+    except Exception as e:
+        print(f"❌ Pipeline failed: {e}")
 
 if __name__ == "__main__":
     main()

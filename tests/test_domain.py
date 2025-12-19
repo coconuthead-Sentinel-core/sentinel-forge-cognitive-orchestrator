@@ -60,21 +60,22 @@ def test_note_ignores_extra_fields():
 
 
 def test_memory_snapshot_auto_fields():
-    ts = datetime.now(timezone.utc)
-    snap = MemorySnapshot(timestamp=ts, summary="state", active_nodes=3, entropy_level=0.12)
+    """Verify MemorySnapshot auto-generates id and created_at fields."""
+    snap = MemorySnapshot(summary="state", active_nodes=3, entropy_level=0.12)
     assert isinstance(snap.id, str) and snap.id
     assert snap.created_at.tzinfo is not None
-    assert snap.timestamp == ts
+    # Note: timestamp is NOT a field on MemorySnapshot - removed invalid assertion
 
 
 def test_memory_snapshot_ignores_extra_fields():
-    ts = datetime.now(timezone.utc)
+    """Verify MemorySnapshot ignores unknown fields (ConfigDict(extra='ignore'))."""
     snap = MemorySnapshot(
-        timestamp=ts,
         summary="entropy",
         active_nodes=1,
         entropy_level=0.01,
         extraneous="dropme",
+        timestamp="also_ignored",  # Not a real field - should be ignored
     )
     dumped = snap.model_dump()
     assert "extraneous" not in dumped
+    assert "timestamp" not in dumped

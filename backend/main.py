@@ -3,10 +3,15 @@ import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .api import router as api_router, ai_router
+from .api import router as api_router
 from .adapters.azure_openai import AzureCognitiveTokenProvider
 from .infrastructure.cosmos_repo import CosmosDBRepository
 import uvicorn
+import asyncio
+
+# Set event loop policy for Windows
+if os.name == 'nt':
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 # Logging
 logging.basicConfig(level=logging.INFO)
@@ -33,7 +38,7 @@ async def lifespan(app: FastAPI):
     # Cleanup on shutdown
     await CosmosDBRepository.close()
 
-app = FastAPI(title="Neurodivergent AI Middleware", lifespan=lifespan)
+app = FastAPI(title="Neurodivergent AI Middleware")
 
 # Add CORS
 app.add_middleware(
@@ -49,7 +54,20 @@ app.add_middleware(
 
 # Include routers
 app.include_router(api_router, prefix="/api")
-app.include_router(ai_router, prefix="/api")
+# app.include_router(ai_router, prefix="/api")
+
+@app.post("/api/testpost")
+async def test_post():
+    return {"message": "ok"}
+
+if __name__ == "__main__":
+    uvicorn.run(
+        app,
+        host="0.0.0.0",
+        port=8000,
+        timeout_keep_alive=75,
+        log_level="info"
+    )
 
 if __name__ == "__main__":
     uvicorn.run(

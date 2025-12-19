@@ -23,7 +23,6 @@ class MockOpenAIAdapter:
         
         return {
             "id": f"chatcmpl-{uuid.uuid4()}",
-            "object": "chat.completion",
             "created": 1677652288,
             "model": "mock-gpt-4",
             "choices": [{

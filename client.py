@@ -46,7 +46,7 @@ class SentinelClient:
                 {"role": "user", "content": message},
             ]
         }
-        data = self._request("POST", "/ai/chat", json=payload)
+        data = self._request("POST", "/chat", json=payload)
         # Safe extraction
         try:
             return data["choices"][0]["message"]["content"]

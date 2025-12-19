@@ -36,18 +36,66 @@ class ConnectionManager:
 manager = ConnectionManager()
 
 
-@router.websocket("/ws/sync")
-async def ws_sync(websocket: WebSocket) -> Any:
+@router.websocket("/ws/cognitive")
+async def ws_cognitive(websocket: WebSocket) -> Any:
+    """WebSocket endpoint for real-time cognitive processing events."""
     # Enforce API key if configured
     websocket_require_api_key(websocket)
     await websocket.accept()
     loop = asyncio.get_running_loop()
-    # Use a bounded queue with 'latest' policy to keep UIs current under load
-    queue = bus.subscribe(loop, maxsize=1000, policy="latest")
-    # Send initial snapshot
+
+    # Subscribe to cognitive events (zone, symbolic, glyph)
+    cognitive_queue = bus.subscribe(loop, maxsize=100, policy="latest", topic="cognitive")
+    symbolic_queue = bus.subscribe(loop, maxsize=100, policy="latest", topic="symbolic")
+    glyph_queue = bus.subscribe(loop, maxsize=100, policy="latest", topic="glyph")
+
     try:
-        snap = await asyncio.get_running_loop().run_in_executor(None, service.sync_snapshot)
-        await websocket.send_text(json.dumps({"type": "sync.snapshot", "data": snap}))
+        # Send initial cognitive state
+        from .services.memory_zones import get_memory_manager
+        memory_manager = get_memory_manager()
+        zone_metrics = memory_manager.get_zone_metrics() if hasattr(memory_manager, 'get_zone_metrics') else {}
+
+        initial_state = {
+            "type": "cognitive.state",
+            "data": {
+                "zone_metrics": zone_metrics,
+                "active_lens": "neurotypical",  # Default
+                "timestamp": __import__("time").time(),
+            }
+        }
+        await websocket.send_text(json.dumps(initial_state))
+
+        # Listen for events from all cognitive topics
+        while True:
+            # Wait for any cognitive event
+            import asyncio
+            done, pending = await asyncio.wait(
+                [
+                    asyncio.create_task(cognitive_queue.get()),
+                    asyncio.create_task(symbolic_queue.get()),
+                    asyncio.create_task(glyph_queue.get()),
+                ],
+                return_when=asyncio.FIRST_COMPLETED
+            )
+
+            # Cancel pending tasks
+            for task in pending:
+                task.cancel()
+
+            # Process the completed event
+            for task in done:
+                try:
+                    event = task.result()
+                    await websocket.send_text(json.dumps(event))
+                except Exception as e:
+                    logger.warning(f"Error processing cognitive event: {e}")
+
+    except WebSocketDisconnect:
+        pass
+    finally:
+        bus.unsubscribe(cognitive_queue)
+        bus.unsubscribe(symbolic_queue)
+        bus.unsubscribe(glyph_queue)
         while True:
             # Wait for next event or client ping
             payload = await queue.get()

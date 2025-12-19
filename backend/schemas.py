@@ -1,5 +1,5 @@
 from typing import Any, Dict, Optional, List, Literal, Union
-from pydantic import BaseModel, Field, conlist
+from pydantic import BaseModel, Field, conlist, ConfigDict
 
 class ProcessRequest(BaseModel):
     data: str = Field(..., min_length=1, max_length=10000, description="Data to process")
@@ -164,6 +164,8 @@ class ChatResponse(BaseModel):
     created: int
     choices: List[ChatChoice]
     usage: Optional[Dict[str, Any]] = None
+    
+    model_config = ConfigDict(extra="allow")  # Allow cognitive metadata
 
 class EmbeddingsRequest(BaseModel):
     input: Union[str, List[str]]

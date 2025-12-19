@@ -57,6 +57,20 @@ class ChatService:
                 messages=messages,
                 temperature=0.7
             )
+            # response = {
+            #     "id": "test-id",
+            #     "model": "test-model",
+            #     "created": 1234567890,
+            #     "choices": [{
+            #         "index": 0,
+            #         "message": {
+            #             "role": "assistant",
+            #             "content": f"Test response to: {user_message}"
+            #         },
+            #         "finish_reason": "stop"
+            #     }],
+            #     "usage": {"prompt_tokens": 10, "completion_tokens": 20, "total_tokens": 30}
+            # }
             
             # Extract content safely
             choices = response.get("choices", [])

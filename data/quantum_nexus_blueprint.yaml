@@ -1,0 +1,166 @@
+# data/quantum_nexus_blueprint.yaml
+# Quantum Nexus Rolodex Redesign Blueprint
+# Version 1.8.1 | December 19, 2025
+# Architect: Shannon Brian Kelly (Coconut Head)
+
+quantum_nexus_blueprint:
+  id: "QuantumNexus-RolodexRedesign-2025"
+  version: "1.8.1"
+  date: "2025-12-19"
+  architect: "Shannon Brian Kelly (Coconut Head)"
+
+  filing_system:
+    origin: "A1"
+    terminus: "Z1"
+    primary_flow: "left_to_right_then_top_to_bottom"
+    secondary_flow: "right_to_left_vertical"
+    rule: "no_bad_input_no_bad_process_no_bad_output"
+
+  great_greg_coordinates:
+    formats:
+      - "CELL"
+      - "NODE.CELL"
+      - "NODE.RC"
+    rc_map:
+      A1: { r: 1, c: 1, node: 1, label: "Fluent Python" }
+      B1: { r: 1, c: 2, node: 1, label: "Deep Learning with Python" }
+      C1: { r: 1, c: 3, node: 1, label: "Metaprogramming with Python" }
+      D1: { r: 1, c: 4, node: 1, label: "High Performance Programming" }
+      E1: { r: 1, c: 5, node: 1, label: "Linear Algebra" }
+      F1: { r: 1, c: 6, node: 1, label: "C Programming" }
+
+      G1: { r: 2, c: 1, node: 2, label: "Glyph Registry" }
+      H1: { r: 2, c: 2, node: 2, label: "Glyph Registry (1)" }
+      I1: { r: 2, c: 3, node: 2, label: "Sentinel Dashboard" }
+      J1: { r: 2, c: 4, node: 2, label: "Universal Cognitive Lattice" }
+      K1: { r: 2, c: 5, node: 2, label: "QUICK START" }
+      L1: { r: 2, c: 6, node: 2, label: "Spare" }
+
+      M1: { r: 3, c: 1, node: 3, label: "Learning GitHub Actions" }
+      N1: { r: 3, c: 2, node: 3, label: "Version Control" }
+      O1: { r: 3, c: 3, node: 3, label: "GitHub Essentials" }
+      P1: { r: 3, c: 4, node: 3, label: "Prompt Engineering Workshop" }
+      Q1: { r: 3, c: 5, node: 3, label: "Blank Template Packet" }
+      R1: { r: 3, c: 6, node: 3, label: "Teaching Template" }
+
+      S1: { r: 4, c: 1, node: 4, label: "Redesigning Microsoft Copilot" }
+      T1: { r: 4, c: 2, node: 4, label: "AI Reproducibility Concerns" }
+      U1: { r: 4, c: 3, node: 4, label: "Cross-Disciplinary Adaptation" }
+      V1: { r: 4, c: 4, node: 4, label: "AI Mind Map Generation" }
+      W1: { r: 4, c: 5, node: 4, label: "Books on Coding" }
+      X1: { r: 4, c: 6, node: 4, label: "Spare" }
+
+      Y1: { r: 5, c: 1, node: 5, label: "Resume/LinkedIn entries" }
+      Z1: { r: 5, c: 2, node: 5, label: "ZA1 Dynamic Expansion (Future Modules)" }
+
+  nodes:
+    - id: "Node_1_Technical_Arsenal"
+      color: "yellow"
+      cells: ["A1", "B1", "C1", "D1", "E1", "F1"]
+      source_files:
+        - "Fluent_Python_01-14.docx"
+        - "Deep_Learning_with_Python__01-04.docx"
+        - "Metaprogramming_with_Python_01-03.docx"
+        - "High_Performance_Programming_01-04.docx"
+        - "Linear_Algebra.docx"
+        - "C_Programming_01-03.docx"
+
+    - id: "Node_2_Core_Frameworks"
+      color: "green"
+      cells: ["G1", "H1", "I1", "J1", "K1", "L1"]
+      source_files:
+        - "Sentinel Dashboard.docx"
+        - "Universal Cognitive Lattice Architecture.docx"
+        - "QUICK START GUIDE.docx"
+
+    - id: "Node_3_Skill_Forge"
+      color: "green"
+      cells: ["M1", "N1", "O1", "P1", "Q1", "R1"]
+      source_files:
+        - "Learning_GitHub_Actions.docx"
+        - "Version_Control_with_Git_and_GitHub.docx"
+        - "GitHub_Essentials_Second_Edition.docx"
+        - "Prompt Engineering Workshop"
+        - "BLANK TEMPLATE PACKET"
+        - "Teaching Template"
+
+    - id: "Node_4_Meta_Research"
+      color: "yellow"
+      cells: ["S1", "T1", "U1", "V1", "W1", "X1"]
+      source_files:
+        - "Redesigning Microsoft Copilot.docx"
+        - "AI reproducibility concerns.docx"
+        - "Cross-Disciplinary template adaptation.docx"
+        - "AI mind map generation.docx"
+        - "Books on coding.txt"
+
+    - id: "Node_5_Career"
+      color: "green"
+      cells: ["Y1", "Z1"]
+      source_files:
+        - "Resume/LinkedIn entries"
+
+    - id: "Glyph_Registry"
+      color: "green"
+      cells: ["G1", "H1"]
+      source_files:
+        - "ai Generated images very important document.docx"
+        - "ai Generated images very important document (1).docx"
+
+  dependencies:
+    - id: "dep_A1_to_V1"
+      type: "diagonal_dependency"
+      from: "A1"
+      to: "V1"
+      path: ["A1", "H1", "O1", "V1"]
+      attach_source_files:
+        mode: "all"
+        include_nodes: ["Node_1_Technical_Arsenal", "Node_2_Core_Frameworks", "Node_3_Skill_Forge", "Node_4_Meta_Research", "Node_5_Career", "Glyph_Registry"]
+      notes:
+        - "Purpose: fast cross-node trace from Prime Truth (A1) into Meta Research focal point (V1)."
+        - "GreatGreg: Dial A1 → H1 → O1 → V1."
+
+    - id: "dep_AllFiles_L2R_to_Z1"
+      type: "lateral_row_major_dependency"
+      from: "A1"
+      to: "Z1"
+      path:
+        - ["A1", "B1", "C1", "D1", "E1", "F1"]
+        - ["G1", "H1", "I1", "J1", "K1", "L1"]
+        - ["M1", "N1", "O1", "P1", "Q1", "R1"]
+        - ["S1", "T1", "U1", "V1", "W1", "X1"]
+        - ["Y1", "Z1"]
+      attach_source_files:
+        mode: "all"
+      terminus_label: "Z1 (bottom-right) / ZA1 Dynamic Expansion"
+      origin_label: "A1 (upper-left) / Prime Truth"
+      notes:
+        - "All information moves left-to-right laterally; rows advance top-to-bottom."
+        - "GreatGreg: 'Dial to P1' resolves via rc_map (Node_3.R3C4)."
+
+  instruction_shaft:
+    direction: "right_to_left_vertical"
+    anchors:
+      top_right: "F1"
+      bottom_left: "Y1"
+    purpose: "protocols/preferences descend; execution checks gate output quality"
+    rules:
+      - "no_junk_in_no_junk_out"
+      - "validate_inputs"
+      - "validate_process"
+      - "validate_outputs"
+
+  dashboard_phase_2_hooks:
+    fastapi:
+      routes:
+        - path: "/api/metrics"
+          maps_to_dependency: "dep_AllFiles_L2R_to_Z1"
+          data_domains: ["memory_zones", "cognitive_lenses", "system_health"]
+        - path: "/api/lattice/resolve"
+          maps_to_dependency: "dep_A1_to_V1"
+          description: "Great Greg coordinate resolver endpoint"
+        - path: "/dashboard"
+          maps_to_dependency: "dep_A1_to_V1"
+          template: "dashboard.html"
+      templates_dir: "templates"
+      static_dir: "static"

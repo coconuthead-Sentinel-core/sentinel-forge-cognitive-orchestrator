@@ -1,1 +1,1 @@
-cd "C:\Users\sbrya\OneDrive\Desktop\Sentinel of Sentinel forage\Sentinel-of-sentinel-s-Forge"
+cd "C:\Users\sbrya\OneDrive\Desktop\Sentinel of Sentinel forage\Sentinel-of-sentinel-s-Forge"git remote set-url origin https://github.com/coconuthead-Sentinel-core/sentinel-forge-cognitive-orchestrator.git

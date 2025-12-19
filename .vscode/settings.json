@@ -15,5 +15,50 @@
   "terminal.integrated.defaultProfile.windows": "PowerShell (venv auto)",
   "terminal.integrated.shellIntegration.enabled": true,
   "terminal.integrated.shellIntegration.decorationsEnabled": "both",
-  "terminal.integrated.commandDetection.enabled": true
+  "terminal.integrated.commandDetection.enabled": true,
+  "editor.fontSize": 18,
+  "terminal.integrated.fontSize": 14,
+  "[Log]": {
+    "editor.fontSize": 15
+  },
+  "window.zoomLevel": 5,
+  "editor.fontFamily": "Fira Code",
+  "editor.fontLigatures": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.tabSize": 4,
+  "editor.renderWhitespace": "all",
+  "files.exclude": {
+    "somefolder/": true,
+    "somefile": true
+  },
+  "[languageid]": {},
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "bower.json"
+      ],
+      "url": "https://json.schemastore.org/bower"
+    },
+    {
+      "fileMatch": [
+        "**/foo.json"
+      ],
+      "url": "./myschema.json"
+    },
+    {
+      "fileMatch": [
+        "/.myconfig"
+      ],
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the entry"
+          }
+        }
+      }
+    }
+  ]
 }

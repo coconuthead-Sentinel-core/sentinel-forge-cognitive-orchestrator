@@ -7,18 +7,22 @@ Sentinel Forge is a **Cognitive AI Orchestration Platform** for neurodivergent-a
 1. **Backend API** (`backend/`) - FastAPI with Domain-Driven Design (DDD)
 2. **Quantum Nexus Forge** (`quantum_nexus_forge_v5_2_enhanced.py`) - Standalone cognitive engine
 
+**Three-Zone Memory System**: 🟢 Active (>0.7 entropy) → 🟡 Pattern (0.3-0.7) → 🔴 Crystal (<0.3)
+
+**Cognitive Lenses**: ADHD (burst processing), Autism (precision), Dyslexia (spatial), Neurotypical (baseline)
+
 ```
 backend/
 ├── domain/models.py      # Pure entities (Note, Entity) - NO DB fields allowed
 ├── infrastructure/       # cosmos_repo.py with auto Mock DB fallback
-├── services/             # ChatService: Input → AI → Memory pipeline
+├── services/             # CognitiveOrchestrator: Input → AI → Memory → Glyph processing
 ├── adapters/             # AzureOpenAIAdapter (AAD) ↔ MockOpenAIAdapter
 ├── core/config.py        # ALL env vars via Pydantic Settings (single source)
 ├── api.py                # router (public) + ai_router (API key guarded)
-└── ws_api.py             # /ws/sync, /ws/metrics, /ws/events
+└── ws_api.py             # /ws/cognitive, /ws/sync, /ws/metrics, /ws/events
 ```
 
-**Data Flow:** `api.py` → `ChatService` → `AI Adapter` → `cosmos_repo.upsert_note()`
+**Data Flow:** `api.py` → `CognitiveOrchestrator` → `AI Adapter` → `cosmos_repo.upsert_note()`
 
 ## Quick Start
 
@@ -103,6 +107,17 @@ queue = bus.subscribe(loop, maxsize=1000, policy="latest")
 # Send initial snapshot, then stream EventBus updates
 ```
 
+## EventBus Usage
+
+```python
+# Publish events
+from .eventbus import bus
+await bus.publish("cognitive", {"type": "zone.transition", "data": {...}})
+
+# Subscribe in WebSockets
+queue = bus.subscribe(loop, maxsize=100, policy="latest", topic="cognitive")
+```
+
 ## Script Import Pattern
 
 Scripts in `scripts/` or `evaluation/` must add repo root:
@@ -117,3 +132,5 @@ sys.path.insert(0, str(root_dir))
 2. **Adapters must match interface** - New AI adapters need identical signatures
 3. **EventBus policies** - Use `"latest"` for real-time UIs (drops old messages when full)
 4. **AAD auth** - `AzureOpenAIAdapter` uses `DefaultAzureCredential`, not API keys
+5. **Lifespan initialization** - Cosmos DB and AAD token warmup happen in `main.py` lifespan
+6. **Cognitive lenses** - Always apply appropriate lens based on user context for processing

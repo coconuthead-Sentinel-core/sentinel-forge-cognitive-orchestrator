@@ -1,9 +1,11 @@
 # Sentinel Forge Cognitive AI Orchestration Platform 🌌
 
+![CI](https://github.com/coconuthead-Sentinel-core/sentinel-forge-cognitive-orchestrator/workflows/Python%20application/badge.svg)
+
 **Neurodivergent-Aware Cognitive Orchestration** | December 19, 2025
 
 ## 🎯 Mission
-Building AI that adapts to neurodivergent thinking patterns instead of forcing conformity. This platform orchestrates cognitive processing through specialized lenses for ADHD, autism, dyslexia, and neurotypical styles.
+Building AI that adapts to neurodivergent thinking patterns instead of forcing conformity. This platform orchestrates cognitive processing through specialized lenses for ADHD, autism, dyslexia, and[...]
 
 ## 🧠 Core Architecture
 
@@ -32,7 +34,7 @@ Building AI that adapts to neurodivergent thinking patterns instead of forcing c
 ### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/vr-studios/sentinel-forge-cognitive-orchestrator.git
+git clone https://github.com/coconuthead-Sentinel-core/sentinel-forge-cognitive-orchestrator.git
 cd sentinel-forge-cognitive-orchestrator
 
 # Install dependencies
@@ -209,5 +211,4 @@ Built with ❤️ by Shannon Bryan Kelly (Coconut Head) in collaboration with Cl
 
 *Making AI accessible to all cognitive styles, one framework at a time.* 🧠✨
 
-**December 19, 2025** - Middle layer complete, ready for GitHub ascension.
-
+**December 19, 2025** - Repository published and CI active.

@@ -72,6 +72,9 @@ try:
     import os as _os
     if _os.path.isdir("frontend"):
         app.mount("/ui", StaticFiles(directory="frontend", html=True), name="ui")
+    # Mount static assets for Phase 2 dashboard
+    if _os.path.isdir("static"):
+        app.mount("/static", StaticFiles(directory="static"), name="static")
 except Exception:
     # Non-fatal if static files aren't available
     pass

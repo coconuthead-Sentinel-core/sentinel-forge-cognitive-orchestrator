@@ -1,0 +1,311 @@
+<!-- templates/quantum_dashboard.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sentinel Forge • Quantum Nexus Dashboard</title>
+  <style>
+    :root {
+      --bg-primary: #0b0f14;
+      --bg-card: #121a24;
+      --border: #1f2b3a;
+      --text: #e8eef6;
+      --muted: #a9b6c6;
+      --accent-green: #22c55e;
+      --accent-yellow: #eab308;
+      --accent-blue: #3b82f6;
+    }
+    
+    * { box-sizing: border-box; }
+    
+    body { 
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; 
+      margin: 0;
+      padding: 24px;
+      background: var(--bg-primary); 
+      color: var(--text);
+      min-height: 100vh;
+    }
+    
+    .container { max-width: 1200px; margin: 0 auto; }
+    
+    header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    
+    header h1 { margin: 0; font-size: 1.75rem; }
+    
+    .card { 
+      background: var(--bg-card); 
+      border: 1px solid var(--border); 
+      border-radius: 16px; 
+      padding: 20px; 
+      margin: 16px 0;
+    }
+    
+    .card h2 { 
+      margin: 0 0 12px 0; 
+      font-size: 1.1rem;
+      color: var(--accent-blue);
+    }
+    
+    .row { display: flex; gap: 16px; flex-wrap: wrap; }
+    
+    .pill { 
+      display: inline-block; 
+      padding: 6px 12px; 
+      border-radius: 999px; 
+      background: #1b2736; 
+      border: 1px solid var(--border); 
+      margin: 4px 6px 4px 0; 
+      font-size: 12px;
+      transition: all 0.2s ease;
+    }
+    
+    .pill:hover {
+      background: #2a3b52;
+      border-color: var(--accent-blue);
+    }
+    
+    .pill.node-1 { border-left: 3px solid var(--accent-yellow); }
+    .pill.node-2 { border-left: 3px solid var(--accent-green); }
+    .pill.node-3 { border-left: 3px solid var(--accent-green); }
+    .pill.node-4 { border-left: 3px solid var(--accent-yellow); }
+    .pill.node-5 { border-left: 3px solid var(--accent-green); }
+    
+    pre { 
+      white-space: pre-wrap; 
+      word-break: break-word; 
+      background: #0f1722; 
+      padding: 16px; 
+      border-radius: 12px; 
+      border: 1px solid var(--border);
+      font-size: 13px;
+      line-height: 1.5;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .muted { color: var(--muted); }
+    
+    .grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+      gap: 16px; 
+    }
+    
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-green);
+    }
+    
+    .metric-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    
+    button {
+      background: var(--accent-blue);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+    
+    button:hover { background: #2563eb; }
+    
+    .lens-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+    
+    .lens-card {
+      background: #0f1722;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+    
+    .lens-card.adhd { border-top: 3px solid #f59e0b; }
+    .lens-card.autism { border-top: 3px solid #8b5cf6; }
+    .lens-card.dyslexia { border-top: 3px solid #06b6d4; }
+    .lens-card.neurotypical { border-top: 3px solid #6b7280; }
+    
+    .lens-name { font-weight: 600; margin-bottom: 8px; text-transform: uppercase; font-size: 11px; }
+    .lens-efficiency { font-size: 1.5rem; font-weight: 700; }
+    .lens-queries { font-size: 0.75rem; color: var(--muted); }
+
+    @media (max-width: 768px) {
+      .lens-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🌌 Quantum Nexus Dashboard</h1>
+      <span class="pill">Phase 2</span>
+    </header>
+    
+    <div class="muted" style="margin-bottom: 16px;">
+      Dependency: <span class="pill">{{ dependency.id }}</span> 
+      Type: <span class="pill">{{ dependency.type }}</span>
+    </div>
+
+    <div class="card">
+      <h2>📍 Diagonal Trace: dep_A1_to_V1</h2>
+      <div class="muted" style="margin-bottom: 8px;">Great Greg coordinate path from Prime Truth to Meta Research:</div>
+      <div>
+        {% for step in diagonal_path %}
+          <span class="pill node-{{ step.node }}">
+            {{ step.cell }} → Node {{ step.node }} (R{{ step.r }}C{{ step.c }}) • {{ step.label }}
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>🧠 Cognitive Lenses</h2>
+        <div class="lens-grid" id="lenses">
+          <div class="lens-card adhd">
+            <div class="lens-name">ADHD</div>
+            <div class="lens-efficiency" id="adhd-eff">--</div>
+            <div class="lens-queries" id="adhd-q">-- queries</div>
+          </div>
+          <div class="lens-card autism">
+            <div class="lens-name">Autism</div>
+            <div class="lens-efficiency" id="autism-eff">--</div>
+            <div class="lens-queries" id="autism-q">-- queries</div>
+          </div>
+          <div class="lens-card dyslexia">
+            <div class="lens-name">Dyslexia</div>
+            <div class="lens-efficiency" id="dyslexia-eff">--</div>
+            <div class="lens-queries" id="dyslexia-q">-- queries</div>
+          </div>
+          <div class="lens-card neurotypical">
+            <div class="lens-name">Neurotypical</div>
+            <div class="lens-efficiency" id="neurotypical-eff">--</div>
+            <div class="lens-queries" id="neurotypical-q">-- queries</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h2>💾 Memory Zones</h2>
+        <div style="margin-top: 12px;">
+          <div style="margin-bottom: 12px;">
+            <span class="muted">🟢 Active (>0.7):</span>
+            <span class="metric-value" id="mz-active" style="font-size: 1.2rem; margin-left: 8px;">--</span>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <span class="muted">🟡 Emergent (0.3-0.7):</span>
+            <span style="font-size: 1.2rem; font-weight: 700; color: #eab308; margin-left: 8px;" id="mz-emergent">--</span>
+          </div>
+          <div>
+            <span class="muted">🔴 Crystallized (<0.3):</span>
+            <span style="font-size: 1.2rem; font-weight: 700; color: #ef4444; margin-left: 8px;" id="mz-crystal">--</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📊 Live Metrics: dep_AllFiles_L2R_to_Z1</h2>
+      <div class="row" style="align-items: center; margin-bottom: 12px;">
+        <button id="refresh">🔄 Refresh Metrics</button>
+        <span class="pill" id="ts">timestamp: —</span>
+        <span class="pill" id="health">health: —</span>
+      </div>
+      <pre id="out">Loading metrics...</pre>
+    </div>
+
+    <div class="card">
+      <h2>🔍 Great Greg Resolver</h2>
+      <div class="row" style="align-items: center; gap: 12px;">
+        <input type="text" id="ref-input" placeholder="Enter: P1, Node_3:P1, or Node_3.R3C4" 
+               style="flex: 1; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); background: #0f1722; color: var(--text); font-size: 14px;">
+        <button id="resolve-btn">Resolve</button>
+      </div>
+      <pre id="resolve-out" style="margin-top: 12px;">Enter a coordinate reference above...</pre>
+    </div>
+  </div>
+
+  <script>
+    async function loadMetrics() {
+      try {
+        const res = await fetch("/api/metrics");
+        const data = await res.json();
+        
+        // Update timestamp
+        document.getElementById("ts").textContent = "timestamp: " + (data.timestamp || "—");
+        
+        // Update health
+        const health = data.domains?.system_health;
+        if (health) {
+          document.getElementById("health").textContent = 
+            `health: ${health.response_time_ms}ms | ${(health.error_rate * 100).toFixed(1)}% err`;
+        }
+        
+        // Update cognitive lenses
+        const lenses = data.domains?.cognitive_lenses;
+        if (lenses) {
+          for (const [name, vals] of Object.entries(lenses)) {
+            const effEl = document.getElementById(`${name}-eff`);
+            const qEl = document.getElementById(`${name}-q`);
+            if (effEl) effEl.textContent = (vals.efficiency * 100).toFixed(0) + '%';
+            if (qEl) qEl.textContent = vals.queries + ' queries';
+          }
+        }
+        
+        // Update memory zones
+        const mz = data.domains?.memory_zones;
+        if (mz) {
+          document.getElementById("mz-active").textContent = (mz.active * 100).toFixed(0) + '%';
+          document.getElementById("mz-emergent").textContent = (mz.emergent * 100).toFixed(0) + '%';
+          document.getElementById("mz-crystal").textContent = (mz.crystallized * 100).toFixed(0) + '%';
+        }
+        
+        // Update raw JSON
+        document.getElementById("out").textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById("out").textContent = "Error loading metrics: " + err.message;
+      }
+    }
+    
+    async function resolveRef() {
+      const ref = document.getElementById("ref-input").value.trim();
+      if (!ref) return;
+      
+      try {
+        const res = await fetch(`/api/resolve/${encodeURIComponent(ref)}`);
+        const data = await res.json();
+        document.getElementById("resolve-out").textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById("resolve-out").textContent = "Error: " + err.message;
+      }
+    }
+    
+    document.getElementById("refresh").addEventListener("click", loadMetrics);
+    document.getElementById("resolve-btn").addEventListener("click", resolveRef);
+    document.getElementById("ref-input").addEventListener("keypress", (e) => {
+      if (e.key === "Enter") resolveRef();
+    });
+    
+    // Initial load
+    loadMetrics();
+  </script>
+</body>
+</html>

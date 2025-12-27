@@ -338,8 +338,7 @@ class QNFService:
                 self._persist_runtime_state()
             # Compute resonance snapshot
             try:
-                sym_tags = meta.get("symbolic_tags", []) or []
-                rule_comp = min(1.0, len(sym_tags) / 5.0)
+                rule_comp = 0.0
                 refs = meta.get("reflective_refs", []) or []
                 sim_comp = float(refs[0].get("score", 0.0)) if refs and isinstance(refs[0], dict) else 0.0
                 sp = meta.get("shannon_prime", {}) or {}

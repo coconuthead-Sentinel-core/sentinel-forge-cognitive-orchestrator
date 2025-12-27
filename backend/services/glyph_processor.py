@@ -121,20 +121,10 @@ class GlyphProcessor:
 
         # Derive metadata
         dominant_topic = matches[0].topic if matches else None
-        symbolic_tags = set()
-        total_confidence = 0.0
-
-        for match in matches:
-            symbolic_tags.update(match.applied_rules.values())
-            total_confidence += match.confidence
-
-        avg_confidence = total_confidence / len(matches) if matches else 0.0
-
+        
         return SymbolicMetadata(
-            matched_glyphs=[match.model_dump() for match in matches],
+            matched_glyphs=matches,
             dominant_topic=dominant_topic,
-            symbolic_tags=symbolic_tags,
-            processing_confidence=avg_confidence
         )
 
     def _match_glyph(self, text: str, shape_name: str, shape_data: Dict[str, Any]) -> Optional[GlyphMatch]:

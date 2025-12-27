@@ -308,7 +308,6 @@ class TestMetadataIntegration:
             ],
             dominant_topic="initiation",
             symbolic_tags={"tag:initiation"},
-            processing_confidence=0.875,
         )
         
         events = bridge.emit_from_metadata(metadata)
@@ -324,7 +323,6 @@ class TestMetadataIntegration:
             matched_glyphs=[],
             dominant_topic=None,
             symbolic_tags=set(),
-            processing_confidence=0.0,
         )
         
         events = bridge.emit_from_metadata(metadata)

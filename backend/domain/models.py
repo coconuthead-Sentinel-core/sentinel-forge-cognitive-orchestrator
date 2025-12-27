@@ -1,5 +1,8 @@
 from typing import Optional, List, Dict, Any, Set
 from pydantic import BaseModel, Field, ConfigDict
+from uuid import UUID, uuid4
+from enum import Enum
+from pydantic import BaseModel, Field, ConfigDict
 from datetime import datetime, timezone
 from enum import Enum
 import uuid
@@ -33,23 +36,21 @@ class CognitiveLens(str, Enum):
     DYSLEXIA_SPATIAL = "dyslexia"   # Multi-dimensional, symbol-rich
 
 
-@dataclass
-class GlyphMatch:
+class GlyphMatch(BaseModel):
     """Represents a matched glyph pattern."""
     shape: str
     topic: str
     confidence: float
     matched_seeds: List[str]
     applied_rules: Dict[str, str]
+    model_config = ConfigDict(extra="ignore")
 
 
-@dataclass
-class SymbolicMetadata:
+class SymbolicMetadata(BaseModel):
     """Metadata generated from symbolic processing."""
     matched_glyphs: List[GlyphMatch]
-    dominant_topic: Optional[str]
-    symbolic_tags: Set[str]
-    processing_confidence: float
+    dominant_topic: Optional[str] = None
+    model_config = ConfigDict(extra="ignore")
 
 
 class Entity(BaseModel):
@@ -105,19 +106,7 @@ class ZoneMetrics(BaseModel):
     model_config = ConfigDict(extra="ignore")
 
 
-class SymbolicMetadata(BaseModel):
-    """
-    Metadata generated from symbolic processing of text.
-    
-    Contains glyph matches, dominant topics, and symbolic tags
-    derived from pattern recognition.
-    """
-    matched_glyphs: List[Dict[str, Any]] = Field(default_factory=list)
-    dominant_topic: Optional[str] = None
-    symbolic_tags: Set[str] = Field(default_factory=set)
-    processing_confidence: float = 0.0
-    
-    model_config = ConfigDict(extra="ignore")
+
 
 
 class MemorySnapshot(Entity):

@@ -8,6 +8,10 @@ import time
 import os
 from pathlib import Path
 from typing import Optional
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
 
 def load_queries(queries_path: str) -> list[dict]:
     """Load test queries from JSON file."""

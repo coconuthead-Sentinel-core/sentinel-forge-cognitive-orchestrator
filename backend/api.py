@@ -1,4 +1,5 @@
 import json
+import logging
 import time
 from typing import Annotated, Any
 
@@ -6,6 +7,7 @@ from fastapi import (
     APIRouter,
     Body,
     Depends,
+    HTTPException,
     Request,
     Response,
     status,
@@ -18,6 +20,7 @@ from .core.config import Settings
 from .core.dependencies import get_adapter, get_settings, get_orchestrator
 from .services.cognitive_orchestrator import CognitiveOrchestrator
 from .infrastructure.cosmos_repo import cosmos_repo
+from .domain.models import Note
 from .schemas import (
     BootStep,
     GlyphValidateRequest,

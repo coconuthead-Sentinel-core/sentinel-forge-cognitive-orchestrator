@@ -104,14 +104,9 @@ class CognitiveOrchestrator:
         self.glyph_processor = glyph_processor or GlyphProcessor(settings)
         self.adhd_lens = create_adhd_lens(settings)
         self.autism_lens = create_autism_lens(settings)
-        self.dyslexia_lens = create_dyslexia_lens()
+        self.dyslexia_lens = create_dyslexia_lens(settings)
         self._zone_counts = {zone: 0 for zone in CognitiveZone}
-        self.lenses = {
-            CognitiveLens.NEUROTYPICAL: self.process_neurotypical,
-            CognitiveLens.ADHD_BURST: self.adhd_lens.process,
-            CognitiveLens.AUTISM_PRECISION: self.autism_lens.process,
-            CognitiveLens.DYSLEXIA_SPATIAL: self.dyslexia_lens.process,
-        }
+        # Lens processing is handled by _apply_lens method
         logger.info(f"🧠 CognitiveOrchestrator initialized with default lens: {self.default_lens.value}")
 
     async def process_message(
@@ -141,7 +136,11 @@ class CognitiveOrchestrator:
         
         # 1. Calculate input entropy
         input_entropy = calculate_entropy(user_message)
-        input_zone = classify_zone(input_entropy)
+        input_zone = classify_zone(
+            input_entropy,
+            self.settings.ZONE_ACTIVE_THRESHOLD,
+            self.settings.ZONE_PATTERN_THRESHOLD
+        )
         
         logger.debug(f"📊 Input entropy: {input_entropy:.2f} → Zone: {input_zone.value}")
         
@@ -151,7 +150,7 @@ class CognitiveOrchestrator:
         logger.debug(f"🜂 Symbolic processing: {len(symbolic_metadata.matched_glyphs)} matches")
         
         # 2.5. Parse glyph sequences in the message
-        glyph_parse_result = parse_glyph_sequence(user_message)
+        glyph_parse_result = parse_glyph_sequence(user_message, self.settings)
         
         logger.debug(f"🜂 Glyph parsing: {glyph_parse_result['parsed_count']} glyphs parsed")
         
@@ -170,7 +169,11 @@ class CognitiveOrchestrator:
         if choices:
             ai_text = choices[0].get("message", {}).get("content", "")
             output_entropy = calculate_entropy(ai_text)
-            output_zone = classify_zone(output_entropy)
+            output_zone = classify_zone(
+                output_entropy,
+                self.settings.ZONE_ACTIVE_THRESHOLD,
+                self.settings.ZONE_PATTERN_THRESHOLD
+            )
         else:
             ai_text = ""
             output_entropy = 0.0

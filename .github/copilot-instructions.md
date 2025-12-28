@@ -96,7 +96,43 @@ python scripts/smoke_test.py       # Integration (needs running server)
 python scripts/run_full_eval.py    # Full pipeline: server → collect → evaluate
 ```
 
-Evaluation outputs: `evaluation/test_responses.json`, `evaluation/eval_results.json`
+## WebSocket Pattern
+
+```python
+# ws_api.py pattern:
+websocket_require_api_key(websocket)  # Enforce before accept
+queue = bus.subscribe(loop, maxsize=1000, policy="latest")
+# Send initial snapshot, then stream EventBus updates
+```
+
+## EventBus Usage
+
+```python
+# Publish events
+from .eventbus import bus
+await bus.publish("cognitive", {"type": "zone.transition", "data": {...}})
+
+# Subscribe in WebSockets
+queue = bus.subscribe(loop, maxsize=100, policy="latest", topic="cognitive")
+```
+
+## Script Import Pattern
+
+Scripts in `scripts/` or `evaluation/` must add repo root:
+```python
+root_dir = Path(__file__).parent.parent
+sys.path.insert(0, str(root_dir))
+```
+
+## Common Gotchas
+
+1. **Windows emoji handling** - `run_full_eval.py` patches `stdout.reconfigure(encoding='utf-8')`
+2. **Adapters must match interface** - New AI adapters need identical signatures
+3. **EventBus policies** - Use `"latest"` for real-time UIs (drops old messages when full)
+4. **AAD auth** - `AzureOpenAIAdapter` uses `DefaultAzureCredential`, not API keys
+5. **Lifespan initialization** - Cosmos DB and AAD token warmup happen in `main.py` lifespan
+6. **Cognitive lenses** - Always apply appropriate lens based on user context for processing
+
 
 ## WebSocket Pattern
 

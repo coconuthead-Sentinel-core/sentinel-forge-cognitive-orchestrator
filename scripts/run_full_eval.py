@@ -4,6 +4,7 @@ import sys
 import os
 import socket
 from pathlib import Path
+from typing import Optional
 
 # --- Unicode Patch for Windows Consoles ---
 # Ensures emojis (🚀, ✅, etc.) don't crash the script on legacy terminals.
@@ -34,14 +35,20 @@ def main():
     print("🚀 Starting Sentinel Forge Evaluation Pipeline...")
     print("=" * 60)
 
-    server_process = None
+    server_process: Optional[subprocess.Popen] = None
     try:
         # 1. Start the backend server
         print("\n[1/4] Starting Backend Server...")
+        # Ensure MOCK_AI mode for evaluation
+        env = os.environ.copy()
+        env["MOCK_AI"] = "true"
+        
         server_process = subprocess.Popen(
             [sys.executable, "-m", "backend.main"],
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
+            stderr=subprocess.PIPE,
+            cwd=project_root,
+            env=env
         )
         
         # Wait for server to be ready

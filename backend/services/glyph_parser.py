@@ -11,41 +11,18 @@ Architecture:
 import logging
 from typing import Dict, Any, Optional
 
+from backend.core.config import Settings
+
 logger = logging.getLogger(__name__)
 
 
-# --- Glyph Symbol Map ---
-
-GLYPH_MAP = {
-    # Meta-context symbols
-    "🌐": "meta_context",
-    "🔭": "observation_mode",
-    "🌀": "cognitive_flow",
-
-    # Action pulse symbols
-    "🜂": "action_pulse",
-    "⚙️": "processing_gear",
-    "🔺": "initiation_triangle",
-
-    # Memory zone symbols
-    "🟢": "active_zone",
-    "🟡": "pattern_zone",
-    "🔴": "crystal_zone",
-
-    # Cognitive lens symbols
-    "🧠": "neurotypical_mode",
-    "⚡": "adhd_burst",
-    "🎯": "autism_precision",
-    "🌊": "dyslexia_spatial",
-}
-
-
-def parse_glyph_sequence(sequence: str) -> Dict[str, Any]:
+def parse_glyph_sequence(sequence: str, settings: Settings) -> Dict[str, Any]:
     """
     Parse a sequence of glyphs into structured metadata.
 
     Args:
         sequence: String containing glyph symbols
+        settings: The application settings object
 
     Returns:
         Dict with parsed glyph information
@@ -57,8 +34,8 @@ def parse_glyph_sequence(sequence: str) -> Dict[str, Any]:
     concepts = []
 
     for char in sequence:
-        if char in GLYPH_MAP:
-            concept = GLYPH_MAP[char]
+        if char in settings.GLYPH_MAP:
+            concept = settings.GLYPH_MAP[char]
             parsed_glyphs.append({"symbol": char, "concept": concept})
             concepts.append(concept)
             logger.debug(f"🜂 Parsed glyph: {char} → {concept}")
@@ -72,23 +49,24 @@ def parse_glyph_sequence(sequence: str) -> Dict[str, Any]:
     }
 
 
-def get_available_glyphs() -> Dict[str, str]:
+def get_available_glyphs(settings: Settings) -> Dict[str, str]:
     """Get the complete glyph symbol map."""
-    return GLYPH_MAP.copy()
+    return settings.GLYPH_MAP.copy()
 
 
-def add_glyph_mapping(symbol: str, concept: str) -> None:
+def add_glyph_mapping(symbol: str, concept: str, settings: Settings) -> None:
     """
     Add a new glyph mapping dynamically.
 
     Args:
         symbol: The glyph symbol (emoji/character)
         concept: The cognitive concept it represents
+        settings: The application settings object
     """
-    GLYPH_MAP[symbol] = concept
+    settings.GLYPH_MAP[symbol] = concept
     logger.info(f"🜂 Added glyph mapping: {symbol} → {concept}")
 
 
-def get_concept_for_glyph(symbol: str) -> Optional[str]:
+def get_concept_for_glyph(symbol: str, settings: Settings) -> Optional[str]:
     """Get the concept for a specific glyph symbol."""
-    return GLYPH_MAP.get(symbol)
+    return settings.GLYPH_MAP.get(symbol)

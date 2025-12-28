@@ -14,6 +14,8 @@ import logging
 import re
 from typing import List, Dict, Any, Optional
 
+from backend.core.config import Settings
+
 logger = logging.getLogger(__name__)
 
 
@@ -22,20 +24,18 @@ class ADHDLens:
     ADHD Burst Lens for rapid context switching and chunked processing.
 
     Transforms content into ADHD-friendly formats:
-    - Breaks long text into 50-word bullet points
+    - Breaks long text into bullet points based on configured chunk size
     - Adds visual anchors (emojis, symbols)
     - Emphasizes action-oriented language
     - Maintains core meaning while improving scannability
     """
 
-    # Configuration
-    CHUNK_SIZE_WORDS = 50
-    BULLET_MARKERS = ["⚡", "💥", "🚀", "🔥", "⚡", "💫", "⭐", "🎯"]
-    ACTION_WORDS = ["start", "begin", "launch", "create", "build", "run", "execute", "activate"]
-
-    def __init__(self):
-        """Initialize ADHD lens with default settings."""
-        self.chunk_size = self.CHUNK_SIZE_WORDS
+    def __init__(self, settings: Settings):
+        """Initialize ADHD lens, sourcing configuration from central settings."""
+        self.settings = settings
+        self.chunk_size = self.settings.ADHD_LENS_CHUNK_SIZE
+        self.bullet_markers = self.settings.ADHD_LENS_BULLETS
+        self.action_words = self.settings.ADHD_LENS_ACTION_WORDS
         self.bullet_index = 0
         logger.info("🧠 ADHD Burst Lens initialized")
 
@@ -118,7 +118,7 @@ class ADHDLens:
         bullets = []
 
         for i, chunk in enumerate(chunks):
-            marker = self.BULLET_MARKERS[i % len(self.BULLET_MARKERS)]
+            marker = self.bullet_markers[i % len(self.bullet_markers)]
 
             # Enhance with action words if present
             enhanced_chunk = self._enhance_action_words(chunk)
@@ -132,7 +132,7 @@ class ADHDLens:
         """Enhance action-oriented words with emphasis."""
         enhanced = text
 
-        for word in self.ACTION_WORDS:
+        for word in self.action_words:
             # Add emphasis to action words (case-insensitive)
             pattern = r'\b' + re.escape(word) + r'\b'
             enhanced = re.sub(pattern, f"**{word.upper()}**", enhanced, flags=re.IGNORECASE)
@@ -155,9 +155,17 @@ class ADHDLens:
 
 # --- Convenience Functions ---
 
-def create_adhd_lens() -> ADHDLens:
-    """Create and return a configured ADHD lens instance."""
-    return ADHDLens()
+def create_adhd_lens(settings: Settings) -> ADHDLens:
+    """
+    Factory function to create an ADHDLens instance.
+    
+    Args:
+        settings: The application settings object.
+
+    Returns:
+        An instance of ADHDLens.
+    """
+    return ADHDLens(settings)
 
 
 def transform_with_adhd_lens(text: str) -> str:

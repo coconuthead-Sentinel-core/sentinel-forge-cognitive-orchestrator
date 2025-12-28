@@ -6,6 +6,8 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import yaml
 
+from backend.core.config import Settings
+
 
 @dataclass(frozen=True)
 class GreatGreg:
@@ -29,8 +31,8 @@ class QuantumNexus:
         self._deps = {d["id"]: d for d in (blueprint.get("dependencies") or []) if isinstance(d, dict) and "id" in d}
 
     @classmethod
-    def from_yaml(cls, path: str | Path) -> "QuantumNexus":
-        p = Path(path)
+    def from_settings(cls, settings: Settings) -> "QuantumNexus":
+        p = Path(settings.QUANTUM_NEXUS_BLUEPRINT_PATH)
         data = yaml.safe_load(p.read_text(encoding="utf-8"))
         # Accept either top-level blueprint or nested under "quantum_nexus_blueprint"
         if "quantum_nexus_blueprint" in data:

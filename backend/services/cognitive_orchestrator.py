@@ -17,6 +17,7 @@ from __future__ import annotations
 import logging
 from typing import Dict, Any, Optional, List
 
+from backend.core.config import Settings
 from backend.services.chat_service import ChatService
 from backend.domain.models import (
     Note,
@@ -35,7 +36,6 @@ from backend.services.memory_zones import (
 )
 from backend.services.glyph_processor import (
     GlyphProcessor,
-    get_glyph_processor,
 )
 from backend.services.glyph_parser import (
     parse_glyph_sequence,
@@ -65,7 +65,7 @@ CognitiveZone = MemoryZone  # Alias
 
 # --- Main Orchestrator ---
 
-class CognitiveOrchestrator(ChatService):
+class CognitiveOrchestrator:
     """
     Enhanced middle layer orchestrating the Cognitive Pipeline:
     
@@ -76,12 +76,13 @@ class CognitiveOrchestrator(ChatService):
     5. Memory Consolidation (zone-tagged storage)
     6. Event Publishing (real-time updates)
     
-    Inherits all ChatService behavior - safe extension.
+    This service composes a ChatService to handle the core AI interaction.
     """
     
     def __init__(
         self,
         ai_adapter,
+        settings: Settings,
         default_lens: CognitiveLens = CognitiveLens.NEUROTYPICAL,
         memory_manager: Optional[ThreeZoneMemory] = None,
         glyph_processor: Optional[GlyphProcessor] = None,
@@ -90,20 +91,28 @@ class CognitiveOrchestrator(ChatService):
         Initialize CognitiveOrchestrator.
         
         Args:
-            ai_adapter: Mock or Azure OpenAI adapter (inherited)
+            ai_adapter: Mock or Azure OpenAI adapter, passed to the internal ChatService.
+            settings: The application settings object.
             default_lens: Default cognitive processing mode
             memory_manager: Three-zone memory manager (defaults to shared instance)
             glyph_processor: Glyph processor for symbolic pattern recognition
         """
-        super().__init__(ai_adapter)
+        self.chat_service = ChatService(ai_adapter, settings)
+        self.settings = settings
         self.default_lens = default_lens
-        self.memory_manager = memory_manager or get_memory_manager()
-        self.glyph_processor = glyph_processor or get_glyph_processor()
-        self.adhd_lens = create_adhd_lens()
-        self.autism_lens = create_autism_lens()
+        self.memory_manager = memory_manager or get_memory_manager(settings)
+        self.glyph_processor = glyph_processor or GlyphProcessor(settings)
+        self.adhd_lens = create_adhd_lens(settings)
+        self.autism_lens = create_autism_lens(settings)
         self.dyslexia_lens = create_dyslexia_lens()
         self._zone_counts = {zone: 0 for zone in CognitiveZone}
-        logger.info(f"🧠 CognitiveOrchestrator initialized with lens: {default_lens.value}")
+        self.lenses = {
+            CognitiveLens.NEUROTYPICAL: self.process_neurotypical,
+            CognitiveLens.ADHD_BURST: self.adhd_lens.process,
+            CognitiveLens.AUTISM_PRECISION: self.autism_lens.process,
+            CognitiveLens.DYSLEXIA_SPATIAL: self.dyslexia_lens.process,
+        }
+        logger.info(f"🧠 CognitiveOrchestrator initialized with default lens: {self.default_lens.value}")
 
     async def process_message(
         self,
@@ -114,7 +123,7 @@ class CognitiveOrchestrator(ChatService):
         """
         Process a user message through the enhanced Cognitive Pipeline.
         
-        Extends ChatService.process_message with:
+        Extends ChatService behavior with:
         - Entropy-based zone classification
         - Symbolic pattern recognition
         - Lens-adjusted processing
@@ -149,9 +158,9 @@ class CognitiveOrchestrator(ChatService):
         # 3. Apply lens transformation to context (placeholder for future enhancement)
         adjusted_context = self._apply_lens(context, active_lens)
         
-        # 4. Call parent's AI processing (preserves existing behavior)
+        # 4. Call composed ChatService for AI processing
         try:
-            response = await super().process_message(user_message, adjusted_context)
+            response = await self.chat_service.process_message(user_message, adjusted_context)
         except Exception as e:
             logger.error(f"🔴 AI processing failed: {e}")
             raise
@@ -231,6 +240,12 @@ class CognitiveOrchestrator(ChatService):
         
         # Default: return context unchanged
         return context
+
+    async def process_neurotypical(self, text: str, context: str) -> str:
+        """Placeholder for baseline neurotypical processing."""
+        logger.debug("🧠 Applying Neurotypical (baseline) lens")
+        # In a real implementation, this might do nothing or apply a baseline summary
+        return text
 
     def _publish_zone_event(
         self,
@@ -327,12 +342,13 @@ class CognitiveOrchestrator(ChatService):
 
 # --- Factory Function (Optional convenience) ---
 
-def create_orchestrator(ai_adapter, lens: str = "neurotypical") -> CognitiveOrchestrator:
+def create_orchestrator(ai_adapter, settings: Settings, lens: str = "neurotypical") -> CognitiveOrchestrator:
     """
     Factory function to create CognitiveOrchestrator with string lens name.
     
     Args:
         ai_adapter: The AI adapter (Mock or Azure)
+        settings: The application settings object.
         lens: Lens name as string ("neurotypical", "adhd", "autism", "dyslexia")
     
     Returns:
@@ -345,4 +361,4 @@ def create_orchestrator(ai_adapter, lens: str = "neurotypical") -> CognitiveOrch
         "dyslexia": CognitiveLens.DYSLEXIA_SPATIAL,
     }
     cognitive_lens = lens_map.get(lens.lower(), CognitiveLens.NEUROTYPICAL)
-    return CognitiveOrchestrator(ai_adapter, default_lens=cognitive_lens)
+    return CognitiveOrchestrator(ai_adapter, settings, default_lens=cognitive_lens)

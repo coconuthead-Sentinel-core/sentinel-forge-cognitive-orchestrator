@@ -1,8 +1,8 @@
-# Sentinel Forge Cognitive AI Orchestration Platform 🌌
+# Sentinel Forge - Neurodivergent-Aware AI Platform 🧠
 
 ![CI](https://github.com/coconuthead-Sentinel-core/sentinel-forge-cognitive-orchestrator/workflows/Python%20application/badge.svg)
 
-**Neurodivergent-Aware Cognitive Orchestration** | December 19, 2025
+**Adaptive AI Processing for Neurodivergent Users** | December 19, 2025
 
 ## 🎯 Mission
 Building AI that adapts to neurodivergent thinking patterns instead of forcing conformity. This platform orchestrates cognitive processing through specialized lenses for ADHD, autism, dyslexia, and[...]
@@ -20,10 +20,10 @@ Building AI that adapts to neurodivergent thinking patterns instead of forcing c
 - **🟡 Pattern Emergence**: Mid-entropy pattern recognition (0.3-0.7 entropy)
 - **🔴 Crystallized Storage**: Low-entropy stable memory (<0.3 entropy)
 
-### Glyph Processing Engine
-- **5 Geometric Primitives**: Tetrahedron, Cube, Octahedron, Dodecahedron, Icosahedron
-- **Symbolic Stream Processing**: Interpret emoji sequences as cognitive operations
-- **Spatial Cognition**: 3D coordinate system with cognitive elevation mapping
+### Symbol Processing System
+- **5 Geometric Shapes**: Basic 3D primitives for spatial representation
+- **Pattern Recognition**: Interpret symbol sequences for cognitive operations
+- **Coordinate Mapping**: 3D coordinate system for spatial organization
 
 ## 🚀 Quick Start
 

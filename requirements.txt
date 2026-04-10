@@ -10,4 +10,25 @@ requests>=2.31.0
 azure-cosmos
 azure-identity
 gunicorn
-pip install -r requirements.txt
+# L2: Cerebellum
+prometheus-client
+langsmith
+# L3: Left Hemisphere
+google-cloud-bigquery
+elasticsearch
+# L5: Corpus Callosum
+pybind11
+grpcio
+grpcio-tools
+dapr
+# L7: Singularity
+anthropic
+google-generativeai
+# AI/ML Ecosystem
+transformers
+datasets
+tokenizers
+google-cloud-aiplatform
+# Infrastructure
+pulumi
+psutil

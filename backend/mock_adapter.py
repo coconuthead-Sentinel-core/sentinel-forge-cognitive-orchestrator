@@ -14,12 +14,25 @@ class MockOpenAIAdapter:
         last_user_msg = next((m["content"] for m in reversed(messages) if m["role"] == "user"), "...")
         
         # varied responses to make it feel alive
-        responses = [
-            f"[MOCK] I received your data: '{last_user_msg[:20]}...'. Processing complete.",
-            f"[MOCK] The Sentinel system is online. Simulated response to: '{last_user_msg[:20]}...'",
-            f"[MOCK] Analysis: Nominal. Input '{last_user_msg[:20]}...' recorded in memory lattice.",
-            f"[MOCK] Shannon Prime acknowledges your query: '{last_user_msg[:20]}...'"
-        ]
+        if "DREAMER" in last_user_msg:
+            content = (
+                "🌌 [M14-DREAMER] Visualizing Cognitive Load as a 4D Weather System...\n\n"
+                "1. **The Storm Front (Red Zone):** High cognitive load manifests as swirling thunderclouds. "
+                "Heavy rain indicates 'Information Overload'.\n"
+                "2. **The Clear Sky (Green Zone):** Low load is a serene, starlit void. "
+                "Shooting stars represent 'Flow State' insights.\n"
+                "3. **The Fog (Yellow Zone):** Ambiguity appears as a shifting mist. "
+                "Requires 'Lighthouse' glyphs to navigate.\n\n"
+                "✨ *Concept generated via Metatron's Cube lattice.*"
+            )
+        else:
+            responses = [
+                f"[MOCK] I received your data: '{last_user_msg[:20]}...'. Processing complete.",
+                f"[MOCK] The Sentinel system is online. Simulated response to: '{last_user_msg[:20]}...'",
+                f"[MOCK] Analysis: Nominal. Input '{last_user_msg[:20]}...' recorded in memory lattice.",
+                f"[MOCK] Shannon Prime acknowledges your query: '{last_user_msg[:20]}...'"
+            ]
+            content = random.choice(responses)
         
         return {
             "id": f"chatcmpl-{uuid.uuid4()}",
@@ -29,7 +42,7 @@ class MockOpenAIAdapter:
                 "index": 0,
                 "message": {
                     "role": "assistant",
-                    "content": random.choice(responses)
+                    "content": content
                 },
                 "finish_reason": "stop"
             }],

@@ -96,6 +96,22 @@ class GlyphProcessor:
             }
         }
 
+    def process_event(self, event: Dict[str, Any]) -> Optional[SymbolicMetadata]:
+        """
+        Process a raw event dictionary for symbolic patterns.
+
+        Args:
+            event: A dictionary representing the event, expected to have a 'text' key.
+
+        Returns:
+            SymbolicMetadata if text is found and processed, otherwise None.
+        """
+        text = event.get("text")
+        if not isinstance(text, str) or not text.strip():
+            return None
+
+        return self.process_text(text)
+
     def process_text(self, text: str) -> SymbolicMetadata:
         """
         Process text for symbolic patterns.
@@ -106,8 +122,10 @@ class GlyphProcessor:
         Returns:
             SymbolicMetadata with matches and derived information
         """
+        # This check is now redundant if process_event is the main entry point,
+        # but kept for direct callers.
         if not text or not text.strip():
-            return SymbolicMetadata([], None, set(), 0.0)
+            return SymbolicMetadata(matched_glyphs=[], dominant_topic=None)
 
         # Find all glyph matches
         matches = []

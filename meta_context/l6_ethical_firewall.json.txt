@@ -1,24 +1,1691 @@
-{
-  "ethical_firewall_l6": {
-    "status": "ACTIVE",
-    "version": "1.0",
-    "compliance_standard": "ISO/IEC 42001",
-    "primary_objective": "Cognitive Load Management",
-    "neurodivergent_constraints": {
-      "complexity_threshold": {
-        "metric": "entropy",
-        "limit": 0.89,
-        "action": "TRIGGER_STILLWATER_PROTOCOL"
-      },
-      "communication_style": {
-        "prohibited": ["walls_of_text", "ambiguous_instructions", "passive_aggression"],
-        "required": ["bullet_points", "chunking", "clear_next_steps"]
-      }
-    },
-    "containment_strategies": {
-      "strategy_1": "The Circuit Breaker - If output tokens > 500 without a header, halt and reformat.",
-      "strategy_2": "The Anchor - Every response must link back to a Node in the Quantum Nexus Matrix.",
-      "strategy_3": "The Stillwater Protocol - If anxiety/confusion detected, shift tone to 'Calm Navigator' and simplify."
-    }
-  }
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE smil PUBLIC "-//NISO//DTD dtbsmil 2005-2//EN" "http://www.daisy.org/z3986/2005/dtbsmil-2005-2.dtd">
+
+<smil xmlns="http://www.w3.org/2001/SMIL20/">
+  <head>
+    <meta name="dtb:uid" content="9783319388519" />
+    <meta name="dtb:generator" content="Bookshare.org" />
+    <meta name="dtb:totalElapsedTime" content="0" />
+    <layout>
+      <region id="textRegion" height="auto" width="auto" bottom="auto" top="auto" left="auto" right="auto" fit="hidden" showBackground="always" />
+    </layout>
+    <customAttributes>
+      <customTest id="pagenumCustomTest" defaultState="false" override="visible" />
+    </customAttributes>
+  </head>
+  <body>
+    <seq id="baseseq" class="book" fill="remove">
+      <par id="span_002912" class="span">
+        <text src="Experimental_Algorithms.xml#span_002912" region="textRegion" />
+      </par>
+      <par id="h2_000041" class="h2">
+        <text src="Experimental_Algorithms.xml#h2_000041" region="textRegion" />
+      </par>
+      <par id="span_002913" class="span">
+        <text src="Experimental_Algorithms.xml#span_002913" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_5_Chapter-CR11" external="false">
+        <par id="a_000507" class="a">
+          <text src="Experimental_Algorithms.xml#a_000507" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_002914" class="span">
+        <text src="Experimental_Algorithms.xml#span_002914" region="textRegion" />
+      </par>
+      <par id="p_001654" class="p">
+        <text src="Experimental_Algorithms.xml#p_001654" region="textRegion" />
+      </par>
+      <par id="p_001655" class="p">
+        <text src="Experimental_Algorithms.xml#p_001655" region="textRegion" />
+      </par>
+      <par id="span_002915" class="span">
+        <text src="Experimental_Algorithms.xml#span_002915" region="textRegion" />
+      </par>
+      <par id="span_002917" class="span">
+        <text src="Experimental_Algorithms.xml#span_002917" region="textRegion" />
+      </par>
+      <a href="http://www.ams.org/mathscinet-getitem?mr=1021794" external="true">
+        <par id="a_000509" class="a">
+          <text src="Experimental_Algorithms.xml#a_000509" region="textRegion" />
+        </par>
+      </a>
+      <a href="http://dx.doi.org/10.1145/48529.48535" external="true">
+        <par id="a_000510" class="a">
+          <text src="Experimental_Algorithms.xml#a_000510" region="textRegion" />
+        </par>
+      </a>
+      <par id="p_001657" class="p">
+        <text src="Experimental_Algorithms.xml#p_001657" region="textRegion" />
+      </par>
+      <par id="span_002919" class="span">
+        <text src="Experimental_Algorithms.xml#span_002919" region="textRegion" />
+      </par>
+      <par id="span_002921" class="span">
+        <text src="Experimental_Algorithms.xml#span_002921" region="textRegion" />
+      </par>
+      <a href="http://dx.doi.org/10.1007/978-3-642-34109-0_8" external="true">
+        <par id="a_000512" class="a">
+          <text src="Experimental_Algorithms.xml#a_000512" region="textRegion" />
+        </par>
+      </a>
+      <par id="p_001659" class="p">
+        <text src="Experimental_Algorithms.xml#p_001659" region="textRegion" />
+      </par>
+      <par id="span_002923" class="span">
+        <text src="Experimental_Algorithms.xml#span_002923" region="textRegion" />
+      </par>
+      <par id="span_002925" class="span">
+        <text src="Experimental_Algorithms.xml#span_002925" region="textRegion" />
+      </par>
+      <par id="p_001661" class="p">
+        <text src="Experimental_Algorithms.xml#p_001661" region="textRegion" />
+      </par>
+      <par id="span_002926" class="span">
+        <text src="Experimental_Algorithms.xml#span_002926" region="textRegion" />
+      </par>
+      <par id="span_002928" class="span">
+        <text src="Experimental_Algorithms.xml#span_002928" region="textRegion" />
+      </par>
+      <a href="http://dx.doi.org/10.1002/spe.844" external="true">
+        <par id="a_000515" class="a">
+          <text src="Experimental_Algorithms.xml#a_000515" region="textRegion" />
+        </par>
+      </a>
+      <par id="p_001663" class="p">
+        <text src="Experimental_Algorithms.xml#p_001663" region="textRegion" />
+      </par>
+      <par id="span_002930" class="span">
+        <text src="Experimental_Algorithms.xml#span_002930" region="textRegion" />
+      </par>
+      <par id="span_002931" class="span">
+        <text src="Experimental_Algorithms.xml#span_002931" region="textRegion" />
+      </par>
+      <par id="span_002932" class="span">
+        <text src="Experimental_Algorithms.xml#span_002932" region="textRegion" />
+      </par>
+      <par id="span_002934" class="span">
+        <text src="Experimental_Algorithms.xml#span_002934" region="textRegion" />
+      </par>
+      <par id="p_001665" class="p">
+        <text src="Experimental_Algorithms.xml#p_001665" region="textRegion" />
+      </par>
+      <par id="span_002935" class="span">
+        <text src="Experimental_Algorithms.xml#span_002935" region="textRegion" />
+      </par>
+      <par id="span_002937" class="span">
+        <text src="Experimental_Algorithms.xml#span_002937" region="textRegion" />
+      </par>
+      <par id="p_001667" class="p">
+        <text src="Experimental_Algorithms.xml#p_001667" region="textRegion" />
+      </par>
+      <par id="span_002938" class="span">
+        <text src="Experimental_Algorithms.xml#span_002938" region="textRegion" />
+      </par>
+      <par id="span_002940" class="span">
+        <text src="Experimental_Algorithms.xml#span_002940" region="textRegion" />
+      </par>
+      <a href="http://dx.doi.org/10.1007/978-3-642-28332-1_21" external="true">
+        <par id="a_000519" class="a">
+          <text src="Experimental_Algorithms.xml#a_000519" region="textRegion" />
+        </par>
+      </a>
+      <par id="p_001669" class="p">
+        <text src="Experimental_Algorithms.xml#p_001669" region="textRegion" />
+      </par>
+      <par id="span_002942" class="span">
+        <text src="Experimental_Algorithms.xml#span_002942" region="textRegion" />
+      </par>
+      <par id="span_002944" class="span">
+        <text src="Experimental_Algorithms.xml#span_002944" region="textRegion" />
+      </par>
+      <a href="http://dx.doi.org/10.1007/978-3-642-25591-5_67" external="true">
+        <par id="a_000521" class="a">
+          <text src="Experimental_Algorithms.xml#a_000521" region="textRegion" />
+        </par>
+      </a>
+      <par id="p_001671" class="p">
+        <text src="Experimental_Algorithms.xml#p_001671" region="textRegion" />
+      </par>
+      <par id="span_002946" class="span">
+        <text src="Experimental_Algorithms.xml#span_002946" region="textRegion" />
+      </par>
+      <par id="span_002948" class="span">
+        <text src="Experimental_Algorithms.xml#span_002948" region="textRegion" />
+      </par>
+      <a href="http://dx.doi.org/10.1007/978-3-642-28332-1_21" external="true">
+        <par id="a_000523" class="a">
+          <text src="Experimental_Algorithms.xml#a_000523" region="textRegion" />
+        </par>
+      </a>
+      <par id="p_001673" class="p">
+        <text src="Experimental_Algorithms.xml#p_001673" region="textRegion" />
+      </par>
+      <par id="span_002950" class="span">
+        <text src="Experimental_Algorithms.xml#span_002950" region="textRegion" />
+      </par>
+      <a href="http://dx.doi.org/10.14778/2078331.2078341" external="true">
+        <par id="a_000524" class="a">
+          <text src="Experimental_Algorithms.xml#a_000524" region="textRegion" />
+        </par>
+      </a>
+      <par id="p_001675" class="p">
+        <text src="Experimental_Algorithms.xml#p_001675" region="textRegion" />
+      </par>
+      <par id="span_002952" class="span">
+        <text src="Experimental_Algorithms.xml#span_002952" region="textRegion" />
+      </par>
+      <par id="span_002954" class="span">
+        <text src="Experimental_Algorithms.xml#span_002954" region="textRegion" />
+      </par>
+      <par id="p_001677" class="p">
+        <text src="Experimental_Algorithms.xml#p_001677" region="textRegion" />
+      </par>
+      <par id="span_002955" class="span">
+        <text src="Experimental_Algorithms.xml#span_002955" region="textRegion" />
+      </par>
+      <par id="span_002957" class="span">
+        <text src="Experimental_Algorithms.xml#span_002957" region="textRegion" />
+      </par>
+      <a href="http://dx.doi.org/10.1093/nar/gkg617" external="true">
+        <par id="a_000527" class="a">
+          <text src="Experimental_Algorithms.xml#a_000527" region="textRegion" />
+        </par>
+      </a>
+      <par id="p_001679" class="p">
+        <text src="Experimental_Algorithms.xml#p_001679" region="textRegion" />
+      </par>
+      <par id="span_002959" class="span">
+        <text src="Experimental_Algorithms.xml#span_002959" region="textRegion" />
+      </par>
+      <par id="span_002961" class="span">
+        <text src="Experimental_Algorithms.xml#span_002961" region="textRegion" />
+      </par>
+      <par id="p_001681" class="p">
+        <text src="Experimental_Algorithms.xml#p_001681" region="textRegion" />
+      </par>
+      <par id="span_002962" class="span">
+        <text src="Experimental_Algorithms.xml#span_002962" region="textRegion" />
+      </par>
+      <par id="span_002964" class="span">
+        <text src="Experimental_Algorithms.xml#span_002964" region="textRegion" />
+      </par>
+      <par id="p_001683" class="p">
+        <text src="Experimental_Algorithms.xml#p_001683" region="textRegion" />
+      </par>
+      <par id="span_002965" class="span">
+        <text src="Experimental_Algorithms.xml#span_002965" region="textRegion" />
+      </par>
+      <par id="span_002967" class="span">
+        <text src="Experimental_Algorithms.xml#span_002967" region="textRegion" />
+      </par>
+      <par id="p_001685" class="p">
+        <text src="Experimental_Algorithms.xml#p_001685" region="textRegion" />
+      </par>
+      <par id="span_002968" class="span">
+        <text src="Experimental_Algorithms.xml#span_002968" region="textRegion" />
+      </par>
+      <par id="span_002970" class="span">
+        <text src="Experimental_Algorithms.xml#span_002970" region="textRegion" />
+      </par>
+      <a href="http://dx.doi.org/10.1007/978-3-642-21458-5_6" external="true">
+        <par id="a_000532" class="a">
+          <text src="Experimental_Algorithms.xml#a_000532" region="textRegion" />
+        </par>
+      </a>
+      <par id="p_001687" class="p">
+        <text src="Experimental_Algorithms.xml#p_001687" region="textRegion" />
+      </par>
+      <par id="span_002972" class="span">
+        <text src="Experimental_Algorithms.xml#span_002972" region="textRegion" />
+      </par>
+      <par id="span_002974" class="span">
+        <text src="Experimental_Algorithms.xml#span_002974" region="textRegion" />
+      </par>
+      <a href="http://dx.doi.org/10.1007/978-3-642-16321-0_20" external="true">
+        <par id="a_000534" class="a">
+          <text src="Experimental_Algorithms.xml#a_000534" region="textRegion" />
+        </par>
+      </a>
+      <par id="p_001689" class="p">
+        <text src="Experimental_Algorithms.xml#p_001689" region="textRegion" />
+      </par>
+      <par id="span_002976" class="span">
+        <text src="Experimental_Algorithms.xml#span_002976" region="textRegion" />
+      </par>
+      <par id="span_002978" class="span">
+        <text src="Experimental_Algorithms.xml#span_002978" region="textRegion" />
+      </par>
+      <a href="http://www.ams.org/mathscinet-getitem?mr=389403" external="true">
+        <par id="a_000536" class="a">
+          <text src="Experimental_Algorithms.xml#a_000536" region="textRegion" />
+        </par>
+      </a>
+      <a href="http://dx.doi.org/10.1109/TIT.1976.1055501" external="true">
+        <par id="a_000537" class="a">
+          <text src="Experimental_Algorithms.xml#a_000537" region="textRegion" />
+        </par>
+      </a>
+      <a href="http://www.emis.de/MATH-item?0337.94013" external="true">
+        <par id="a_000538" class="a">
+          <text src="Experimental_Algorithms.xml#a_000538" region="textRegion" />
+        </par>
+      </a>
+      <par id="p_001691" class="p">
+        <text src="Experimental_Algorithms.xml#p_001691" region="textRegion" />
+      </par>
+      <par id="span_002980" class="span">
+        <text src="Experimental_Algorithms.xml#span_002980" region="textRegion" />
+      </par>
+      <par id="span_002982" class="span">
+        <text src="Experimental_Algorithms.xml#span_002982" region="textRegion" />
+      </par>
+      <a href="http://www.ams.org/mathscinet-getitem?mr=2453149" external="true">
+        <par id="a_000540" class="a">
+          <text src="Experimental_Algorithms.xml#a_000540" region="textRegion" />
+        </par>
+      </a>
+      <a href="http://dx.doi.org/10.1561/0400000014" external="true">
+        <par id="a_000541" class="a">
+          <text src="Experimental_Algorithms.xml#a_000541" region="textRegion" />
+        </par>
+      </a>
+      <a href="http://www.emis.de/MATH-item?1244.68007" external="true">
+        <par id="a_000542" class="a">
+          <text src="Experimental_Algorithms.xml#a_000542" region="textRegion" />
+        </par>
+      </a>
+      <par id="p_001693" class="p">
+        <text src="Experimental_Algorithms.xml#p_001693" region="textRegion" />
+      </par>
+      <par id="span_002984" class="span">
+        <text src="Experimental_Algorithms.xml#span_002984" region="textRegion" />
+      </par>
+      <par id="span_002986" class="span">
+        <text src="Experimental_Algorithms.xml#span_002986" region="textRegion" />
+      </par>
+      <a href="http://www.ams.org/mathscinet-getitem?mr=530215" external="true">
+        <par id="a_000544" class="a">
+          <text src="Experimental_Algorithms.xml#a_000544" region="textRegion" />
+        </par>
+      </a>
+      <a href="http://dx.doi.org/10.1109/TIT.1977.1055714" external="true">
+        <par id="a_000545" class="a">
+          <text src="Experimental_Algorithms.xml#a_000545" region="textRegion" />
+        </par>
+      </a>
+      <a href="http://www.emis.de/MATH-item?0379.94010" external="true">
+        <par id="a_000546" class="a">
+          <text src="Experimental_Algorithms.xml#a_000546" region="textRegion" />
+        </par>
+      </a>
+      <par id="p_001695" class="p">
+        <text src="Experimental_Algorithms.xml#p_001695" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_5_Chapter-Fn1_source" external="false">
+        <par id="a_000547" class="a">
+          <text src="Experimental_Algorithms.xml#a_000547" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_002989" class="span">
+        <text src="Experimental_Algorithms.xml#span_002989" region="textRegion" />
+      </par>
+      <par id="span_002990" class="span">
+        <text src="Experimental_Algorithms.xml#span_002990" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_5_Chapter-Fn2_source" external="false">
+        <par id="a_000549" class="a">
+          <text src="Experimental_Algorithms.xml#a_000549" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_002992" class="span">
+        <text src="Experimental_Algorithms.xml#span_002992" region="textRegion" />
+      </par>
+      <par id="span_002993" class="span">
+        <text src="Experimental_Algorithms.xml#span_002993" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_5_Chapter-Fn3_source" external="false">
+        <par id="a_000551" class="a">
+          <text src="Experimental_Algorithms.xml#a_000551" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_002995" class="span">
+        <text src="Experimental_Algorithms.xml#span_002995" region="textRegion" />
+      </par>
+      <par id="span_002996" class="span">
+        <text src="Experimental_Algorithms.xml#span_002996" region="textRegion" />
+      </par>
+      <par id="p_001699" class="p">
+        <text src="Experimental_Algorithms.xml#p_001699" region="textRegion" />
+      </par>
+      <par id="span_002997" class="span">
+        <text src="Experimental_Algorithms.xml#span_002997" region="textRegion" />
+      </par>
+      <par id="span_002998" class="span">
+        <text src="Experimental_Algorithms.xml#span_002998" region="textRegion" />
+      </par>
+      <par id="span_002999" class="span">
+        <text src="Experimental_Algorithms.xml#span_002999" region="textRegion" />
+      </par>
+      <par id="span_003000" class="span">
+        <text src="Experimental_Algorithms.xml#span_003000" region="textRegion" />
+      </par>
+      <par id="span_003001" class="span">
+        <text src="Experimental_Algorithms.xml#span_003001" region="textRegion" />
+      </par>
+      <par id="p_001703" class="p">
+        <text src="Experimental_Algorithms.xml#p_001703" region="textRegion" />
+      </par>
+      <par id="h2_000042" class="h2">
+        <text src="Experimental_Algorithms.xml#h2_000042" region="textRegion" />
+      </par>
+      <par id="span_003002" class="span">
+        <text src="Experimental_Algorithms.xml#span_003002" region="textRegion" />
+      </par>
+      <par id="sup_000025" class="sup">
+        <text src="Experimental_Algorithms.xml#sup_000025" region="textRegion" />
+      </par>
+      <par id="span_003003" class="span">
+        <text src="Experimental_Algorithms.xml#span_003003" region="textRegion" />
+      </par>
+      <par id="span_003005" class="span">
+        <text src="Experimental_Algorithms.xml#span_003005" region="textRegion" />
+      </par>
+      <par id="sup_000026" class="sup">
+        <text src="Experimental_Algorithms.xml#sup_000026" region="textRegion" />
+      </par>
+      <par id="span_003006" class="span">
+        <text src="Experimental_Algorithms.xml#span_003006" region="textRegion" />
+      </par>
+      <par id="span_003008" class="span">
+        <text src="Experimental_Algorithms.xml#span_003008" region="textRegion" />
+      </par>
+      <par id="sup_000027" class="sup">
+        <text src="Experimental_Algorithms.xml#sup_000027" region="textRegion" />
+      </par>
+      <par id="span_003009" class="span">
+        <text src="Experimental_Algorithms.xml#span_003009" region="textRegion" />
+      </par>
+      <par id="span_003011" class="span">
+        <text src="Experimental_Algorithms.xml#span_003011" region="textRegion" />
+      </par>
+      <par id="sup_000028" class="sup">
+        <text src="Experimental_Algorithms.xml#sup_000028" region="textRegion" />
+      </par>
+      <par id="p_001705" class="p">
+        <text src="Experimental_Algorithms.xml#p_001705" region="textRegion" />
+      </par>
+      <par id="p_001706" class="p">
+        <text src="Experimental_Algorithms.xml#p_001706" region="textRegion" />
+      </par>
+      <par id="p_001707" class="p">
+        <text src="Experimental_Algorithms.xml#p_001707" region="textRegion" />
+      </par>
+      <par id="p_001708" class="p">
+        <text src="Experimental_Algorithms.xml#p_001708" region="textRegion" />
+      </par>
+      <par id="p_001709" class="p">
+        <text src="Experimental_Algorithms.xml#p_001709" region="textRegion" />
+      </par>
+      <par id="p_001710" class="p">
+        <text src="Experimental_Algorithms.xml#p_001710" region="textRegion" />
+      </par>
+      <par id="p_001711" class="p">
+        <text src="Experimental_Algorithms.xml#p_001711" region="textRegion" />
+      </par>
+      <a href="mailto:stephan.beyer@uni-osnabrueck.de" external="true">
+        <par id="a_000553" class="a">
+          <text src="Experimental_Algorithms.xml#a_000553" region="textRegion" />
+        </par>
+      </a>
+      <par id="p_001713" class="p">
+        <text src="Experimental_Algorithms.xml#p_001713" region="textRegion" />
+      </par>
+      <par id="p_001714" class="p">
+        <text src="Experimental_Algorithms.xml#p_001714" region="textRegion" />
+      </par>
+      <a href="mailto:markus.chimani@uni-osnabrueck.de" external="true">
+        <par id="a_000554" class="a">
+          <text src="Experimental_Algorithms.xml#a_000554" region="textRegion" />
+        </par>
+      </a>
+      <par id="p_001716" class="p">
+        <text src="Experimental_Algorithms.xml#p_001716" region="textRegion" />
+      </par>
+      <par id="p_001717" class="p">
+        <text src="Experimental_Algorithms.xml#p_001717" region="textRegion" />
+      </par>
+      <par id="p_001718" class="p">
+        <text src="Experimental_Algorithms.xml#p_001718" region="textRegion" />
+      </par>
+      <a href="mailto:ivo.hedtke@uni-osnabrueck.de" external="true">
+        <par id="a_000555" class="a">
+          <text src="Experimental_Algorithms.xml#a_000555" region="textRegion" />
+        </par>
+      </a>
+      <par id="p_001720" class="p">
+        <text src="Experimental_Algorithms.xml#p_001720" region="textRegion" />
+      </par>
+      <par id="p_001721" class="p">
+        <text src="Experimental_Algorithms.xml#p_001721" region="textRegion" />
+      </par>
+      <a href="mailto:kotrbcik@imada.sdu.dk" external="true">
+        <par id="a_000556" class="a">
+          <text src="Experimental_Algorithms.xml#a_000556" region="textRegion" />
+        </par>
+      </a>
+      <par id="p_001723" class="p">
+        <text src="Experimental_Algorithms.xml#p_001723" region="textRegion" />
+      </par>
+      <par id="A426290_1_En_6_Chapter-Par1" class="p">
+        <text src="Experimental_Algorithms.xml#A426290_1_En_6_Chapter-Par1" region="textRegion" />
+      </par>
+      <par id="p_001724" class="p">
+        <text src="Experimental_Algorithms.xml#p_001724" region="textRegion" />
+      </par>
+      <par id="h2_000043" class="h2">
+        <text src="Experimental_Algorithms.xml#h2_000043" region="textRegion" />
+      </par>
+      <par id="span_003012" class="span">
+        <text src="Experimental_Algorithms.xml#span_003012" region="textRegion" />
+      </par>
+      <par id="span_003013" class="span">
+        <text src="Experimental_Algorithms.xml#span_003013" region="textRegion" />
+      </par>
+      <par id="span_003014" class="span">
+        <text src="Experimental_Algorithms.xml#span_003014" region="textRegion" />
+      </par>
+      <par id="img_001579" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq1.jpg" />
+      </par>
+      <par id="span_003015" class="span">
+        <text src="Experimental_Algorithms.xml#span_003015" region="textRegion" />
+      </par>
+      <par id="span_003016" class="span">
+        <text src="Experimental_Algorithms.xml#span_003016" region="textRegion" />
+      </par>
+      <par id="span_003017" class="span">
+        <text src="Experimental_Algorithms.xml#span_003017" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR22" external="false">
+        <par id="a_000557" class="a">
+          <text src="Experimental_Algorithms.xml#a_000557" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003018" class="span">
+        <text src="Experimental_Algorithms.xml#span_003018" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR36" external="false">
+        <par id="a_000558" class="a">
+          <text src="Experimental_Algorithms.xml#a_000558" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003019" class="span">
+        <text src="Experimental_Algorithms.xml#span_003019" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR37" external="false">
+        <par id="a_000559" class="a">
+          <text src="Experimental_Algorithms.xml#a_000559" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003020" class="span">
+        <text src="Experimental_Algorithms.xml#span_003020" region="textRegion" />
+      </par>
+      <par id="img_001580" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq2.jpg" />
+      </par>
+      <par id="span_003021" class="span">
+        <text src="Experimental_Algorithms.xml#span_003021" region="textRegion" />
+      </par>
+      <par id="img_001581" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq3.jpg" />
+      </par>
+      <par id="span_003022" class="span">
+        <text src="Experimental_Algorithms.xml#span_003022" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR9" external="false">
+        <par id="a_000560" class="a">
+          <text src="Experimental_Algorithms.xml#a_000560" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003023" class="span">
+        <text src="Experimental_Algorithms.xml#span_003023" region="textRegion" />
+      </par>
+      <par id="span_003024" class="span">
+        <text src="Experimental_Algorithms.xml#span_003024" region="textRegion" />
+      </par>
+      <par id="span_003025" class="span">
+        <text src="Experimental_Algorithms.xml#span_003025" region="textRegion" />
+      </par>
+      <par id="span_003026" class="span">
+        <text src="Experimental_Algorithms.xml#span_003026" region="textRegion" />
+      </par>
+      <par id="span_003027" class="span">
+        <text src="Experimental_Algorithms.xml#span_003027" region="textRegion" />
+      </par>
+      <par id="img_001582" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq4.jpg" />
+      </par>
+      <par id="span_003028" class="span">
+        <text src="Experimental_Algorithms.xml#span_003028" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR27" external="false">
+        <par id="a_000561" class="a">
+          <text src="Experimental_Algorithms.xml#a_000561" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003029" class="span">
+        <text src="Experimental_Algorithms.xml#span_003029" region="textRegion" />
+      </par>
+      <par id="span_003030" class="span">
+        <text src="Experimental_Algorithms.xml#span_003030" region="textRegion" />
+      </par>
+      <par id="span_003031" class="span">
+        <text src="Experimental_Algorithms.xml#span_003031" region="textRegion" />
+      </par>
+      <par id="img_001583" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq5.jpg" />
+      </par>
+      <par id="span_003032" class="span">
+        <text src="Experimental_Algorithms.xml#span_003032" region="textRegion" />
+      </par>
+      <par id="span_003033" class="span">
+        <text src="Experimental_Algorithms.xml#span_003033" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR7" external="false">
+        <par id="a_000562" class="a">
+          <text src="Experimental_Algorithms.xml#a_000562" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003034" class="span">
+        <text src="Experimental_Algorithms.xml#span_003034" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR19" external="false">
+        <par id="a_000563" class="a">
+          <text src="Experimental_Algorithms.xml#a_000563" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003035" class="span">
+        <text src="Experimental_Algorithms.xml#span_003035" region="textRegion" />
+      </par>
+      <par id="span_003036" class="span">
+        <text src="Experimental_Algorithms.xml#span_003036" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR34" external="false">
+        <par id="a_000564" class="a">
+          <text src="Experimental_Algorithms.xml#a_000564" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003037" class="span">
+        <text src="Experimental_Algorithms.xml#span_003037" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR12" external="false">
+        <par id="a_000565" class="a">
+          <text src="Experimental_Algorithms.xml#a_000565" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003038" class="span">
+        <text src="Experimental_Algorithms.xml#span_003038" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR28" external="false">
+        <par id="a_000566" class="a">
+          <text src="Experimental_Algorithms.xml#a_000566" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003039" class="span">
+        <text src="Experimental_Algorithms.xml#span_003039" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR5" external="false">
+        <par id="a_000567" class="a">
+          <text src="Experimental_Algorithms.xml#a_000567" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003040" class="span">
+        <text src="Experimental_Algorithms.xml#span_003040" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR12" external="false">
+        <par id="a_000568" class="a">
+          <text src="Experimental_Algorithms.xml#a_000568" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003041" class="span">
+        <text src="Experimental_Algorithms.xml#span_003041" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR28" external="false">
+        <par id="a_000569" class="a">
+          <text src="Experimental_Algorithms.xml#a_000569" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003042" class="span">
+        <text src="Experimental_Algorithms.xml#span_003042" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR29" external="false">
+        <par id="a_000570" class="a">
+          <text src="Experimental_Algorithms.xml#a_000570" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003043" class="span">
+        <text src="Experimental_Algorithms.xml#span_003043" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR31" external="false">
+        <par id="a_000571" class="a">
+          <text src="Experimental_Algorithms.xml#a_000571" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003044" class="span">
+        <text src="Experimental_Algorithms.xml#span_003044" region="textRegion" />
+      </par>
+      <par id="span_003045" class="span">
+        <text src="Experimental_Algorithms.xml#span_003045" region="textRegion" />
+      </par>
+      <par id="span_003046" class="span">
+        <text src="Experimental_Algorithms.xml#span_003046" region="textRegion" />
+      </par>
+      <par id="img_001584" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq6.jpg" />
+      </par>
+      <par id="span_003047" class="span">
+        <text src="Experimental_Algorithms.xml#span_003047" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR28" external="false">
+        <par id="a_000572" class="a">
+          <text src="Experimental_Algorithms.xml#a_000572" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003048" class="span">
+        <text src="Experimental_Algorithms.xml#span_003048" region="textRegion" />
+      </par>
+      <par id="span_003049" class="span">
+        <text src="Experimental_Algorithms.xml#span_003049" region="textRegion" />
+      </par>
+      <par id="span_003050" class="span">
+        <text src="Experimental_Algorithms.xml#span_003050" region="textRegion" />
+      </par> 
+      <par id="span_003051" class="span"> 
+        <text src="Experimental_Algorithms.xml#span_003051" region="textRegion" />
+      </par> 
+      <a href="#A426290_1_En_6_Chapter-CR20" external="false">  
+        <par id="a_000573" class="a">   
+          <text src="Experimental_Algorithms.xml#a_000573" region="textRegion" />
+        </par>  
+      </a>   
+      <par id="span_003052" class="span">   
+        <text src="Experimental_Algorithms.xml#span_003052" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR17" external="false"> 
+        <par id="a_000574" class="a"> 
+          <text src="Experimental_Algorithms.xml#a_000574" region="textRegion" />
+        </par> 
+      </a>   
+      <par id="span_003053" class="span"> 
+        <text src="Experimental_Algorithms.xml#span_003053" region="textRegion" />
+      </par>   
+      <a href="#A426290_1_En_6_Chapter-CR21" external="false">  
+        <par id="a_000575" class="a">   
+          <text src="Experimental_Algorithms.xml#a_000575" region="textRegion" />
+        </par>
+      </a>    
+      <par id="span_003054" class="span"> 
+        <text src="Experimental_Algorithms.xml#span_003054" region="textRegion" />
+      </par>   
+      <a href="#A426290_1_En_6_Chapter-CR26" external="false">  
+        <par id="a_000576" class="a">    
+          <text src="Experimental_Algorithms.xml#a_000576" region="textRegion" />
+        </par> 
+      </a>  
+      <par id="span_003055" class="span">  
+        <text src="Experimental_Algorithms.xml#span_003055" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR30" external="false">   
+        <par id="a_000577" class="a">   
+          <text src="Experimental_Algorithms.xml#a_000577" region="textRegion" />
+        </par>   
+      </a>   
+      <par id="span_003056" class="span"> 
+        <text src="Experimental_Algorithms.xml#span_003056" region="textRegion" />
+      </par>    
+      <a href="#A426290_1_En_6_Chapter-CR8" external="false">    
+        <par id="a_000578" class="a"> 
+          <text src="Experimental_Algorithms.xml#a_000578" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003057" class="span">
+        <text src="Experimental_Algorithms.xml#span_003057" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR33" external="false">
+        <par id="a_000579" class="a">
+          <text src="Experimental_Algorithms.xml#a_000579" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003058" class="span">
+        <text src="Experimental_Algorithms.xml#span_003058" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR20" external="false">
+        <par id="a_000580" class="a">
+          <text src="Experimental_Algorithms.xml#a_000580" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003059" class="span">
+        <text src="Experimental_Algorithms.xml#span_003059" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR21" external="false">
+        <par id="a_000581" class="a">
+          <text src="Experimental_Algorithms.xml#a_000581" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003060" class="span">
+        <text src="Experimental_Algorithms.xml#span_003060" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR17" external="false">
+        <par id="a_000582" class="a">
+          <text src="Experimental_Algorithms.xml#a_000582" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003061" class="span">
+        <text src="Experimental_Algorithms.xml#span_003061" region="textRegion" />
+      </par>
+      <par id="span_003062" class="span">
+        <text src="Experimental_Algorithms.xml#span_003062" region="textRegion" />
+      </par>
+      <par id="span_003063" class="span">
+        <text src="Experimental_Algorithms.xml#span_003063" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR33" external="false">
+        <par id="a_000583" class="a">
+          <text src="Experimental_Algorithms.xml#a_000583" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003064" class="span">
+        <text src="Experimental_Algorithms.xml#span_003064" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR30" external="false">
+        <par id="a_000584" class="a">
+          <text src="Experimental_Algorithms.xml#a_000584" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003065" class="span">
+        <text src="Experimental_Algorithms.xml#span_003065" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR25" external="false">
+        <par id="a_000585" class="a">
+          <text src="Experimental_Algorithms.xml#a_000585" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003066" class="span">
+        <text src="Experimental_Algorithms.xml#span_003066" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR33" external="false">
+        <par id="a_000586" class="a">
+          <text src="Experimental_Algorithms.xml#a_000586" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003067" class="span">
+        <text src="Experimental_Algorithms.xml#span_003067" region="textRegion" />
+      </par>
+      <par id="A426290_1_En_6_Chapter-Par6" class="p">
+        <text src="Experimental_Algorithms.xml#A426290_1_En_6_Chapter-Par6" region="textRegion" />
+      </par>
+      <par id="p_001725" class="p">
+        <text src="Experimental_Algorithms.xml#p_001725" region="textRegion" />
+      </par>
+      <par id="p_001726" class="p">
+        <text src="Experimental_Algorithms.xml#p_001726" region="textRegion" />
+      </par>
+      <par id="h2_000044" class="h2">
+        <text src="Experimental_Algorithms.xml#h2_000044" region="textRegion" />
+      </par>
+      <par id="span_003068" class="span">
+        <text src="Experimental_Algorithms.xml#span_003068" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR32" external="false">
+        <par id="a_000587" class="a">
+          <text src="Experimental_Algorithms.xml#a_000587" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003069" class="span">
+        <text src="Experimental_Algorithms.xml#span_003069" region="textRegion" />
+      </par>
+      <par id="span_003070" class="span">
+        <text src="Experimental_Algorithms.xml#span_003070" region="textRegion" />
+      </par>
+      <par id="span_003071" class="span">
+        <text src="Experimental_Algorithms.xml#span_003071" region="textRegion" />
+      </par>
+      <par id="span_003072" class="span">
+        <text src="Experimental_Algorithms.xml#span_003072" region="textRegion" />
+      </par>
+      <par id="span_003073" class="span">
+        <text src="Experimental_Algorithms.xml#span_003073" region="textRegion" />
+      </par>
+      <par id="span_003074" class="span">
+        <text src="Experimental_Algorithms.xml#span_003074" region="textRegion" />
+      </par>
+      <par id="span_003075" class="span">
+        <text src="Experimental_Algorithms.xml#span_003075" region="textRegion" />
+      </par>
+      <par id="span_003076" class="span">
+        <text src="Experimental_Algorithms.xml#span_003076" region="textRegion" />
+      </par>
+      <par id="span_003077" class="span">
+        <text src="Experimental_Algorithms.xml#span_003077" region="textRegion" />
+      </par>
+      <par id="span_003078" class="span">
+        <text src="Experimental_Algorithms.xml#span_003078" region="textRegion" />
+      </par>
+      <par id="span_003079" class="span">
+        <text src="Experimental_Algorithms.xml#span_003079" region="textRegion" />
+      </par>
+      <par id="span_003080" class="span">
+        <text src="Experimental_Algorithms.xml#span_003080" region="textRegion" />
+      </par>
+      <par id="span_003081" class="span">
+        <text src="Experimental_Algorithms.xml#span_003081" region="textRegion" />
+      </par>
+      <par id="span_003082" class="span">
+        <text src="Experimental_Algorithms.xml#span_003082" region="textRegion" />
+      </par>
+      <par id="span_003083" class="span">
+        <text src="Experimental_Algorithms.xml#span_003083" region="textRegion" />
+      </par>
+      <par id="img_001585" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq7.jpg" />
+      </par>
+      <par id="span_003084" class="span">
+        <text src="Experimental_Algorithms.xml#span_003084" region="textRegion" />
+      </par>
+      <par id="span_003085" class="span">
+        <text src="Experimental_Algorithms.xml#span_003085" region="textRegion" />
+      </par>
+      <par id="span_003086" class="span">
+        <text src="Experimental_Algorithms.xml#span_003086" region="textRegion" />
+      </par>
+      <par id="span_003087" class="span">
+        <text src="Experimental_Algorithms.xml#span_003087" region="textRegion" />
+      </par>
+      <par id="span_003088" class="span">
+        <text src="Experimental_Algorithms.xml#span_003088" region="textRegion" />
+      </par>
+      <par id="span_003089" class="span">
+        <text src="Experimental_Algorithms.xml#span_003089" region="textRegion" />
+      </par>
+      <par id="span_003090" class="span">
+        <text src="Experimental_Algorithms.xml#span_003090" region="textRegion" />
+      </par>
+      <par id="img_001586" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq8.jpg" />
+      </par>
+      <par id="span_003091" class="span">
+        <text src="Experimental_Algorithms.xml#span_003091" region="textRegion" />
+      </par>
+      <par id="img_001587" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq9.jpg" />
+      </par>
+      <par id="span_003092" class="span">
+        <text src="Experimental_Algorithms.xml#span_003092" region="textRegion" />
+      </par>
+      <par id="span_003093" class="span">
+        <text src="Experimental_Algorithms.xml#span_003093" region="textRegion" />
+      </par>
+      <par id="span_003094" class="span">
+        <text src="Experimental_Algorithms.xml#span_003094" region="textRegion" />
+      </par>
+      <par id="span_003095" class="span">
+        <text src="Experimental_Algorithms.xml#span_003095" region="textRegion" />
+      </par>
+      <par id="span_003096" class="span">
+        <text src="Experimental_Algorithms.xml#span_003096" region="textRegion" />
+      </par>
+      <par id="span_003097" class="span">
+        <text src="Experimental_Algorithms.xml#span_003097" region="textRegion" />
+      </par>
+      <par id="span_003098" class="span">
+        <text src="Experimental_Algorithms.xml#span_003098" region="textRegion" />
+      </par>
+      <par id="span_003099" class="span">
+        <text src="Experimental_Algorithms.xml#span_003099" region="textRegion" />
+      </par>
+      <par id="span_003100" class="span">
+        <text src="Experimental_Algorithms.xml#span_003100" region="textRegion" />
+      </par>
+      <par id="span_003101" class="span">
+        <text src="Experimental_Algorithms.xml#span_003101" region="textRegion" />
+      </par>
+      <par id="span_003102" class="span">
+        <text src="Experimental_Algorithms.xml#span_003102" region="textRegion" />
+      </par>
+      <par id="span_003103" class="span">
+        <text src="Experimental_Algorithms.xml#span_003103" region="textRegion" />
+      </par>
+      <par id="span_003104" class="span">
+        <text src="Experimental_Algorithms.xml#span_003104" region="textRegion" />
+      </par>
+      <par id="span_003105" class="span">
+        <text src="Experimental_Algorithms.xml#span_003105" region="textRegion" />
+      </par>
+      <par id="span_003106" class="span">
+        <text src="Experimental_Algorithms.xml#span_003106" region="textRegion" />
+      </par>
+      <par id="span_003107" class="span">
+        <text src="Experimental_Algorithms.xml#span_003107" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR23" external="false">
+        <par id="a_000588" class="a">
+          <text src="Experimental_Algorithms.xml#a_000588" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003108" class="span">
+        <text src="Experimental_Algorithms.xml#span_003108" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR18" external="false">
+        <par id="a_000589" class="a">
+          <text src="Experimental_Algorithms.xml#a_000589" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003109" class="span">
+        <text src="Experimental_Algorithms.xml#span_003109" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR24" external="false">
+        <par id="a_000590" class="a">
+          <text src="Experimental_Algorithms.xml#a_000590" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003110" class="span">
+        <text src="Experimental_Algorithms.xml#span_003110" region="textRegion" />
+      </par>
+      <par id="span_003111" class="span">
+        <text src="Experimental_Algorithms.xml#span_003111" region="textRegion" />
+      </par>
+      <par id="span_003112" class="span">
+        <text src="Experimental_Algorithms.xml#span_003112" region="textRegion" />
+      </par>
+      <par id="span_003113" class="span">
+        <text src="Experimental_Algorithms.xml#span_003113" region="textRegion" />
+      </par>
+      <par id="span_003114" class="span">
+        <text src="Experimental_Algorithms.xml#span_003114" region="textRegion" />
+      </par>
+      <par id="span_003115" class="span">
+        <text src="Experimental_Algorithms.xml#span_003115" region="textRegion" />
+      </par>
+      <par id="span_003116" class="span">
+        <text src="Experimental_Algorithms.xml#span_003116" region="textRegion" />
+      </par>
+      <par id="span_003117" class="span">
+        <text src="Experimental_Algorithms.xml#span_003117" region="textRegion" />
+      </par>
+      <par id="span_003118" class="span">
+        <text src="Experimental_Algorithms.xml#span_003118" region="textRegion" />
+      </par>
+      <par id="span_003119" class="span">
+        <text src="Experimental_Algorithms.xml#span_003119" region="textRegion" />
+      </par>
+      <par id="span_003120" class="span">
+        <text src="Experimental_Algorithms.xml#span_003120" region="textRegion" />
+      </par>
+      <par id="span_003121" class="span">
+        <text src="Experimental_Algorithms.xml#span_003121" region="textRegion" />
+      </par>
+      <par id="img_001588" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq10.jpg" />
+      </par>
+      <par id="span_003122" class="span">
+        <text src="Experimental_Algorithms.xml#span_003122" region="textRegion" />
+      </par>
+      <par id="span_003123" class="span">
+        <text src="Experimental_Algorithms.xml#span_003123" region="textRegion" />
+      </par>
+      <par id="span_003124" class="span">
+        <text src="Experimental_Algorithms.xml#span_003124" region="textRegion" />
+      </par>
+      <par id="span_003125" class="span">
+        <text src="Experimental_Algorithms.xml#span_003125" region="textRegion" />
+      </par>
+      <par id="span_003126" class="span">
+        <text src="Experimental_Algorithms.xml#span_003126" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-CR32" external="false">
+        <par id="a_000591" class="a">
+          <text src="Experimental_Algorithms.xml#a_000591" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003127" class="span">
+        <text src="Experimental_Algorithms.xml#span_003127" region="textRegion" />
+      </par>
+      <par id="A426290_1_En_6_Chapter-Par11" class="p">
+        <text src="Experimental_Algorithms.xml#A426290_1_En_6_Chapter-Par11" region="textRegion" />
+      </par>
+      <par id="span_003128" class="span">
+        <text src="Experimental_Algorithms.xml#span_003128" region="textRegion" />
+      </par>
+      <par id="img_001589" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq11.jpg" />
+      </par>
+      <par id="span_003129" class="span">
+        <text src="Experimental_Algorithms.xml#span_003129" region="textRegion" />
+      </par>
+      <par id="span_003130" class="span">
+        <text src="Experimental_Algorithms.xml#span_003130" region="textRegion" />
+      </par>
+      <par id="span_003131" class="span">
+        <text src="Experimental_Algorithms.xml#span_003131" region="textRegion" />
+      </par>
+      <par id="h3_000017" class="h3">
+        <text src="Experimental_Algorithms.xml#h3_000017" region="textRegion" />
+      </par>
+      <par id="span_003132" class="span">
+        <text src="Experimental_Algorithms.xml#span_003132" region="textRegion" />
+      </par>
+      <par id="img_001590" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq12.jpg" />
+      </par>
+      <par id="span_003133" class="span">
+        <text src="Experimental_Algorithms.xml#span_003133" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Sec7" external="false">
+        <par id="a_000592" class="a">
+          <text src="Experimental_Algorithms.xml#a_000592" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003135" class="span">
+        <text src="Experimental_Algorithms.xml#span_003135" region="textRegion" />
+      </par>
+      <par id="img_001591" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq13.jpg" />
+      </par>
+      <par id="span_003136" class="span">
+        <text src="Experimental_Algorithms.xml#span_003136" region="textRegion" />
+      </par>
+      <par id="img_001592" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq14.jpg" />
+      </par>
+      <par id="span_003137" class="span">
+        <text src="Experimental_Algorithms.xml#span_003137" region="textRegion" />
+      </par>
+      <par id="span_003138" class="span">
+        <text src="Experimental_Algorithms.xml#span_003138" region="textRegion" />
+      </par>
+      <par id="span_003139" class="span">
+        <text src="Experimental_Algorithms.xml#span_003139" region="textRegion" />
+      </par>
+      <par id="img_001593" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq15.jpg" />
+      </par>
+      <par id="span_003140" class="span">
+        <text src="Experimental_Algorithms.xml#span_003140" region="textRegion" />
+      </par>
+      <par id="img_001594" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq16.jpg" />
+      </par>
+      <par id="span_003141" class="span">
+        <text src="Experimental_Algorithms.xml#span_003141" region="textRegion" />
+      </par>
+      <par id="span_003142" class="span">
+        <text src="Experimental_Algorithms.xml#span_003142" region="textRegion" />
+      </par>
+      <par id="span_003143" class="span">
+        <text src="Experimental_Algorithms.xml#span_003143" region="textRegion" />
+      </par>
+      <par id="img_001595" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq17.jpg" />
+      </par>
+      <par id="span_003144" class="span">
+        <text src="Experimental_Algorithms.xml#span_003144" region="textRegion" />
+      </par>
+      <par id="img_001596" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq18.jpg" />
+      </par>
+      <par id="span_003145" class="span">
+        <text src="Experimental_Algorithms.xml#span_003145" region="textRegion" />
+      </par>
+      <par id="img_001597" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq19.jpg" />
+      </par>
+      <par id="span_003146" class="span">
+        <text src="Experimental_Algorithms.xml#span_003146" region="textRegion" />
+      </par>
+      <par id="span_003147" class="span">
+        <text src="Experimental_Algorithms.xml#span_003147" region="textRegion" />
+      </par>
+      <par id="span_003148" class="span">
+        <text src="Experimental_Algorithms.xml#span_003148" region="textRegion" />
+      </par>
+      <par id="span_003149" class="span">
+        <text src="Experimental_Algorithms.xml#span_003149" region="textRegion" />
+      </par>
+      <par id="span_003150" class="span">
+        <text src="Experimental_Algorithms.xml#span_003150" region="textRegion" />
+      </par>
+      <par id="img_001598" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ1.jpg" />
+      </par>
+      <par id="p_001728" class="p">
+        <text src="Experimental_Algorithms.xml#p_001728" region="textRegion" />
+      </par>
+      <par id="img_001599" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ2.jpg" />
+      </par>
+      <par id="p_001730" class="p">
+        <text src="Experimental_Algorithms.xml#p_001730" region="textRegion" />
+      </par>
+      <par id="img_001600" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ3.jpg" />
+      </par>
+      <par id="p_001732" class="p">
+        <text src="Experimental_Algorithms.xml#p_001732" region="textRegion" />
+      </par>
+      <par id="img_001601" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ4.jpg" />
+      </par>
+      <par id="p_001734" class="p">
+        <text src="Experimental_Algorithms.xml#p_001734" region="textRegion" />
+      </par>
+      <par id="img_001602" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ5.jpg" />
+      </par>
+      <par id="p_001736" class="p">
+        <text src="Experimental_Algorithms.xml#p_001736" region="textRegion" />
+      </par>
+      <par id="img_001603" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ6.jpg" />
+      </par>
+      <par id="p_001738" class="p">
+        <text src="Experimental_Algorithms.xml#p_001738" region="textRegion" />
+      </par>
+      <par id="img_001604" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ7.jpg" />
+      </par>
+      <par id="p_001740" class="p">
+        <text src="Experimental_Algorithms.xml#p_001740" region="textRegion" />
+      </par>
+      <par id="img_001605" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ8.jpg" />
+      </par>
+      <par id="p_001742" class="p">
+        <text src="Experimental_Algorithms.xml#p_001742" region="textRegion" />
+      </par>
+      <par id="img_001606" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ9.jpg" />
+      </par>
+      <par id="p_001744" class="p">
+        <text src="Experimental_Algorithms.xml#p_001744" region="textRegion" />
+      </par>
+      <par id="img_001607" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ10.jpg" />
+      </par>
+      <par id="p_001746" class="p">
+        <text src="Experimental_Algorithms.xml#p_001746" region="textRegion" />
+      </par>
+      <par id="img_001608" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ11.jpg" />
+      </par>
+      <par id="p_001748" class="p">
+        <text src="Experimental_Algorithms.xml#p_001748" region="textRegion" />
+      </par>
+      <par id="img_001609" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ12.jpg" />
+      </par>
+      <par id="p_001750" class="p">
+        <text src="Experimental_Algorithms.xml#p_001750" region="textRegion" />
+      </par>
+      <par id="span_003151" class="span">
+        <text src="Experimental_Algorithms.xml#span_003151" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ2" external="false">
+        <par id="a_000593" class="a">
+          <text src="Experimental_Algorithms.xml#a_000593" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003153" class="span">
+        <text src="Experimental_Algorithms.xml#span_003153" region="textRegion" />
+      </par>
+      <par id="span_003154" class="span">
+        <text src="Experimental_Algorithms.xml#span_003154" region="textRegion" />
+      </par>
+      <par id="span_003155" class="span">
+        <text src="Experimental_Algorithms.xml#span_003155" region="textRegion" />
+      </par>
+      <par id="A426290_1_En_6_Chapter-Fn1_source" class="sup">
+        <text src="Experimental_Algorithms.xml#A426290_1_En_6_Chapter-Fn1_source" region="textRegion" />
+      </par>
+      <par id="span_003156" class="span">
+        <text src="Experimental_Algorithms.xml#span_003156" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ3" external="false">
+        <par id="a_000594" class="a">
+          <text src="Experimental_Algorithms.xml#a_000594" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003158" class="span">
+        <text src="Experimental_Algorithms.xml#span_003158" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ4" external="false">
+        <par id="a_000595" class="a">
+          <text src="Experimental_Algorithms.xml#a_000595" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003160" class="span">
+        <text src="Experimental_Algorithms.xml#span_003160" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ5" external="false">
+        <par id="a_000596" class="a">
+          <text src="Experimental_Algorithms.xml#a_000596" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003162" class="span">
+        <text src="Experimental_Algorithms.xml#span_003162" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ6" external="false">
+        <par id="a_000597" class="a">
+          <text src="Experimental_Algorithms.xml#a_000597" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003164" class="span">
+        <text src="Experimental_Algorithms.xml#span_003164" region="textRegion" />
+      </par>
+      <par id="span_003165" class="span">
+        <text src="Experimental_Algorithms.xml#span_003165" region="textRegion" />
+      </par>
+      <par id="span_003166" class="span">
+        <text src="Experimental_Algorithms.xml#span_003166" region="textRegion" />
+      </par>
+      <par id="span_003167" class="span">
+        <text src="Experimental_Algorithms.xml#span_003167" region="textRegion" />
+      </par>
+      <par id="span_003168" class="span">
+        <text src="Experimental_Algorithms.xml#span_003168" region="textRegion" />
+      </par>
+      <par id="span_003169" class="span">
+        <text src="Experimental_Algorithms.xml#span_003169" region="textRegion" />
+      </par>
+      <par id="span_003170" class="span">
+        <text src="Experimental_Algorithms.xml#span_003170" region="textRegion" />
+      </par>
+      <par id="span_003171" class="span">
+        <text src="Experimental_Algorithms.xml#span_003171" region="textRegion" />
+      </par>
+      <par id="span_003172" class="span">
+        <text src="Experimental_Algorithms.xml#span_003172" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ7" external="false">
+        <par id="a_000598" class="a">
+          <text src="Experimental_Algorithms.xml#a_000598" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003174" class="span">
+        <text src="Experimental_Algorithms.xml#span_003174" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ8" external="false">
+        <par id="a_000599" class="a">
+          <text src="Experimental_Algorithms.xml#a_000599" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003176" class="span">
+        <text src="Experimental_Algorithms.xml#span_003176" region="textRegion" />
+      </par>
+      <par id="img_001610" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq20.jpg" />
+      </par>
+      <par id="span_003177" class="span">
+        <text src="Experimental_Algorithms.xml#span_003177" region="textRegion" />
+      </par>
+      <par id="span_003178" class="span">
+        <text src="Experimental_Algorithms.xml#span_003178" region="textRegion" />
+      </par>
+      <par id="span_003179" class="span">
+        <text src="Experimental_Algorithms.xml#span_003179" region="textRegion" />
+      </par>
+      <par id="span_003180" class="span">
+        <text src="Experimental_Algorithms.xml#span_003180" region="textRegion" />
+      </par>
+      <par id="span_003181" class="span">
+        <text src="Experimental_Algorithms.xml#span_003181" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ9" external="false">
+        <par id="a_000600" class="a">
+          <text src="Experimental_Algorithms.xml#a_000600" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003183" class="span">
+        <text src="Experimental_Algorithms.xml#span_003183" region="textRegion" />
+      </par>
+      <par id="img_001611" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq21.jpg" />
+      </par>
+      <par id="span_003184" class="span">
+        <text src="Experimental_Algorithms.xml#span_003184" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ1" external="false">
+        <par id="a_000601" class="a">
+          <text src="Experimental_Algorithms.xml#a_000601" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003186" class="span">
+        <text src="Experimental_Algorithms.xml#span_003186" region="textRegion" />
+      </par>
+      <par id="h3_000018" class="h3">
+        <text src="Experimental_Algorithms.xml#h3_000018" region="textRegion" />
+      </par>
+      <par id="span_003187" class="span">
+        <text src="Experimental_Algorithms.xml#span_003187" region="textRegion" />
+      </par>
+      <par id="img_001612" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq22.jpg" />
+      </par>
+      <par id="span_003188" class="span">
+        <text src="Experimental_Algorithms.xml#span_003188" region="textRegion" />
+      </par>
+      <par id="span_003189" class="span">
+        <text src="Experimental_Algorithms.xml#span_003189" region="textRegion" />
+      </par>
+      <par id="span_003190" class="span">
+        <text src="Experimental_Algorithms.xml#span_003190" region="textRegion" />
+      </par>
+      <par id="span_003191" class="span">
+        <text src="Experimental_Algorithms.xml#span_003191" region="textRegion" />
+      </par>
+      <par id="span_003192" class="span">
+        <text src="Experimental_Algorithms.xml#span_003192" region="textRegion" />
+      </par>
+      <par id="span_003193" class="span">
+        <text src="Experimental_Algorithms.xml#span_003193" region="textRegion" />
+      </par>
+      <par id="span_003194" class="span">
+        <text src="Experimental_Algorithms.xml#span_003194" region="textRegion" />
+      </par>
+      <par id="span_003195" class="span">
+        <text src="Experimental_Algorithms.xml#span_003195" region="textRegion" />
+      </par>
+      <par id="span_003196" class="span">
+        <text src="Experimental_Algorithms.xml#span_003196" region="textRegion" />
+      </par>
+      <par id="img_001613" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ13.jpg" />
+      </par>
+      <par id="p_001752" class="p">
+        <text src="Experimental_Algorithms.xml#p_001752" region="textRegion" />
+      </par>
+      <par id="img_001614" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ14.jpg" />
+      </par>
+      <par id="p_001754" class="p">
+        <text src="Experimental_Algorithms.xml#p_001754" region="textRegion" />
+      </par>
+      <par id="img_001615" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ15.jpg" />
+      </par>
+      <par id="p_001756" class="p">
+        <text src="Experimental_Algorithms.xml#p_001756" region="textRegion" />
+      </par>
+      <par id="img_001616" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ16.jpg" />
+      </par>
+      <par id="p_001758" class="p">
+        <text src="Experimental_Algorithms.xml#p_001758" region="textRegion" />
+      </par>
+      <par id="img_001617" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ17.jpg" />
+      </par>
+      <par id="p_001760" class="p">
+        <text src="Experimental_Algorithms.xml#p_001760" region="textRegion" />
+      </par>
+      <par id="img_001618" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ18.jpg" />
+      </par>
+      <par id="p_001762" class="p">
+        <text src="Experimental_Algorithms.xml#p_001762" region="textRegion" />
+      </par>
+      <par id="img_001619" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ19.jpg" />
+      </par>
+      <par id="p_001764" class="p">
+        <text src="Experimental_Algorithms.xml#p_001764" region="textRegion" />
+      </par>
+      <par id="img_001620" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ20.jpg" />
+      </par>
+      <par id="p_001766" class="p">
+        <text src="Experimental_Algorithms.xml#p_001766" region="textRegion" />
+      </par>
+      <par id="span_003197" class="span">
+        <text src="Experimental_Algorithms.xml#span_003197" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ13" external="false">
+        <par id="a_000602" class="a">
+          <text src="Experimental_Algorithms.xml#a_000602" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003199" class="span">
+        <text src="Experimental_Algorithms.xml#span_003199" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ14" external="false">
+        <par id="a_000603" class="a">
+          <text src="Experimental_Algorithms.xml#a_000603" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003201" class="span">
+        <text src="Experimental_Algorithms.xml#span_003201" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ3" external="false">
+        <par id="a_000604" class="a">
+          <text src="Experimental_Algorithms.xml#a_000604" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003203" class="span">
+        <text src="Experimental_Algorithms.xml#span_003203" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ15" external="false">
+        <par id="a_000605" class="a">
+          <text src="Experimental_Algorithms.xml#a_000605" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003205" class="span">
+        <text src="Experimental_Algorithms.xml#span_003205" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ5" external="false">
+        <par id="a_000606" class="a">
+          <text src="Experimental_Algorithms.xml#a_000606" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003207" class="span">
+        <text src="Experimental_Algorithms.xml#span_003207" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ6" external="false">
+        <par id="a_000607" class="a">
+          <text src="Experimental_Algorithms.xml#a_000607" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003209" class="span">
+        <text src="Experimental_Algorithms.xml#span_003209" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ16" external="false">
+        <par id="a_000608" class="a">
+          <text src="Experimental_Algorithms.xml#a_000608" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003211" class="span">
+        <text src="Experimental_Algorithms.xml#span_003211" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ20" external="false">
+        <par id="a_000609" class="a">
+          <text src="Experimental_Algorithms.xml#a_000609" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003213" class="span">
+        <text src="Experimental_Algorithms.xml#span_003213" region="textRegion" />
+      </par>
+      <par id="img_001621" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq23.jpg" />
+      </par>
+      <par id="span_003214" class="span">
+        <text src="Experimental_Algorithms.xml#span_003214" region="textRegion" />
+      </par>
+      <par id="span_003215" class="span">
+        <text src="Experimental_Algorithms.xml#span_003215" region="textRegion" />
+      </par>
+      <par id="span_003216" class="span">
+        <text src="Experimental_Algorithms.xml#span_003216" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ7" external="false">
+        <par id="a_000610" class="a">
+          <text src="Experimental_Algorithms.xml#a_000610" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003218" class="span">
+        <text src="Experimental_Algorithms.xml#span_003218" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ9" external="false">
+        <par id="a_000611" class="a">
+          <text src="Experimental_Algorithms.xml#a_000611" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003220" class="span">
+        <text src="Experimental_Algorithms.xml#span_003220" region="textRegion" />
+      </par>
+      <par id="h3_000019" class="h3">
+        <text src="Experimental_Algorithms.xml#h3_000019" region="textRegion" />
+      </par>
+      <par id="A426290_1_En_6_Chapter-Par18" class="p">
+        <text src="Experimental_Algorithms.xml#A426290_1_En_6_Chapter-Par18" region="textRegion" />
+      </par>
+      <par id="span_003221" class="span">
+        <text src="Experimental_Algorithms.xml#span_003221" region="textRegion" />
+      </par>
+      <par id="span_003222" class="span">
+        <text src="Experimental_Algorithms.xml#span_003222" region="textRegion" />
+      </par>
+      <par id="img_001622" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq24.jpg" />
+      </par>
+      <par id="span_003223" class="span">
+        <text src="Experimental_Algorithms.xml#span_003223" region="textRegion" />
+      </par>
+      <par id="img_001623" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq25.jpg" />
+      </par>
+      <par id="span_003224" class="span">
+        <text src="Experimental_Algorithms.xml#span_003224" region="textRegion" />
+      </par>
+      <par id="img_001624" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq26.jpg" />
+      </par>
+      <par id="span_003225" class="span">
+        <text src="Experimental_Algorithms.xml#span_003225" region="textRegion" />
+      </par>
+      <par id="span_003226" class="span">
+        <text src="Experimental_Algorithms.xml#span_003226" region="textRegion" />
+      </par>
+      <par id="span_003227" class="span">
+        <text src="Experimental_Algorithms.xml#span_003227" region="textRegion" />
+      </par>
+      <par id="img_001625" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq27.jpg" />
+      </par>
+      <par id="span_003228" class="span">
+        <text src="Experimental_Algorithms.xml#span_003228" region="textRegion" />
+      </par>
+      <par id="img_001626" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq28.jpg" />
+      </par>
+      <par id="span_003229" class="span">
+        <text src="Experimental_Algorithms.xml#span_003229" region="textRegion" />
+      </par>
+      <par id="img_001627" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq29.jpg" />
+      </par>
+      <par id="span_003230" class="span">
+        <text src="Experimental_Algorithms.xml#span_003230" region="textRegion" />
+      </par>
+      <par id="span_003231" class="span">
+        <text src="Experimental_Algorithms.xml#span_003231" region="textRegion" />
+      </par>
+      <par id="span_003232" class="span">
+        <text src="Experimental_Algorithms.xml#span_003232" region="textRegion" />
+      </par>
+      <par id="img_001628" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq30.jpg" />
+      </par>
+      <par id="span_003233" class="span">
+        <text src="Experimental_Algorithms.xml#span_003233" region="textRegion" />
+      </par>
+      <par id="img_001629" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq31.jpg" />
+      </par>
+      <par id="span_003234" class="span">
+        <text src="Experimental_Algorithms.xml#span_003234" region="textRegion" />
+      </par>
+      <par id="img_001630" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq32.jpg" />
+      </par>
+      <par id="span_003235" class="span">
+        <text src="Experimental_Algorithms.xml#span_003235" region="textRegion" />
+      </par>
+      <par id="span_003236" class="span">
+        <text src="Experimental_Algorithms.xml#span_003236" region="textRegion" />
+      </par>
+      <par id="img_001631" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq33.jpg" />
+      </par>
+      <par id="span_003237" class="span">
+        <text src="Experimental_Algorithms.xml#span_003237" region="textRegion" />
+      </par>
+      <par id="img_001632" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq34.jpg" />
+      </par>
+      <par id="span_003238" class="span">
+        <text src="Experimental_Algorithms.xml#span_003238" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ5" external="false">
+        <par id="a_000612" class="a">
+          <text src="Experimental_Algorithms.xml#a_000612" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003240" class="span">
+        <text src="Experimental_Algorithms.xml#span_003240" region="textRegion" />
+      </par>
+      <a href="#A426290_1_En_6_Chapter-Equ9" external="false">
+        <par id="a_000613" class="a">
+          <text src="Experimental_Algorithms.xml#a_000613" region="textRegion" />
+        </par>
+      </a>
+      <par id="span_003242" class="span">
+        <text src="Experimental_Algorithms.xml#span_003242" region="textRegion" />
+      </par>
+      <par id="img_001633" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ21.jpg" />
+      </par>
+      <par id="p_001768" class="p">
+        <text src="Experimental_Algorithms.xml#p_001768" region="textRegion" />
+      </par>
+      <par id="img_001634" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ22.jpg" />
+      </par>
+      <par id="p_001770" class="p">
+        <text src="Experimental_Algorithms.xml#p_001770" region="textRegion" />
+      </par>
+      <par id="img_001635" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ23.jpg" />
+      </par>
+      <par id="p_001772" class="p">
+        <text src="Experimental_Algorithms.xml#p_001772" region="textRegion" />
+      </par>
+      <par id="img_001636" class="img">
+        <img src="images/a426290_1_en_6_chapter_equ24.jpg" />
+      </par>
+      <par id="p_001774" class="p">
+        <text src="Experimental_Algorithms.xml#p_001774" region="textRegion" />
+      </par>
+      <par id="span_003243" class="span">
+        <text src="Experimental_Algorithms.xml#span_003243" region="textRegion" />
+      </par>
+      <par id="img_001637" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq35.jpg" />
+      </par>
+      <par id="span_003244" class="span">
+        <text src="Experimental_Algorithms.xml#span_003244" region="textRegion" />
+      </par>
+      <par id="img_001638" class="img">
+        <img src="images/a426290_1_en_6_chapter_ieq36.jpg" />
+      </par>
+    </seq>
+  </body>
+</smil>
+

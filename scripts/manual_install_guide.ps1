@@ -1,0 +1,27 @@
+Write-Host "=== Sentinel Forge: High-End App Installation Protocol ==="
+Write-Host "The following applications require manual installation or subscription activation:"
+Write-Host ""
+
+Write-Host "[L4] Engines & Creation:"
+Write-Host "  - Unity Hub: https://unity.com/download"
+Write-Host "  - Unreal Engine 5: https://www.unrealengine.com/en-US/download"
+Write-Host "  - Blender: https://www.blender.org/download/"
+Write-Host ""
+
+Write-Host "[Gaming] Interactive Perspectives:"
+Write-Host "  - Minecraft: https://www.minecraft.net/"
+Write-Host "  - Steam (Skyrim, Fallout, Stardew Valley): https://store.steampowered.com/"
+Write-Host "  - Battle.net (World of Warcraft): https://download.battle.net/"
+Write-Host ""
+
+Write-Host "[L6] Governance & Cloud:"
+Write-Host "  - Microsoft Purview: https://purview.microsoft.com/"
+Write-Host "  - Azure Portal: https://portal.azure.com/"
+Write-Host ""
+
+Write-Host "=== Python & Docker Components ==="
+Write-Host "The following have been automatically provisioned:"
+Write-Host "  - Prometheus, Grafana, Elasticsearch (via Docker)"
+Write-Host "  - Python SDKs: LangSmith, BigQuery, Dapr, Anthropic, Gemini, Hugging Face"
+Write-Host ""
+Write-Host "Protocol Complete."

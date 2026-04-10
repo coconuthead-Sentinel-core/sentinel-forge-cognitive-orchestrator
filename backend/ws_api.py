@@ -15,27 +15,6 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
-class ConnectionManager:
-    def __init__(self):
-        self.active_connections: list[WebSocket] = []
-
-    async def connect(self, websocket: WebSocket):
-        await websocket.accept()
-        self.active_connections.append(websocket)
-
-    def disconnect(self, websocket: WebSocket):
-        self.active_connections.remove(websocket)
-
-    async def broadcast(self, message: dict):
-        for connection in self.active_connections:
-            try:
-                await connection.send_json(message)
-            except:
-                pass
-
-manager = ConnectionManager()
-
-
 @router.websocket("/ws/cognitive")
 async def ws_cognitive(websocket: WebSocket) -> Any:
     """WebSocket endpoint for real-time cognitive processing events."""
@@ -44,13 +23,13 @@ async def ws_cognitive(websocket: WebSocket) -> Any:
     await websocket.accept()
     loop = asyncio.get_running_loop()
 
-    # Subscribe to cognitive events (zone, symbolic, glyph)
+    # Subscribe to all relevant cognitive event topics
     cognitive_queue = bus.subscribe(loop, maxsize=100, policy="latest", topic="cognitive")
     symbolic_queue = bus.subscribe(loop, maxsize=100, policy="latest", topic="symbolic")
     glyph_queue = bus.subscribe(loop, maxsize=100, policy="latest", topic="glyph")
 
     try:
-        # Send initial cognitive state
+        # Send initial cognitive state snapshot
         from .services.memory_zones import get_memory_manager
         memory_manager = get_memory_manager()
         zone_metrics = memory_manager.get_zone_metrics() if hasattr(memory_manager, 'get_zone_metrics') else {}
@@ -59,120 +38,92 @@ async def ws_cognitive(websocket: WebSocket) -> Any:
             "type": "cognitive.state",
             "data": {
                 "zone_metrics": zone_metrics,
-                "active_lens": "neurotypical",  # Default
+                "active_lens": "neurotypical",  # Placeholder for dynamic lens state
                 "timestamp": __import__("time").time(),
             }
         }
-        await websocket.send_text(json.dumps(initial_state))
+        await websocket.send_json(initial_state)
 
-        # Listen for events from all cognitive topics
+        # Create tasks to listen to each queue
+        cognitive_task = asyncio.create_task(cognitive_queue.get())
+        symbolic_task = asyncio.create_task(symbolic_queue.get())
+        glyph_task = asyncio.create_task(glyph_queue.get())
+        
+        pending = {cognitive_task, symbolic_task, glyph_task}
+
         while True:
-            # Wait for any cognitive event
-            import asyncio
-            done, pending = await asyncio.wait(
-                [
-                    asyncio.create_task(cognitive_queue.get()),
-                    asyncio.create_task(symbolic_queue.get()),
-                    asyncio.create_task(glyph_queue.get()),
-                ],
-                return_when=asyncio.FIRST_COMPLETED
+            # Wait for any of the listening tasks to complete
+            done, pending_after = await asyncio.wait(
+                pending, return_when=asyncio.FIRST_COMPLETED
             )
 
-            # Cancel pending tasks
-            for task in pending:
-                task.cancel()
-
-            # Process the completed event
             for task in done:
                 try:
                     event = task.result()
-                    await websocket.send_text(json.dumps(event))
+                    await websocket.send_json(event)
                 except Exception as e:
-                    logger.warning(f"Error processing cognitive event: {e}")
+                    logger.warning(f"Error processing WebSocket event: {e}")
+                
+                # Reschedule the completed task to listen for the next event
+                if task is cognitive_task:
+                    cognitive_task = asyncio.create_task(cognitive_queue.get())
+                    pending_after.add(cognitive_task)
+                elif task is symbolic_task:
+                    symbolic_task = asyncio.create_task(symbolic_queue.get())
+                    pending_after.add(symbolic_task)
+                elif task is glyph_task:
+                    glyph_task = asyncio.create_task(glyph_queue.get())
+                    pending_after.add(glyph_task)
+
+            pending = pending_after
 
     except WebSocketDisconnect:
-        pass
+        logger.info("Client disconnected from /ws/cognitive.")
+    except Exception as e:
+        logger.error(f"An unexpected error occurred in /ws/cognitive: {e}", exc_info=True)
     finally:
+        # Unsubscribe from all event bus topics
         bus.unsubscribe(cognitive_queue)
         bus.unsubscribe(symbolic_queue)
         bus.unsubscribe(glyph_queue)
-        while True:
-            # Wait for next event or client ping
-            payload = await queue.get()
-            await websocket.send_text(json.dumps(payload))
-    except WebSocketDisconnect:
-        pass
-    finally:
-        bus.unsubscribe(queue)
+        # Cancel any pending listener tasks
+        for task in pending:
+            task.cancel()
 
 
 @router.websocket("/ws/metrics")
 async def websocket_metrics(websocket: WebSocket):
-    """WebSocket endpoint for real-time metrics streaming."""
-    await manager.connect(websocket)
+    """WebSocket endpoint for real-time, event-driven metrics streaming."""
+    websocket_require_api_key(websocket)
+    await websocket.accept()
+    loop = asyncio.get_running_loop()
+
+    # Subscribe to the 'cognitive' topic for metrics-related events
+    queue = bus.subscribe(loop, maxsize=100, policy="latest", topic="cognitive")
+
     try:
-        from .service import service
+        # Send an initial snapshot of memory zone metrics
+        from .services.memory_zones import get_memory_manager
+        memory_manager = get_memory_manager()
+        initial_metrics = memory_manager.get_zone_metrics() if hasattr(memory_manager, 'get_zone_metrics') else {}
+        
+        await websocket.send_json({
+            "type": "metrics.initial_state",
+            "data": initial_metrics,
+            "timestamp": __import__("time").time(),
+        })
 
+        # Listen for and forward relevant real-time events
         while True:
-            # Send metrics every 2 seconds
-            try:
-                metrics = service.metrics()
-                status = service.status()
+            event = await queue.get()
+            
+            # Filter for events that are relevant to metrics
+            if event.get("type") in ["zone.classified", "zone.transition"]:
+                await websocket.send_json(event)
 
-                await websocket.send_json(
-                    {
-                        "type": "metrics_update",
-                        "data": {
-                            "metrics": metrics,
-                            "status": status,
-                            "timestamp": __import__("time").time(),
-                        },
-                    }
-                )
-            except Exception as e:
-                print(f"Error sending metrics: {e}")
-
-            await asyncio.sleep(2)
     except WebSocketDisconnect:
-        manager.disconnect(websocket)
+        logger.info("Client disconnected from /ws/metrics.")
     except Exception as e:
-        print(f"WebSocket error: {e}")
-        manager.disconnect(websocket)
-
-
-@router.websocket("/ws/events")
-async def websocket_events(websocket: WebSocket):
-    """WebSocket endpoint for real-time event streaming."""
-    await manager.connect(websocket)
-    try:
-        from .service import service
-
-        last_event_count = 0
-
-        while True:
-            try:
-                # Get recent events
-                events = service.recent_events(20)
-                current_count = len(events)
-
-                # Only send if new events appeared
-                if current_count > last_event_count:
-                    new_events = events[last_event_count:]
-                    await websocket.send_json(
-                        {
-                            "type": "new_events",
-                            "data": new_events,
-                            "timestamp": __import__("time").time(),
-                        }
-                    )
-                    last_event_count = current_count
-
-            except Exception as e:
-                print(f"Error sending events: {e}")
-
-            await asyncio.sleep(1)
-    except WebSocketDisconnect:
-        manager.disconnect(websocket)
-    except Exception as e:
-        print(f"WebSocket error: {e}")
-        manager.disconnect(websocket)
+        logger.error(f"Error in /ws/metrics endpoint: {e}", exc_info=True)
+    finally:
+        bus.unsubscribe(queue)

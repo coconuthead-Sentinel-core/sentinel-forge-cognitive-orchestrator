@@ -9,6 +9,15 @@ import uuid
 from dataclasses import dataclass
 
 
+class Entity(BaseModel):
+    """Base class for all domain entities."""
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    
+    # Strict mode: ignore extra fields passed during initialization
+    model_config = ConfigDict(extra="ignore")
+
+
 # --- Cognitive Zone Enums (Three-Zone Memory System) ---
 
 class MemoryZone(str, Enum):
@@ -36,6 +45,19 @@ class CognitiveLens(str, Enum):
     DYSLEXIA_SPATIAL = "dyslexia"   # Multi-dimensional, symbol-rich
 
 
+class Glyph(Entity):
+    """
+    A symbolic pattern representing a concept or event type.
+    Glyphs are used by the CognitiveOrchestrator to identify and categorize
+    incoming information based on pattern matching.
+    """
+    shape: str = Field(..., description="A unique identifier for the glyph's pattern, e.g., 'event:user_login:success'")
+    topic: str = Field(..., description="The general topic this glyph relates to, e.g., 'user_authentication'")
+    description: str = Field(..., description="A human-readable description of what this glyph represents.")
+    rules: Dict[str, Any] = Field(default_factory=dict, description="A set of rules used for matching this glyph pattern.")
+    seed_keywords: Set[str] = Field(default_factory=set, description="A set of seed keywords to initiate a pattern match.")
+
+
 class GlyphMatch(BaseModel):
     """Represents a matched glyph pattern."""
     shape: str
@@ -52,14 +74,6 @@ class SymbolicMetadata(BaseModel):
     dominant_topic: Optional[str] = None
     model_config = ConfigDict(extra="ignore")
 
-
-class Entity(BaseModel):
-    """Base class for all domain entities."""
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    
-    # Strict mode: ignore extra fields passed during initialization
-    model_config = ConfigDict(extra="ignore")
 
 class Note(Entity):
     """

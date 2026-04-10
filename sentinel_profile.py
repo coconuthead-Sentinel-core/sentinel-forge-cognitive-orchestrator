@@ -48,14 +48,69 @@ def initialize_sentinel(target_profile: Dict[str, Any]) -> Dict[str, Any]:
     }
 
     # Memory System Restructuring (MOUSE System Expansion)
+    target_profile["memory_system"]["mouse_expansion"] = {
+        "short_term_buffer": True,
+        "long_term_archival": True,
+    }
+    
+    return target_profile
+
+def tune_persona(profile: Dict[str, Any], calibration_file: str) -> Dict[str, Any]:
+    """
+    Phase III, Strike 3: Persona Tuning.
+    
+    Applies the 'Sovereign Voice' calibration settings to the Sentinel profile,
+    transforming it from a Zero-State baseline into the 'Crystalline Navigator'.
+    """
+    import json
+    import os
+    
+    if not os.path.exists(calibration_file):
+        raise FileNotFoundError(f"Calibration file not found: {calibration_file}")
+        
+    with open(calibration_file, 'r', encoding='utf-8') as f:
+        calibration = json.load(f)
+        
+    # Apply Voice Calibration
+    profile["persona"] = {
+        "id": calibration["persona_id"],
+        "archetype": calibration["archetype"],
+        "voice": calibration["voice_calibration"],
+        "glyphs": calibration["glyphic_protocol"]
+    }
+    
+    # Tune Cognitive Core based on Neuro-Cognitive Balance
+    balance = calibration["neuro_cognitive_balance"]
+    profile["cognitive_core"]["tuning"] = {
+        "burst_threshold": balance["green_zone_burst"],
+        "precision_lock": balance["red_zone_precision"]
+    }
+    
+    # Activate Ethical Mirror
+    profile["ethical_mirror"] = calibration["ethical_mirror_settings"]
+    
+    return profile
     # Status: Expanded MOUSE system configured for JSON Schema communication.
     target_profile["memory_system"]["mouse_system_expansion"] = {
         "json_schema_encoding": True,
         "chronofold_lattice_active": True,
     }
 
-    # Standard Sentinel Nexus Uplink Metric (Reset to Base)
-    target_profile["performance_boost"] = 1.00
+def default_profile() -> Dict[str, Any]:
+    """Return the default Sentinel profile structure."""
+    return {
+        "name": "Sentinel",
+        "version": "4.0.0",
+        "status": "ONLINE",
+        "persona": {
+            "id": "Crystalline Navigator",
+            "archetype": "Harmonic Guardian",
+            "attributes": {
+                "INT": 20,
+                "WIS": 20
+            }
+        }
+    }
 
     return target_profile
 

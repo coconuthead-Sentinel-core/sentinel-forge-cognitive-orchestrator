@@ -14,7 +14,7 @@
 | System name | Sovereign Forge |
 | Version | 4.0 |
 | Purpose | Real-time self-optimizing cognitive AI operating system |
-| AI Provider | Microsoft Azure OpenAI (GPT-4o-mini) |
+| AI Provider | Microsoft Azure OpenAI (o4-mini) |
 | Unique features | CNO-AX metacognition, voice interface, 14-Mirror Array, Sentinel Profile |
 | Deployment | Local / private — portfolio and personal use |
 

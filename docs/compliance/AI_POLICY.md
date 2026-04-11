@@ -16,7 +16,7 @@ This policy governs the design, development, operation, and use of artificial in
 
 ## 2. What Sovereign Forge Is
 
-Sovereign Forge is a real-time, self-optimizing cognitive AI operating system powered by **Azure OpenAI GPT-4o-mini**. It features a CNO-AX Metacognition Engine, 14-Mirror Cognitive Array, voice interface, and persistent Sentinel Profile system. It is the most architecturally advanced platform in the Forge trilogy.
+Sovereign Forge is a real-time, self-optimizing cognitive AI operating system powered by **Azure OpenAI o4-mini**. It features a CNO-AX Metacognition Engine, 14-Mirror Cognitive Array, voice interface, and persistent Sentinel Profile system. It is the most architecturally advanced platform in the Forge trilogy.
 
 ---
 
@@ -66,7 +66,7 @@ Sovereign Forge does not make consequential decisions about individuals, does no
 
 | Service | Provider | Purpose | Status |
 |---------|----------|---------|--------|
-| Azure OpenAI (GPT-4o-mini) | Microsoft | Core AI responses | ✅ Approved |
+| Azure OpenAI (o4-mini) | Microsoft | Core AI responses | ✅ Approved |
 | Claude AI | Anthropic | Development assistance | ✅ Approved |
 | GitHub Copilot | Microsoft | Code assistance | ✅ Approved |
 | ChatGPT / Gemini | OpenAI / Google | Research only | ⚠️ No confidential data |

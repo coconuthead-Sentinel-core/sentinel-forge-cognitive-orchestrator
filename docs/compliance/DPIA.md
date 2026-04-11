@@ -28,7 +28,7 @@ User speaks / types input
         ↓
 FastAPI (in-memory only)
         ↓
-Azure OpenAI GPT-4o-mini (Microsoft cloud)
+Azure OpenAI o4-mini (Microsoft cloud)
         ↓
 Response → TTS voice output
         ↓

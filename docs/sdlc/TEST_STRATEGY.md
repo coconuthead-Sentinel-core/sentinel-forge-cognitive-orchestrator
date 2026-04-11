@@ -68,7 +68,7 @@ Results saved to `results_1000_strikes.txt`.
 | IT-001 | FastAPI server starts | `uvicorn backend.main:app` | Server live at localhost:8000 |
 | IT-002 | GET /api/status | curl or browser | Returns JSON with platform, ai_mode, stillwater |
 | IT-003 | POST /api/chat mock | POST with MOCK_AI=true | Returns response, zone, mirror_array, latency |
-| IT-004 | POST /api/chat live | POST with MOCK_AI=false | Returns GPT-4o-mini response |
+| IT-004 | POST /api/chat live | POST with MOCK_AI=false | Returns o4-mini response |
 | IT-005 | GET /api/metrics | GET request | Full JSON with cno_ax, zone_distribution, lens_usage |
 | IT-006 | WebSocket /ws/cognitive | Browser DevTools | Events stream in real time |
 | IT-007 | Dashboard loads | Open HTML file | UI elements present; WebSocket connecting |

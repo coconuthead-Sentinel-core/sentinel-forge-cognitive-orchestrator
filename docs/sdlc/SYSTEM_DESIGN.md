@@ -38,7 +38,7 @@ REST        WebSocket    Dashboard + Voice UI
   GREEN | YELLOW | RED
               |
               ↓
-[ Azure OpenAI Adapter (GPT-4o-mini) ]
+[ Azure OpenAI Adapter (o4-mini) ]
   + Mock Fallback
               |
               ↓
@@ -72,7 +72,7 @@ REST        WebSocket    Dashboard + Voice UI
 | ADHD Lens | `backend/services/adhd_lens.py` | Burst processing transformation |
 | Autism Lens | `backend/services/autism_lens.py` | Precision pattern transformation |
 | Dyslexia Lens | `backend/services/dyslexia_lens.py` | Spatial symbol transformation |
-| Azure Adapter | `backend/adapters/azure_openai.py` | GPT-4o-mini API calls |
+| Azure Adapter | `backend/adapters/azure_openai.py` | o4-mini API calls |
 | Mock Adapter | `backend/adapters/mock_adapter.py` | Development fallback |
 | Cosmos Repo | `backend/infrastructure/cosmos_repo.py` | Persistence layer |
 | Sigma Engine | `sigma_network_engine.py` | Profile-driven feature flags |
@@ -167,7 +167,7 @@ REST        WebSocket    Dashboard + Voice UI
 3. SigmaNetworkEngine reads Sentinel Profile → sets feature flags
 4. Lens selected (ADHD/Autism/Dyslexia/Neurotypical) based on profile
 5. GlyphProcessor interprets symbolic content → 14-Mirror Array routes
-6. Azure OpenAI GPT-4o-mini generates response (or mock)
+6. Azure OpenAI o4-mini generates response (or mock)
 7. CNO-AX Engine records latency, updates efficiency metrics
 8. Result classified by entropy → Three-Zone Memory
 9. A1 Filing System stores node in GREEN/YELLOW/RED directory

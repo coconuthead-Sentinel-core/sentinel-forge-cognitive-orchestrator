@@ -10,7 +10,7 @@
 
 | Field | Details |
 |-------|---------|
-| Purpose | Generate AI responses via GPT-4o-mini |
+| Purpose | Generate AI responses via o4-mini |
 | Legal basis | Legitimate interest |
 | Data | Text prompts; voice transcripts (session only) |
 | Special category | None intended |

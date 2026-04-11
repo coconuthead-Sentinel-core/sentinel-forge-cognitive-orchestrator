@@ -34,6 +34,7 @@
 | SF-021 | SDLC documentation suite | High | ✅ |
 | SF-022 | Compliance documentation (GDPR, AI Act, ISO 27001) | High | ✅ |
 | SF-023 | Professional README (Sovereign Forge branding) | High | ✅ |
+| SF-025 | Azure OpenAI o4-mini live connection | Critical | ✅ |
 
 ---
 
@@ -42,7 +43,6 @@
 | ID | Story | Priority | Notes |
 |----|-------|----------|-------|
 | SF-024 | Wire dashboard WebSocket to live backend | High | Dashboard exists; connection not yet active |
-| SF-025 | Azure OpenAI GPT-4o-mini live connection | Critical | Deployment needed in Azure portal |
 | SF-026 | GitHub Actions CI pipeline | High | Not yet configured |
 
 ---

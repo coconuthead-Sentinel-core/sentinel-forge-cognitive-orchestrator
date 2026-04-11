@@ -82,7 +82,7 @@ It is the most architecturally advanced platform in the Forge trilogy, designed 
 - Physical A1 Filing directories mirror zone structure
 
 ### 4.9 Azure OpenAI Integration
-- Model: GPT-4o-mini
+- Model: o4-mini
 - Mock fallback for development (`MOCK_AI=true`)
 - Azure Cosmos DB persistence layer
 
@@ -117,7 +117,7 @@ It is the most architecturally advanced platform in the Forge trilogy, designed 
 - ✅ CNO-AX Engine runs 1000 Strikes protocol
 - ✅ Sentinel Profile persists between sessions
 - ✅ All four cognitive lenses return differentiated responses
-- ✅ Azure OpenAI GPT-4o-mini connected and live
+- ✅ Azure OpenAI o4-mini connected and live
 - ✅ Full SDLC and compliance documentation complete
 - ✅ CI pipeline passes on every commit
 

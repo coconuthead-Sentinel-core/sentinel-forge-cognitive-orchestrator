@@ -28,13 +28,13 @@ def save_memory(text, tag):
         return f"❌ Failed: {str(e)}"
 
 # --- UI Layout ---
-with gr.Blocks(title="Sentinel Forge Command", theme=gr.themes.Glass()) as demo:
-    gr.Markdown("# 🛡️ Sentinel Forge Command Node")
+with gr.Blocks(title="Sovereign Forge Command", theme=gr.themes.Glass()) as demo:
+    gr.Markdown("# 🛡️ Sovereign Forge Command Node")
     
     with gr.Tabs():
         # Tab 1: Neural Link (Chat)
         with gr.TabItem("🧠 Neural Link"):
-            chatbot = gr.Chatbot(height=400, label="Sentinel Prime")
+            chatbot = gr.Chatbot(height=400, label="Sovereign Prime")
             msg = gr.Textbox(label="Transmission", placeholder="Enter command or query...")
             clear = gr.Button("Clear Protocol")
 

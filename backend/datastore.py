@@ -7,7 +7,7 @@ from azure.cosmos import PartitionKey, exceptions
 # Best practice: Read from environment variables.
 ENDPOINT = os.environ.get("COSMOS_ENDPOINT")
 KEY = os.environ.get("COSMOS_KEY")
-DATABASE_NAME = os.environ.get("COSMOS_DATABASE_NAME", "SentinelForgeDB")
+DATABASE_NAME = os.environ.get("COSMOS_DATABASE_NAME", "SovereignForgeDB")
 
 class CosmosDBRepository:
     """

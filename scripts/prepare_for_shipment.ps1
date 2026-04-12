@@ -1,8 +1,8 @@
-# Sentinel Prime - Shipment Preparation Protocol
+# Sovereign Prime - Shipment Preparation Protocol
 # Purpose: Remove accidental file artifacts to ensure a clean build for market release.
 # NO CODE IS REWRITTEN. ONLY GARBAGE FILES ARE REMOVED.
 
-Write-Host "🛡️ Sentinel Prime: Preparing for Shipment..." -ForegroundColor Cyan
+Write-Host "🛡️ Sovereign Prime: Preparing for Shipment..." -ForegroundColor Cyan
 
 # List of artifacts identified in the commit manifest
 $artifacts = @(

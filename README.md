@@ -1,6 +1,6 @@
-# Sentinel Forge Cognitive AI Orchestration Platform 🌌
+# Sovereign Forge Cognitive AI Orchestration Platform 🌌
 
-![CI](https://github.com/coconuthead-Sentinel-core/sentinel-forge-cognitive-orchestrator/workflows/Python%20application/badge.svg)
+![CI](https://github.com/coconuthead-Sentinel-core/sovereign-forge-cognitive-orchestrator/workflows/Python%20application/badge.svg)
 
 **Neurodivergent-Aware Cognitive Orchestration** | December 19, 2025
 
@@ -34,8 +34,8 @@ Building AI that adapts to diverse cognitive processing styles to promote access
 ### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/coconuthead-Sentinel-core/sentinel-forge-cognitive-orchestrator.git
-cd sentinel-forge-cognitive-orchestrator
+git clone https://github.com/coconuthead-Sentinel-core/sovereign-forge-cognitive-orchestrator.git
+cd sovereign-forge-cognitive-orchestrator
 
 # Install dependencies
 pip install -r requirements.txt
@@ -73,7 +73,7 @@ print(result.spatial_coordinates)
 ## 🏗️ Project Structure
 
 ```
-sentinel-forge-cognitive-orchestrator/
+sovereign-forge-cognitive-orchestrator/
 ├── backend/                          # FastAPI application
 │   ├── api.py                       # REST endpoints
 │   ├── ws_api.py                    # WebSocket real-time sync

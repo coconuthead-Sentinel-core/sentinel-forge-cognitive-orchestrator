@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     # --- Core Application ---
-    PROJECT_NAME: str = "Sentinel Forge"
+    PROJECT_NAME: str = "Sovereign Forge"
     VERSION: str = "2.0.0"
     ENVIRONMENT: str = "development"  # development, production
     LOG_LEVEL: str = "INFO"
@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     # --- Infrastructure (Cosmos DB) ---
     COSMOS_ENDPOINT: str = "https://localhost:8081/"
     COSMOS_KEY: str = ""
-    COSMOS_DATABASE_NAME: str = "SentinelForgeDB"
+    COSMOS_DATABASE_NAME: str = "SovereignForgeDB"
     COSMOS_CONTAINER_NAME: str = "Items"
 
     # --- Performance ---

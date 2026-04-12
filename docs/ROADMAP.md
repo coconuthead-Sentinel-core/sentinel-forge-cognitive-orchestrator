@@ -1,4 +1,4 @@
-# Sentinel Forge Platform Roadmap
+# Sovereign Forge Platform Roadmap
 
 **Scope:** Enterprise AI Backend Platform
 **Pilot Deployment:** VR Studios

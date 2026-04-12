@@ -1,6 +1,6 @@
 # app/main.py
 """
-Sentinel Forge Phase 2 Dashboard Application
+Sovereign Forge Phase 2 Dashboard Application
 Quantum Nexus lattice-aware cognitive orchestration UI
 
 Run with: uvicorn app.main:app --reload --port 8001
@@ -17,7 +17,7 @@ PROJECT_ROOT = Path(__file__).parent.parent
 STATIC_DIR = PROJECT_ROOT / "static"
 
 app = FastAPI(
-    title="Sentinel Forge • Quantum Nexus Dashboard",
+    title="Sovereign Forge • Quantum Nexus Dashboard",
     description="Phase 2 Dashboard with Great Greg coordinate resolver and lattice dependency visualization",
     version="2.0.0",
 )
@@ -34,7 +34,7 @@ if STATIC_DIR.exists():
 async def root():
     """Root endpoint with API overview."""
     return {
-        "title": "Sentinel Forge • Quantum Nexus Dashboard",
+        "title": "Sovereign Forge • Quantum Nexus Dashboard",
         "version": "2.0.0",
         "phase": "Phase 2: Dashboard Integration",
         "endpoints": {

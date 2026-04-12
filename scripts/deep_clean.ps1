@@ -1,4 +1,4 @@
-# Sentinel Prime - Deep Decontamination Protocol
+# Sovereign Prime - Deep Decontamination Protocol
 # Purpose: Remove specific file artifacts identified in the commit manifest.
 
 $artifacts = @(
@@ -10,7 +10,7 @@ $artifacts = @(
     "New Text Document.txt"
 )
 
-Write-Host "🛡️ Sentinel Prime: Scanning for Anomalies..." -ForegroundColor Cyan
+Write-Host "🛡️ Sovereign Prime: Scanning for Anomalies..." -ForegroundColor Cyan
 
 # 1. Remove exact matches
 foreach ($file in $artifacts) {

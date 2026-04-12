@@ -1,5 +1,5 @@
 """
-Response collector for Sentinel Forge AI evaluation.
+Response collector for Sovereign Forge AI evaluation.
 Calls the /api/chat endpoint with test queries and saves responses.
 """
 import json
@@ -61,7 +61,7 @@ def collect_response(base_url: str, query: str, context: str, api_key: str = Non
         if api_key:
             headers["X-API-Key"] = api_key
 
-        # Sentinel Forge ChatRequest schema
+        # Sovereign Forge ChatRequest schema
         payload = {
             "messages": [
                 {"role": "system", "content": f"Context: {context}"},
@@ -116,7 +116,7 @@ def main():
     # Load API Key from env if available (for local testing)
     api_key = os.getenv("API_KEY")
 
-    print("🚀 Starting response collection for Sentinel Forge AI...")
+    print("🚀 Starting response collection for Sovereign Forge AI...")
     
     if not queries_file.exists():
         print(f"❌ Error: {queries_file} not found.")

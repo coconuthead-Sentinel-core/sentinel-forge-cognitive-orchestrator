@@ -5,7 +5,7 @@ from typing import Optional, Dict, Any, Union
 
 class SentinelClient:
     """
-    Official Python Client for Sentinel Forge API.
+    Official Python Client for Sovereign Forge API.
     Features:
     - Automatic session management (connection pooling)
     - Default timeouts

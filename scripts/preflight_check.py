@@ -1,4 +1,4 @@
-﻿"""Sentinel Forge pre-flight check.
+﻿"""Sovereign Forge pre-flight check.
 
 Validates environment keys and basic reachability for Azure OpenAI and Cosmos DB
 before launching the main server.
@@ -141,7 +141,7 @@ def check_cosmos() -> bool:
 
 
 def main() -> int:
-    info("Sentinel Forge pre-flight check starting...")
+    info("Sovereign Forge pre-flight check starting...")
     load_env()
 
     env_ok = require_env()

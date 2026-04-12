@@ -1,9 +1,9 @@
 import gradio as gr
 import time
-from client import SentinelClient
+from client import SovereignClient
 
 # Initialize Client (connects to local backend)
-client = SentinelClient(base_url="http://127.0.0.1:8000")
+client = SovereignClient(base_url="http://127.0.0.1:8000")
 
 def check_system_health():
     try:
@@ -12,7 +12,7 @@ def check_system_health():
     except Exception as e:
         return f"❌ OFFLINE\nError: {str(e)}"
 
-def chat_with_sentinel(message, history):
+def chat_with_sovereign(message, history):
     if not message:
         return ""
     
@@ -43,7 +43,7 @@ with gr.Blocks(title="Sovereign Forge Command", theme=gr.themes.Glass()) as demo
 
             def bot(history):
                 user_message = history[-1][0]
-                bot_message = chat_with_sentinel(user_message, "")
+                bot_message = chat_with_sovereign(user_message, "")
                 history[-1][1] = bot_message
                 return history
 

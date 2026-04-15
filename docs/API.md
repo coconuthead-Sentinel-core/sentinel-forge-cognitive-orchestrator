@@ -44,3 +44,62 @@ WebSocket
 Notes
 
 - Include header X-API-Key if QNF_API_KEY is set.
+
+## Universal Input Stream Memory Threading (UISMT)
+
+The **UISMT** protocol (Node 8) automatically threads all input into 7 color-coded categories based on heuristic analysis.
+
+### 7-Color Threading System
+
+| Color | Category | Description |
+| :--- | :--- | :--- |
+| **GOLDEN** | Framework | Core architecture, rules, and system axioms. |
+| **NEURAL** | Processing | Active thought processes and logic chains. |
+| **BLUE** | Data | Raw facts, inputs, and unrefined data streams. |
+| **RED** | Critical | Errors, alerts, and crystallized truths. |
+| **GREEN** | Growth | New ideas, expansion, and novel concepts. |
+| **PURPLE** | Creative | Dreams, metaphors, and artistic synthesis. |
+| **GREY** | Archive | Old logs, history, and deprecated data. |
+
+### UISMT Endpoints
+
+- **POST** `/api/simulation/cno-ax/start`: Initiates the "1000 Strikes" protocol. Threads input as `GOLDEN` (Command).
+- **POST** `/api/simulation/cno-ax/stop`: Halts the simulation.
+
+## WebSocket Event Reference
+
+The `/ws/cognitive` endpoint streams real-time events from the CNO-AX Engine and Cognitive Orchestrator.
+
+### Event Signatures
+
+#### `cno_ax.traffic_update`
+
+Emitted during the "1000 Strikes" optimization loop.
+
+```json
+{
+  "type": "cno_ax.traffic_update",
+  "data": {
+    "strike": 42,
+    "metrics": {
+      "flow_rate": 1250,
+      "efficiency": 0.98,
+      "congestion_level": 0.05
+    }
+  }
+}
+```
+
+#### `cno_ax.complete`
+
+Emitted when the protocol finishes or is halted.
+
+```json
+{
+  "type": "cno_ax.complete",
+  "data": {
+    "final_strike": 1000,
+    "status": "Stillwater State Achieved"
+  }
+}
+```

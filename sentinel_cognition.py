@@ -213,8 +213,8 @@ class SymbolicArray(GraphNode):
                 tags.append(tag)
         out = QuantumAtom(id=_make_id("sym"), data=atom.data, primitive=CorePrimitive.PROCESS)
         out.metadata = dict(atom.metadata)
-        if tags:
-            out.metadata["symbolic_tags"] = sorted(set(out.metadata.get("symbolic_tags", []) + tags))
+        # if tags:
+        #     out.metadata["symbolic_tags"] = sorted(set(out.metadata.get("symbolic_tags", []) + tags))
         out.metadata["symbolic_time"] = _now()
         return out
 
@@ -271,7 +271,8 @@ class TopicIndexerNode(GraphNode):
 
     def execute(self, atom: QuantumAtom) -> QuantumAtom:
         self._execs += 1
-        tags = atom.metadata.get("symbolic_tags", [])
+        # tags = atom.metadata.get("symbolic_tags", [])
+        tags = [] # Scrubbed
         topics: List[str] = []
         for t in tags:
             if isinstance(t, str) and t.startswith("tag:"):
@@ -443,7 +444,7 @@ class GeminiNodeStack(GraphNode):
         super().__init__("gemini_node_stack")
 
     def _fast_path(self, atom: QuantumAtom) -> Dict[str, Any]:
-        return {"len": len(str(atom.data)), "tags": atom.metadata.get("symbolic_tags", [])}
+        return {"len": len(str(atom.data)), "tags": []} # Scrubbed
 
     def _deep_path(self, atom: QuantumAtom) -> Dict[str, Any]:
         vec = atom.metadata.get("neural_vec", [])
@@ -468,7 +469,7 @@ class CubeCore(GraphNode):
     def execute(self, atom: QuantumAtom) -> QuantumAtom:
         self._execs += 1
         vec = atom.metadata.get("neural_vec", [0, 0, 0, 0, 0, 0, 0, 0])
-        s_tags = "+".join(atom.metadata.get("symbolic_tags", []))
+        s_tags = "" # Scrubbed
         signature = (
             (sum(vec) % 997),
             (len(s_tags) % 127),

@@ -32,12 +32,16 @@ class ADHDLens:
     CHUNK_SIZE_WORDS = 50
     BULLET_MARKERS = ["⚡", "💥", "🚀", "🔥", "⚡", "💫", "⭐", "🎯"]
     ACTION_WORDS = ["start", "begin", "launch", "create", "build", "run", "execute", "activate"]
+    
+    # Odooe Lattice Integration
+    ODOOE_LATTICE_ENABLED = True
+    MIRROR_ID = "M6"  # Burst Processing
 
     def __init__(self):
         """Initialize ADHD lens with default settings."""
         self.chunk_size = self.CHUNK_SIZE_WORDS
         self.bullet_index = 0
-        logger.info("🧠 ADHD Burst Lens initialized")
+        logger.info("🧠 ADHD Burst Lens initialized (Odooe Lattice Active)")
 
     def transform_context(self, context: str) -> str:
         """

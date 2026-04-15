@@ -1,34 +1,15 @@
 fastapi>=0.100.0
 uvicorn[standard]>=0.23.0
 pydantic>=2.0.0
+pydantic-settings>=2.0.0
 python-multipart>=0.0.6
 python-dotenv
 gradio
 openai>=1.0.0
 numpy>=1.24.0
 requests>=2.31.0
+httpx>=0.24.0
+aiohttp>=3.8.0
 azure-cosmos
 azure-identity
 gunicorn
-# L2: Cerebellum
-prometheus-client
-langsmith
-# L3: Left Hemisphere
-google-cloud-bigquery
-elasticsearch
-# L5: Corpus Callosum
-pybind11
-grpcio
-grpcio-tools
-dapr
-# L7: Singularity
-anthropic
-google-generativeai
-# AI/ML Ecosystem
-transformers
-datasets
-tokenizers
-google-cloud-aiplatform
-# Infrastructure
-pulumi
-psutil

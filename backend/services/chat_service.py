@@ -48,7 +48,7 @@ class ChatService:
         # 2. AI Generation
         # Construct messages payload
         messages = [
-            {"role": "system", "content": context or "You are Sentinel Forge."},
+            {"role": "system", "content": context or "You are Sovereign Forge."},
             {"role": "user", "content": user_message}
         ]
         

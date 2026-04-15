@@ -1,8 +1,8 @@
-# Sentinel Forge - AI Coding Agent Instructions
+# Sovereign Forge - AI Coding Agent Instructions
 
 ## Architecture Overview
 
-Sentinel Forge is a **Cognitive AI Orchestration Platform** for neurodivergent-aware AI processing. Two subsystems:
+Sovereign Forge is a **Cognitive AI Orchestration Platform** for neurodivergent-aware AI processing. Two subsystems:
 
 1. **Backend API** (`backend/`) - FastAPI with Domain-Driven Design (DDD)
 2. **Quantum Nexus Forge** (`quantum_nexus_forge_v5_2_enhanced.py`) - Standalone cognitive engine

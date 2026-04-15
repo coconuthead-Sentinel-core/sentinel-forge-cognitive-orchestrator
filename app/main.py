@@ -1,6 +1,6 @@
 # app/main.py
 """
-Sentinel Forge Dashboard Application
+Sovereign Forge Dashboard Application
 Adaptive AI processing UI with cognitive metrics visualization
 
 Run with: uvicorn app.main:app --reload --port 8001
@@ -17,7 +17,7 @@ PROJECT_ROOT = Path(__file__).parent.parent
 STATIC_DIR = PROJECT_ROOT / "static"
 
 app = FastAPI(
-    title="Sentinel Forge Dashboard",
+    title="Sovereign Forge Dashboard",
     description="Real-time dashboard for AI processing metrics and visualization",
     version="2.0.0",
 )
@@ -34,7 +34,7 @@ if STATIC_DIR.exists():
 async def root():
     """Root endpoint with API overview."""
     return {
-        "title": "Sentinel Forge Dashboard",
+        "title": "Sovereign Forge Dashboard",
         "version": "2.0.0",
         "phase": "Dashboard Integration",
         "endpoints": {

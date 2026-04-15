@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     # --- Infrastructure (Cosmos DB) ---
     COSMOS_ENDPOINT: str = "https://localhost:8081/"
     COSMOS_KEY: str = ""
-    COSMOS_DATABASE_NAME: str = "SentinelForgeDB"
+    COSMOS_DATABASE_NAME: str = "SovereignForgeDB"
     COSMOS_CONTAINER_NAME: str = "Items"
 
     # --- Data Paths ---

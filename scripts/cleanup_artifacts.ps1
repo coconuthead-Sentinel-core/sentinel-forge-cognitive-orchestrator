@@ -1,4 +1,4 @@
-# Sentinel Forge - Repository Decontamination Script
+# Sovereign Forge - Repository Decontamination Script
 
 $filesToRemove = @(
     "backend/# from typing import Any.py",
@@ -9,7 +9,7 @@ $filesToRemove = @(
     "New Text Document.txt"
 )
 
-Write-Host "🛡️ Sentinel Prime: Initiating Cleanup Protocol..." -ForegroundColor Cyan
+Write-Host "🛡️ Sovereign Prime: Initiating Cleanup Protocol..." -ForegroundColor Cyan
 
 foreach ($file in $filesToRemove) {
     if (Test-Path -LiteralPath $file) {

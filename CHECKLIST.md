@@ -1,4 +1,4 @@
-# Sentinel Forge Platform - Launch Checklist
+# Sovereign Forge Platform - Launch Checklist
 
 ## 🏗️ Platform Core (The Engine)
 - [x] **Architecture:** Domain-Driven Design implemented.

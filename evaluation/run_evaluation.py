@@ -1,5 +1,5 @@
 """
-Evaluation Engine for Sentinel Forge.
+Evaluation Engine for Sovereign Forge.
 Uses Azure AI Evaluation SDK (or mocks if missing) to score AI responses.
 """
 import json

@@ -1,4 +1,4 @@
-# Sentinel Prime - Shipment Preparation Protocol (Phase VI: Sovereign Operations)
+# Sovereign Prime - Shipment Preparation Protocol (Phase VI: Sovereign Operations)
 # Purpose: Package the Sovereign Forge for VR Studios Pilot.
 # Actions: Lattice Compression, Protocol Encapsulation, Identity Locking, Credential Warmup.
 

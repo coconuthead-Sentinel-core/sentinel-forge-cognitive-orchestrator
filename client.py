@@ -3,9 +3,9 @@ import requests
 from typing import Optional, Dict, Any, Union
 
 
-class SentinelClient:
+class SovereignClient:
     """
-    Official Python Client for Sentinel Forge API.
+    Official Python Client for Sovereign Forge API.
     Features:
     - Automatic session management (connection pooling)
     - Default timeouts
@@ -64,5 +64,5 @@ class SentinelClient:
 
 # Example Usage
 if __name__ == "__main__":
-    client = SentinelClient()
+    client = SovereignClient()
     print("Checking Status...", client.status())

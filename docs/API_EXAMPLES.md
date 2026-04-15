@@ -1,6 +1,6 @@
-# Sentinel Forge API Examples
+# Sovereign Forge API Examples
 
-This guide provides examples for interacting with the Sentinel Forge API using `curl` (Linux/Mac) and PowerShell (Windows).
+This guide provides examples for interacting with the Sovereign Forge API using `curl` (Linux/Mac) and PowerShell (Windows).
 
 **Base URL:** `http://127.0.0.1:8000`
 **Auth:** Add header `X-API-Key: <your-key>` if configured.

@@ -10,7 +10,7 @@ load_dotenv(project_root / ".env")
 
 ENDPOINT = os.getenv("COSMOS_ENDPOINT")
 KEY = os.getenv("COSMOS_KEY")
-DATABASE_NAME = os.getenv("COSMOS_DATABASE_NAME", "SentinelForgeDB")
+DATABASE_NAME = os.getenv("COSMOS_DATABASE_NAME", "SovereignForgeDB")
 CONTAINER_NAME = os.getenv("COSMOS_CONTAINER_NAME", "Items")
 
 def init_db():

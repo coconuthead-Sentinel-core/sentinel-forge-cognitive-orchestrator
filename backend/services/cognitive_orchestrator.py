@@ -1,4 +1,4 @@
-"""Cognitive Orchestrator - Enhanced Middle Layer for Sentinel Forge.
+"""Cognitive Orchestrator - Enhanced Middle Layer for Sovereign Forge.
 
 Extends ChatService with three-zone memory, symbolic processing, and
 neurodivergent cognitive lenses while preserving all existing behavior.

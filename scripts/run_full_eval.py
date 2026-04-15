@@ -31,7 +31,7 @@ def main():
     project_root = Path(__file__).parent.parent
     os.chdir(project_root)
 
-    print("🚀 Starting Sentinel Forge Evaluation Pipeline...")
+    print("🚀 Starting Sovereign Forge Evaluation Pipeline...")
     print("=" * 60)
 
     server_process = None

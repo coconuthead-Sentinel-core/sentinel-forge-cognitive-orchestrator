@@ -1,4 +1,4 @@
-"""Three-Zone Memory Manager for Sentinel Forge.
+"""Three-Zone Memory Manager for Sovereign Forge.
 
 Manages entropy-based routing of notes between cognitive zones:
 - 🟢 ACTIVE: High entropy (>0.7) - Real-time processing

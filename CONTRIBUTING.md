@@ -1,6 +1,6 @@
-# Contributing to Sentinel Forge
+# Contributing to Sovereign Forge
 
-Thank you for your interest in contributing to Sentinel Forge! This document provides guidelines for contributing to this neurodivergent-aware cognitive AI orchestration platform.
+Thank you for your interest in contributing to Sovereign Forge! This document provides guidelines for contributing to this neurodivergent-aware cognitive AI orchestration platform.
 
 ## 🧠 Our Mission
 We're building AI that adapts to neurodivergent thinking patterns instead of forcing conformity. Every contribution helps make AI more accessible to diverse cognitive styles.
@@ -24,8 +24,8 @@ We're building AI that adapts to neurodivergent thinking patterns instead of for
 1. **Fork the repository** on GitHub
 2. **Clone your fork** locally:
    ```bash
-   git clone https://github.com/your-username/sentinel-forge-cognitive-orchestrator.git
-   cd sentinel-forge-cognitive-orchestrator
+   git clone https://github.com/your-username/sovereign-forge-cognitive-orchestrator.git
+   cd sovereign-forge-cognitive-orchestrator
    ```
 3. **Set up development environment**:
    ```bash

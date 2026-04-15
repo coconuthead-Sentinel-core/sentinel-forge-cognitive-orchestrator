@@ -2,7 +2,7 @@
 
 **Real-Time Self-Optimizing Cognitive AI Platform**
 
-![CI](https://github.com/coconuthead-Sentinel-core/sentinel-forge-cognitive-orchestrator/workflows/Python%20application/badge.svg)
+![CI](https://github.com/coconuthead-Sentinel-core/sovereign-forge-cognitive-orchestrator/workflows/Python%20application/badge.svg)
 
 **Architect:** Shannon Bryan Kelly | **Version:** 4.0 | **Updated:** April 2026
 
@@ -95,8 +95,8 @@ Persistent profile drives all feature flags and runtime behavior. Profile state 
 
 ```bash
 # Clone
-git clone https://github.com/coconuthead-Sentinel-core/sentinel-forge-cognitive-orchestrator.git
-cd sentinel-forge-cognitive-orchestrator
+git clone https://github.com/coconuthead-Sentinel-core/sovereign-forge-cognitive-orchestrator.git
+cd sovereign-forge-cognitive-orchestrator
 
 # Install
 pip install -r requirements.txt
@@ -136,7 +136,7 @@ uvicorn backend.main:app --reload --port 8000
 ## 📁 Project Structure
 
 ```
-sovereign-forge/
+sovereign-forge-cognitive-orchestrator/
 ├── backend/                          # FastAPI application
 │   ├── api.py                        # REST endpoints
 │   ├── ws_api.py                     # WebSocket real-time sync

@@ -1,4 +1,4 @@
-﻿# Sentinel Forge Troubleshooting Guide
+﻿# Sovereign Forge Troubleshooting Guide
 
 ## 🚨 Quick Fixes
 

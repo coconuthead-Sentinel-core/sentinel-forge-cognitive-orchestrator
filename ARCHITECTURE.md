@@ -1,8 +1,8 @@
-# Sentinel Forge - Cognitive Architecture
+# Sovereign Forge - Cognitive Architecture
 
 ## Overview
 
-Sentinel Forge is a neurodivergent-aware AI orchestration platform that extends FastAPI with three-zone memory management, symbolic processing, and adaptive cognitive lenses. The system processes user input through entropy-based zone classification, applies neurodivergent processing modes, and maintains real-time observability.
+Sovereign Forge is a neurodivergent-aware AI orchestration platform that extends FastAPI with three-zone memory management, symbolic processing, and adaptive cognitive lenses. The system processes user input through entropy-based zone classification, applies neurodivergent processing modes, and maintains real-time observability.
 
 ## Core Architecture
 

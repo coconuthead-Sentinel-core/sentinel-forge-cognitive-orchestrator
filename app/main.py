@@ -1,7 +1,7 @@
 # app/main.py
 """
-Sentinel Forge Phase 2 Dashboard Application
-Quantum Nexus lattice-aware cognitive orchestration UI
+Sentinel Forge Dashboard Application
+Adaptive AI processing UI with cognitive metrics visualization
 
 Run with: uvicorn app.main:app --reload --port 8001
 """
@@ -17,8 +17,8 @@ PROJECT_ROOT = Path(__file__).parent.parent
 STATIC_DIR = PROJECT_ROOT / "static"
 
 app = FastAPI(
-    title="Sentinel Forge • Quantum Nexus Dashboard",
-    description="Phase 2 Dashboard with Great Greg coordinate resolver and lattice dependency visualization",
+    title="Sentinel Forge Dashboard",
+    description="Real-time dashboard for AI processing metrics and visualization",
     version="2.0.0",
 )
 
@@ -34,18 +34,18 @@ if STATIC_DIR.exists():
 async def root():
     """Root endpoint with API overview."""
     return {
-        "title": "Sentinel Forge • Quantum Nexus Dashboard",
+        "title": "Sentinel Forge Dashboard",
         "version": "2.0.0",
-        "phase": "Phase 2: Dashboard Integration",
+        "phase": "Dashboard Integration",
         "endpoints": {
             "dashboard": "/dashboard",
             "metrics": "/api/metrics",
             "resolve": "/api/resolve/{ref}",
             "dependency": "/api/dependency/{dep_id}",
-            "diagonal_trace": "/api/lattice/diagonal",
-            "lateral_trace": "/api/lattice/lateral",
+            "diagonal_trace": "/api/coordinate/diagonal",
+            "lateral_trace": "/api/coordinate/lateral",
         },
-        "great_greg_formats": [
+        "coordinate_formats": [
             "P1 (direct cell)",
             "Node_3:P1 (node-prefixed)",
             "Node_3.R3C4 (row/column/node)",

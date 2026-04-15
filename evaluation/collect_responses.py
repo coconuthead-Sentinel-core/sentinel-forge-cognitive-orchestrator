@@ -1,13 +1,14 @@
 """
 Response collector for Sentinel Forge AI evaluation.
 Calls the /api/chat endpoint with test queries and saves responses.
-Uses the requests library to make real HTTP calls to a running server.
+Uses real HTTP requests for true integration testing.
 """
 import json
 import requests
 import time
 import os
 from pathlib import Path
+from typing import Optional
 
 
 def load_queries(queries_path: str) -> list[dict]:
@@ -16,8 +17,8 @@ def load_queries(queries_path: str) -> list[dict]:
         return json.load(f)
 
 
-def collect_response(base_url: str, query: str, context: str, api_key: str = None) -> dict:
-    """Call the AI chat endpoint and collect response via HTTP requests."""
+def collect_response(base_url: str, query: str, context: str, api_key: str = None, timeout: int = 30) -> dict:
+    """Call the AI chat endpoint and collect response via HTTP."""
     endpoint = f"{base_url}/api/chat"
     
     headers = {"Content-Type": "application/json"}
@@ -35,7 +36,7 @@ def collect_response(base_url: str, query: str, context: str, api_key: str = Non
     }
     
     try:
-        response = requests.post(endpoint, json=payload, headers=headers, timeout=30)
+        response = requests.post(endpoint, json=payload, headers=headers, timeout=timeout)
         response.raise_for_status()
         return {
             "success": True,
@@ -51,21 +52,18 @@ def collect_response(base_url: str, query: str, context: str, api_key: str = Non
 
 
 def main():
-    """
-    Main entry point for response collection.
-    Requires a running server at base_url.
-    """
-    # Configuration
-    base_url = os.getenv("BASE_URL", "http://127.0.0.1:8000")
+    # Configuration - Use real HTTP requests for true integration testing
+    base_url = "http://127.0.0.1:8000"
     eval_dir = Path(__file__).parent
     queries_file = eval_dir / "test_queries.json"
     responses_file = eval_dir / "test_responses.json"
     
-    # Load API Key from env if available (for local testing)
+    # Load configuration from environment
     api_key = os.getenv("API_KEY")
+    timeout = int(os.getenv("HTTP_TIMEOUT", "30"))
 
     print("🚀 Starting response collection for Sentinel Forge AI...")
-    print(f"   Connecting to: {base_url}")
+    print("   Using HTTP requests for true integration testing")
     
     if not queries_file.exists():
         print(f"❌ Error: {queries_file} not found.")
@@ -84,7 +82,7 @@ def main():
         
         print(f"[{i}/{len(queries)}] {query_id}: {query_text[:50]}...")
         
-        result = collect_response(base_url, query_text, context, api_key)
+        result = collect_response(base_url, query_text, context, api_key, timeout)
         
         response_entry = {
             "query_id": query_id,

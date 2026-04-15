@@ -21,6 +21,11 @@ Sovereign Forge is a real-time, self-optimizing cognitive AI operating system. U
 - **Multi-dimensional Symbol Mode**: Multi-dimensional symbol interpretation and spatial cognition
 - **Baseline Mode**: Baseline processing for comparison and accessibility
 
+### Symbol Processing System
+- **5 Geometric Shapes**: Basic 3D primitives for spatial representation
+- **Pattern Recognition**: Interpret symbol sequences for cognitive operations
+- **Coordinate Mapping**: 3D coordinate system for spatial organization
+
 Built on FastAPI with live WebSocket streaming, a 14-Mirror Cognitive Array, voice interface, and a 7-Layer Neural Framework — this is the most architecturally advanced platform in the Forge trilogy.
 
 ---

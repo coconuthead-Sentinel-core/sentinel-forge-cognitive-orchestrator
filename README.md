@@ -126,6 +126,25 @@ PYTHONPATH=/path/to/project
 
 ## 🧪 Testing
 
+### Automated Evaluation Pipeline
+The project includes a comprehensive evaluation system that automatically:
+1. **Manages Server Lifecycle**: Starts/stops uvicorn server automatically
+2. **Tests via HTTP**: Makes real HTTP requests (no TestClient dependency issues)
+3. **Evaluates Quality**: Scores responses on relevance, coherence, and groundedness
+4. **Generates Reports**: Detailed metrics in `evaluation/eval_results.json`
+
+```bash
+# Run the complete evaluation pipeline
+python scripts/run_full_eval.py
+
+# The pipeline will:
+# 1. Start uvicorn server on port 8000
+# 2. Execute 80+ test queries via HTTP requests
+# 3. Score responses (mock mode or Azure AI Evaluation)
+# 4. Generate detailed metrics report
+# 5. Automatically shut down the server
+```
+
 ### Run Full Test Suite
 ```bash
 # Unit tests
@@ -134,8 +153,8 @@ pytest tests/
 # Integration tests
 python scripts/smoke_test.py
 
-# Evaluation pipeline
-python scripts/run_full_eval.py
+# Manual response collection (requires running server)
+python evaluation/collect_responses.py
 ```
 
 ### Test Coverage

@@ -71,7 +71,7 @@ We're building AI that adapts to neurodivergent thinking patterns instead of for
 3. **Test thoroughly**:
    ```bash
    pytest tests/
-   python scripts/run_full_eval.py
+   python scripts/run_full_eval.py  # Automated evaluation pipeline with server lifecycle management
    ```
 
 4. **Update documentation** if needed (README, API docs)
@@ -100,6 +100,25 @@ We're building AI that adapts to neurodivergent thinking patterns instead of for
 - Be open to feedback and suggestions
 - Address review comments promptly
 - Keep discussions respectful and constructive
+
+### Automated Evaluation Pipeline
+
+The project includes an automated evaluation pipeline that:
+1. **Manages server lifecycle** - Automatically starts and stops the uvicorn server
+2. **Collects responses** - Makes real HTTP requests to test the `/api/chat` endpoint
+3. **Evaluates quality** - Scores responses on relevance, coherence, and groundedness
+4. **Generates reports** - Saves detailed results to `evaluation/eval_results.json`
+
+To run the full pipeline:
+```bash
+python scripts/run_full_eval.py
+```
+
+The pipeline will:
+- Start a uvicorn server on port 8000 (or use existing server if already running)
+- Execute 80+ test queries via HTTP requests
+- Generate evaluation metrics using mock scoring (or Azure AI Evaluation if configured)
+- Automatically shut down the server after completion
 
 ## 🐛 Reporting Issues
 

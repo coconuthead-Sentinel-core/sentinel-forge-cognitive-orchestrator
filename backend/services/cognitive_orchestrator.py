@@ -139,8 +139,7 @@ class CognitiveOrchestrator(ChatService):
         # 2. Process symbolic patterns
         symbolic_metadata = self.glyph_processor.process_text(user_message)
         
-        logger.debug(f"🜂 Symbolic processing: {len(symbolic_metadata.matched_glyphs)} matches, "
-                    f"confidence: {symbolic_metadata.processing_confidence:.2f}")
+        logger.debug(f"🜂 Symbolic processing: {len(symbolic_metadata.matched_glyphs)} matches")
         
         # 2.5. Parse glyph sequences in the message
         glyph_parse_result = parse_glyph_sequence(user_message)
@@ -202,8 +201,6 @@ class CognitiveOrchestrator(ChatService):
             "lens_applied": active_lens.value,
             "symbolic_matches": len(symbolic_metadata.matched_glyphs),
             "dominant_topic": symbolic_metadata.dominant_topic,
-            "symbolic_tags": list(symbolic_metadata.symbolic_tags),
-            "symbolic_confidence": round(symbolic_metadata.processing_confidence, 3),
             "parsed_glyphs": glyph_parse_result["parsed_count"],
             "glyph_concepts": glyph_parse_result["concepts"],
         }
@@ -281,8 +278,6 @@ class CognitiveOrchestrator(ChatService):
                     for glyph in symbolic_metadata.matched_glyphs
                 ],
                 "dominant_topic": symbolic_metadata.dominant_topic,
-                "symbolic_tags": list(symbolic_metadata.symbolic_tags),
-                "processing_confidence": round(symbolic_metadata.processing_confidence, 3),
             }
         }
         try:

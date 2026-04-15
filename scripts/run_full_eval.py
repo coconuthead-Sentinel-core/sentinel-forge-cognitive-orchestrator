@@ -4,6 +4,7 @@ import sys
 import os
 import socket
 from pathlib import Path
+from typing import Optional
 
 # --- Unicode Patch for Windows Consoles ---
 # Ensures emojis (🚀, ✅, etc.) don't crash the script on legacy terminals.
@@ -34,13 +35,33 @@ def main():
     print("🚀 Starting Sentinel Forge Evaluation Pipeline...")
     print("=" * 60)
 
-    # 1. Use TestClient for in-process testing
-    print("\n[1/3] Using TestClient for in-process testing...")
-    print("      ✅ TestClient ready (no server needed)")
-
+    server_process: Optional[subprocess.Popen] = None
     try:
-        # 2. Run the Collection Script (now uses TestClient)
-        print("\n[2/3] Collecting Responses...")
+        # 1. Start the backend server
+        print("\n[1/4] Starting Backend Server...")
+        # Ensure MOCK_AI mode for evaluation
+        env = os.environ.copy()
+        env["MOCK_AI"] = "true"
+        
+        server_process = subprocess.Popen(
+            [sys.executable, "-m", "backend.main"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            cwd=project_root,
+            env=env
+        )
+        
+        # Wait for server to be ready
+        if wait_for_port(8000, timeout=30):
+            print("      ✅ Server ready at http://localhost:8000")
+        else:
+            print("      ❌ Server failed to start within 30 seconds")
+            if server_process:
+                server_process.terminate()
+            return
+
+        # 2. Run the Collection Script (uses requests library for real HTTP)
+        print("\n[2/4] Collecting Responses via HTTP...")
         collect_result = subprocess.run(
             [sys.executable, "evaluation/collect_responses.py"],
             capture_output=False 
@@ -49,20 +70,30 @@ def main():
         if collect_result.returncode != 0:
             print("❌ Collection failed.")
             return
+        
+        # 3. Run the Evaluation Script
+        print("\n[3/4] Running Evaluation...")
+        eval_result = subprocess.run(
+            [sys.executable, "evaluation/run_evaluation.py"],
+            capture_output=False
+        )
+        if eval_result.returncode != 0:
+            print("❌ Evaluation failed.")
         else:
-            # 3. Run the Evaluation Script
-            print("\n[3/3] Running Evaluation...")
-            eval_result = subprocess.run(
-                [sys.executable, "evaluation/run_evaluation.py"],
-                capture_output=False
-            )
-            if eval_result.returncode != 0:
-                print("❌ Evaluation failed.")
-            else:
-                print("✅ Pipeline Complete.")
+            print("\n[4/4] Shutting down server...")
+            print("✅ Pipeline Complete.")
 
     except Exception as e:
         print(f"❌ Pipeline failed: {e}")
+    finally:
+        # Always clean up the server process
+        if server_process:
+            server_process.terminate()
+            try:
+                server_process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                server_process.kill()
+                server_process.wait()
 
 if __name__ == "__main__":
     main()

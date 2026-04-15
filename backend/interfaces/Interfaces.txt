@@ -1,0 +1,46 @@
+from abc import ABC, abstractmethod
+from pydantic import BaseModel, Field
+from typing import Any, Optional
+from datetime import datetime
+
+class InternalEvent(BaseModel):
+    """
+    The Universal Language.
+    Every platform (Discord, GitHub, etc.) must convert its data into this format.
+    This ensures the Sentinel 'Brain' processes everything exactly the same way.
+    """
+    source_platform: str  # e.g., "discord", "github", "google_drive"
+    event_type: str       # e.g., "message", "push", "file_upload"
+    content: str          # The actual text or payload
+    author: str           # Who sent it (User ID or Name)
+    timestamp: datetime = Field(default_factory=datetime.now)
+    metadata: dict = {}   # Extra data (Channel ID, Repo Name, etc.)
+
+class BaseInterface(ABC):
+    """
+    The Contract.
+    Every specific interface (Discord, GitHub) MUST obey these rules.
+    This prevents 'Spaghetti Code' by forcing structure.
+    """
+    
+    @abstractmethod
+    def connect(self) -> bool:
+        """Establish the handshake with the external platform."""
+        pass
+
+    @abstractmethod
+    def listen(self):
+        """Start listening for incoming signals (Webhooks/Sockets)."""
+        pass
+
+    @abstractmethod
+    def send(self, destination: str, message: str) -> bool:
+        """Send a response back to the platform."""
+        pass
+    
+    def normalize(self, raw_data: Any) -> InternalEvent:
+        """
+        The Translator.
+        Converts platform-specific noise into a clean InternalEvent.
+        """
+        raise NotImplementedError("You must teach this interface how to translate!")

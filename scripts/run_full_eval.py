@@ -9,6 +9,7 @@ import os
 import socket
 import signal
 from pathlib import Path
+from typing import Optional
 
 # --- Unicode Patch for Windows Consoles ---
 # Ensures emojis (🚀, ✅, etc.) don't crash the script on legacy terminals.
@@ -46,7 +47,8 @@ def main():
     print("=" * 60)
 
     port = 8000
-    server_process = None
+    server_process: Optional[subprocess.Popen] = None
+    server_was_running = False
     
     try:
         # 1. Start the uvicorn server
@@ -57,7 +59,10 @@ def main():
             print(f"   ⚠️  Port {port} is already in use. Using existing server.")
             server_was_running = True
         else:
-            server_was_running = False
+            # Ensure MOCK_AI mode for evaluation
+            env = os.environ.copy()
+            env["MOCK_AI"] = "true"
+            
             # Start uvicorn in a subprocess
             server_process = subprocess.Popen(
                 [
@@ -69,7 +74,9 @@ def main():
                 ],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                text=True
+                text=True,
+                cwd=project_root,
+                env=env
             )
             
             # Wait for server to be ready
@@ -118,7 +125,7 @@ def main():
         print(f"❌ Pipeline failed: {e}")
         return 1
     finally:
-        # 4. Clean up: Stop the server if we started it
+        # Clean up: Stop the server if we started it
         if server_process and not server_was_running:
             print("\n🛑 Shutting down server...")
             server_process.terminate()

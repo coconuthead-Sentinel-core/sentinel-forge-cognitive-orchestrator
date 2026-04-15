@@ -8,6 +8,7 @@ import requests
 import time
 import os
 from pathlib import Path
+from typing import Optional
 
 
 def load_queries(queries_path: str) -> list[dict]:
@@ -16,7 +17,7 @@ def load_queries(queries_path: str) -> list[dict]:
         return json.load(f)
 
 
-def collect_response(base_url: str, query: str, context: str, api_key: str = None) -> dict:
+def collect_response(base_url: str, query: str, context: str, api_key: str = None, timeout: int = 30) -> dict:
     """Call the AI chat endpoint and collect response via HTTP requests."""
     endpoint = f"{base_url}/api/chat"
     
@@ -35,7 +36,7 @@ def collect_response(base_url: str, query: str, context: str, api_key: str = Non
     }
     
     try:
-        response = requests.post(endpoint, json=payload, headers=headers, timeout=30)
+        response = requests.post(endpoint, json=payload, headers=headers, timeout=timeout)
         response.raise_for_status()
         return {
             "success": True,
@@ -61,8 +62,9 @@ def main():
     queries_file = eval_dir / "test_queries.json"
     responses_file = eval_dir / "test_responses.json"
     
-    # Load API Key from env if available (for local testing)
+    # Load configuration from environment
     api_key = os.getenv("API_KEY")
+    timeout = int(os.getenv("HTTP_TIMEOUT", "30"))
 
     print("🚀 Starting response collection for Sentinel Forge AI...")
     print(f"   Connecting to: {base_url}")
@@ -84,7 +86,7 @@ def main():
         
         print(f"[{i}/{len(queries)}] {query_id}: {query_text[:50]}...")
         
-        result = collect_response(base_url, query_text, context, api_key)
+        result = collect_response(base_url, query_text, context, api_key, timeout)
         
         response_entry = {
             "query_id": query_id,

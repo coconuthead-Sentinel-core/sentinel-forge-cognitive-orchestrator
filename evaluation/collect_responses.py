@@ -1,14 +1,17 @@
 """
-Response collector for Sentinel Forge AI evaluation.
+Response collector for Sovereign Forge AI evaluation.
 Calls the /api/chat endpoint with test queries and saves responses.
-Uses the requests library to make real HTTP calls to a running server.
 """
 import json
 import requests
 import time
 import os
 from pathlib import Path
+from typing import Optional
+from dotenv import load_dotenv
 
+# Load .env file
+load_dotenv()
 
 def load_queries(queries_path: str) -> list[dict]:
     """Load test queries from JSON file."""
@@ -17,14 +20,14 @@ def load_queries(queries_path: str) -> list[dict]:
 
 
 def collect_response(base_url: str, query: str, context: str, api_key: str = None) -> dict:
-    """Call the AI chat endpoint and collect response via HTTP requests."""
-    endpoint = f"{base_url}/api/chat"
+    """Call the AI chat endpoint and collect response."""
+    endpoint = f"{base_url}/api/ai/chat"
     
     headers = {"Content-Type": "application/json"}
     if api_key:
         headers["X-API-Key"] = api_key
 
-    # Sentinel Forge ChatRequest schema
+    # Sovereign Forge ChatRequest schema
     payload = {
         "messages": [
             {"role": "system", "content": f"Context: {context}"},
@@ -51,21 +54,16 @@ def collect_response(base_url: str, query: str, context: str, api_key: str = Non
 
 
 def main():
-    """
-    Main entry point for response collection.
-    Requires a running server at base_url.
-    """
     # Configuration
-    base_url = os.getenv("BASE_URL", "http://127.0.0.1:8000")
+    base_url = "http://127.0.0.1:8000"
     eval_dir = Path(__file__).parent
     queries_file = eval_dir / "test_queries.json"
     responses_file = eval_dir / "test_responses.json"
     
-    # Load API Key from env if available (for local testing)
+    # Load API Key from env if available
     api_key = os.getenv("API_KEY")
 
-    print("🚀 Starting response collection for Sentinel Forge AI...")
-    print(f"   Connecting to: {base_url}")
+    print("🚀 Starting response collection for Sovereign Forge AI...")
     
     if not queries_file.exists():
         print(f"❌ Error: {queries_file} not found.")

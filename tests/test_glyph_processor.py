@@ -17,6 +17,8 @@ from backend.services.glyph_processor import (
     SymbolicMetadata,
     get_glyph_processor,
 )
+from backend.core.config import settings
+
 
 
 # --- Test Data ---
@@ -46,7 +48,7 @@ SAMPLE_GLYPHS = {
 
 def test_glyph_processor_initialization():
     """Test GlyphProcessor initializes with default or custom path."""
-    processor = GlyphProcessor()
+    processor = GlyphProcessor(settings)
     assert len(processor.glyphs) > 0  # Should load sample glyphs
     assert "APEX" in processor.glyphs  # From sample data
 
@@ -59,7 +61,11 @@ def test_glyph_processor_custom_path():
         temp_path = f.name
 
     try:
-        processor = GlyphProcessor(temp_path)
+        # Create a copy of settings and override the path
+        test_settings = settings.model_copy()
+        test_settings.GLYPHS_PATH = temp_path
+        
+        processor = GlyphProcessor(test_settings)
         assert len(processor.glyphs) == 3
         assert "TEST_INIT" in processor.glyphs
         assert "TEST_PROCESS" in processor.glyphs
@@ -70,7 +76,9 @@ def test_glyph_processor_custom_path():
 
 def test_glyph_processor_missing_file():
     """Test graceful handling of missing glyph file."""
-    processor = GlyphProcessor("/nonexistent/path/glyphs.json")
+    test_settings = settings.model_copy()
+    test_settings.GLYPHS_PATH = "/nonexistent/path/glyphs.json"
+    processor = GlyphProcessor(test_settings)
     # Should create sample glyphs
     assert len(processor.glyphs) > 0
     assert "APEX" in processor.glyphs
@@ -78,7 +86,7 @@ def test_glyph_processor_missing_file():
 
 def test_get_available_shapes():
     """Test retrieving list of available glyph shapes."""
-    processor = GlyphProcessor()
+    processor = GlyphProcessor(settings)
     shapes = processor.get_available_shapes()
     assert isinstance(shapes, list)
     assert len(shapes) > 0
@@ -87,7 +95,7 @@ def test_get_available_shapes():
 
 def test_get_shape_info():
     """Test retrieving information about specific glyph shapes."""
-    processor = GlyphProcessor()
+    processor = GlyphProcessor(settings)
     apex_info = processor.get_shape_info("APEX")
     assert apex_info is not None
     assert apex_info["topic"] == "initiation"
@@ -101,7 +109,7 @@ def test_get_shape_info():
 
 def test_process_text_empty():
     """Test processing empty or whitespace-only text."""
-    processor = GlyphProcessor()
+    processor = GlyphProcessor(settings)
     result = processor.process_text("")
     assert isinstance(result, SymbolicMetadata)
     assert len(result.matched_glyphs) == 0
@@ -111,7 +119,7 @@ def test_process_text_empty():
 
 def test_process_text_no_matches():
     """Test processing text with no glyph matches."""
-    processor = GlyphProcessor()
+    processor = GlyphProcessor(settings)
     result = processor.process_text("This text has no matching patterns whatsoever")
     assert len(result.matched_glyphs) == 0
 
@@ -124,7 +132,9 @@ def test_process_text_exact_match():
         temp_path = f.name
 
     try:
-        processor = GlyphProcessor(temp_path)
+        test_settings = settings.model_copy()
+        test_settings.GLYPHS_PATH = temp_path
+        processor = GlyphProcessor(test_settings)
 
         # Test exact match
         result = processor.process_text("Let's start the process now")
@@ -160,7 +170,9 @@ def test_process_text_partial_match():
         temp_path = f.name
 
     try:
-        processor = GlyphProcessor(temp_path)
+        test_settings = settings.model_copy()
+        test_settings.GLYPHS_PATH = temp_path
+        processor = GlyphProcessor(test_settings)
 
         # Test partial match (word contains seed)
         result = processor.process_text("We need to initialize the system")
@@ -182,7 +194,9 @@ def test_process_text_multiple_matches():
         temp_path = f.name
 
     try:
-        processor = GlyphProcessor(temp_path)
+        test_settings = settings.model_copy()
+        test_settings.GLYPHS_PATH = temp_path
+        processor = GlyphProcessor(test_settings)
 
         # Text with multiple seeds from same glyph
         result = processor.process_text("begin the process and execute the plan")
@@ -205,7 +219,9 @@ def test_process_text_confidence_calculation():
         temp_path = f.name
 
     try:
-        processor = GlyphProcessor(temp_path)
+        test_settings = settings.model_copy()
+        test_settings.GLYPHS_PATH = temp_path
+        processor = GlyphProcessor(test_settings)
 
         # Single exact match
         result = processor.process_text("start")
@@ -242,7 +258,7 @@ def test_get_glyph_processor_singleton():
 
 def test_reload_glyphs():
     """Test reloading glyphs from file."""
-    processor = GlyphProcessor()
+    processor = GlyphProcessor(settings)
 
     # Modify glyphs in memory
     original_count = len(processor.glyphs)
@@ -261,7 +277,7 @@ def test_reload_glyphs():
 def test_glyph_processor_with_real_sample():
     """Test glyph processor with the actual sample glyphs file."""
     # This test uses the real sample file in the data directory
-    processor = GlyphProcessor()
+    processor = GlyphProcessor(settings)
 
     # Test with text that should match APEX patterns
     result = processor.process_text("Let's ignite the AI inference query")

@@ -22,6 +22,7 @@ from backend.domain.models import (
     ZoneMetrics,
     CognitiveLens,
 )
+from backend.core.config import settings, Settings
 
 logger = logging.getLogger(__name__)
 
@@ -59,24 +60,23 @@ def calculate_entropy(text: str) -> float:
     return max(0.0, min(1.0, unique_ratio))
 
 
-def classify_zone(entropy: float) -> MemoryZone:
+def classify_zone(entropy: float, active_threshold: float, pattern_threshold: float) -> MemoryZone:
     """
     Route content to appropriate memory zone based on entropy.
     
-    Thresholds:
-    - >0.7: ACTIVE (novel, high-information content)
-    - 0.3-0.7: PATTERN (emerging patterns, semi-stable)
-    - <0.3: CRYSTALLIZED (stable, well-known patterns)
+    Thresholds are passed in to make the function pure.
     
     Args:
         entropy: Entropy score (0.0-1.0)
+        active_threshold: The threshold for the active zone.
+        pattern_threshold: The threshold for the pattern zone.
         
     Returns:
         MemoryZone enum value
     """
-    if entropy > 0.7:
+    if entropy > active_threshold:
         return MemoryZone.ACTIVE
-    elif entropy > 0.3:
+    elif entropy > pattern_threshold:
         return MemoryZone.PATTERN
     else:
         return MemoryZone.CRYSTALLIZED
@@ -97,40 +97,43 @@ class ThreeZoneMemory:
     Thread-safe: Uses simple counters (future: add locks if needed).
     """
     
-    # Zone entropy thresholds (configurable)
-    ACTIVE_THRESHOLD = 0.7      # >0.7 = active
-    PATTERN_THRESHOLD = 0.3     # >0.3 = pattern, else crystal
-    
-    def __init__(self) -> None:
+    def __init__(self, settings: Settings) -> None:
         """Initialize ThreeZoneMemory with empty zone counters."""
         self._zone_counts: Dict[MemoryZone, int] = defaultdict(int)
-        self._total_entropy: float = 0.0
-        self._total_items: int = 0
-        self._last_transition: Optional[str] = None
-        
-        logger.info("🧠 ThreeZoneMemory initialized")
-    
-    def route_to_zone(self, text: str) -> tuple[MemoryZone, float]:
+        self.settings = settings
+        logger.info(f"🧠 ThreeZoneMemory initialized with thresholds: "
+                    f"Active > {self.settings.ZONE_ACTIVE_THRESHOLD}, "
+                    f"Pattern > {self.settings.ZONE_PATTERN_THRESHOLD}")
+
+    def process_note(self, note: Note) -> ZonedNote:
         """
-        Calculate entropy and determine zone for given text.
+        Process a note, calculate its entropy, and assign it to a zone.
         
         Args:
-            text: Content to analyze and route
+            note: The note to process
             
         Returns:
-            Tuple of (MemoryZone, entropy_score)
+            A ZonedNote with entropy and zone information
         """
-        entropy = calculate_entropy(text)
-        zone = classify_zone(entropy)
+        entropy = calculate_entropy(note.text)
+        zone = classify_zone(
+            entropy,
+            self.settings.ZONE_ACTIVE_THRESHOLD,
+            self.settings.ZONE_PATTERN_THRESHOLD
+        )
         
-        # Update metrics
         self._zone_counts[zone] += 1
-        self._total_entropy += entropy
-        self._total_items += 1
         
-        logger.debug(f"📊 Routed to {zone.value}: entropy={entropy:.3f}")
+        zoned_note = ZonedNote(
+            **note.model_dump(),
+            entropy=entropy,
+            zone=zone
+        )
         
-        return zone, entropy
+        logger.debug(f"📝 Processed note '{note.id or ''[:8]}...': "
+                     f"Entropy={entropy:.2f} -> Zone={zone.value}")
+        
+        return zoned_note
     
     def create_zoned_note(
         self,
@@ -224,17 +227,20 @@ class ThreeZoneMemory:
 
 # --- Singleton Instance (Optional convenience) ---
 
-_default_memory: Optional[ThreeZoneMemory] = None
+_memory_manager: Optional[ThreeZoneMemory] = None
 
 
-def get_memory_manager() -> ThreeZoneMemory:
+def get_memory_manager(settings: Settings) -> ThreeZoneMemory:
     """
     Get the default ThreeZoneMemory instance (lazy singleton).
     
+    Args:
+        settings: The application settings object.
+
     Returns:
         ThreeZoneMemory instance
     """
-    global _default_memory
-    if _default_memory is None:
-        _default_memory = ThreeZoneMemory()
-    return _default_memory
+    global _memory_manager
+    if _memory_manager is None:
+        _memory_manager = ThreeZoneMemory(settings)
+    return _memory_manager

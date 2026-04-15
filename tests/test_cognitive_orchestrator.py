@@ -19,6 +19,8 @@ from backend.services.cognitive_orchestrator import (
     create_orchestrator,
 )
 from backend.services.chat_service import ChatService
+from backend.core.config import settings
+
 
 
 # --- Entropy Calculation Tests ---
@@ -90,23 +92,27 @@ def test_classify_zone_boundary_low():
 # --- Orchestrator Inheritance Tests ---
 
 def test_orchestrator_inherits_chat_service():
-    """CognitiveOrchestrator must inherit from ChatService."""
-    assert issubclass(CognitiveOrchestrator, ChatService)
+    """CognitiveOrchestrator must compose a ChatService, not inherit from it."""
+    # This test is now about composition, not inheritance
+    mock_adapter = MagicMock()
+    orch = CognitiveOrchestrator(mock_adapter, settings)
+    assert hasattr(orch, 'chat_service')
+    assert isinstance(orch.chat_service, ChatService)
 
 
 def test_orchestrator_initialization():
     """Orchestrator initializes with adapter and default lens."""
     mock_adapter = MagicMock()
-    orch = CognitiveOrchestrator(mock_adapter)
+    orch = CognitiveOrchestrator(mock_adapter, settings)
     
-    assert orch.ai_adapter == mock_adapter
+    assert orch.chat_service.ai_adapter == mock_adapter
     assert orch.default_lens == CognitiveLens.NEUROTYPICAL
 
 
 def test_orchestrator_custom_lens():
     """Orchestrator accepts custom default lens."""
     mock_adapter = MagicMock()
-    orch = CognitiveOrchestrator(mock_adapter, default_lens=CognitiveLens.ADHD_BURST)
+    orch = CognitiveOrchestrator(mock_adapter, settings, default_lens=CognitiveLens.ADHD_BURST)
     
     assert orch.default_lens == CognitiveLens.ADHD_BURST
 
@@ -114,7 +120,7 @@ def test_orchestrator_custom_lens():
 def test_orchestrator_zone_metrics_initial():
     """Zone metrics start at zero."""
     mock_adapter = MagicMock()
-    orch = CognitiveOrchestrator(mock_adapter)
+    orch = CognitiveOrchestrator(mock_adapter, settings)
     
     metrics = orch.get_zone_metrics()
     assert metrics["total_processed"] == 1  # Avoids division by zero
@@ -127,7 +133,7 @@ def test_orchestrator_zone_metrics_initial():
 def test_create_orchestrator_default():
     """Factory creates orchestrator with neurotypical lens by default."""
     mock_adapter = MagicMock()
-    orch = create_orchestrator(mock_adapter)
+    orch = create_orchestrator(mock_adapter, settings)
     
     assert isinstance(orch, CognitiveOrchestrator)
     assert orch.default_lens == CognitiveLens.NEUROTYPICAL
@@ -136,7 +142,7 @@ def test_create_orchestrator_default():
 def test_create_orchestrator_adhd():
     """Factory creates orchestrator with ADHD lens."""
     mock_adapter = MagicMock()
-    orch = create_orchestrator(mock_adapter, lens="adhd")
+    orch = create_orchestrator(mock_adapter, settings, lens="adhd")
     
     assert orch.default_lens == CognitiveLens.ADHD_BURST
 
@@ -144,7 +150,7 @@ def test_create_orchestrator_adhd():
 def test_create_orchestrator_case_insensitive():
     """Factory handles case-insensitive lens names."""
     mock_adapter = MagicMock()
-    orch = create_orchestrator(mock_adapter, lens="AUTISM")
+    orch = create_orchestrator(mock_adapter, settings, lens="AUTISM")
     
     assert orch.default_lens == CognitiveLens.AUTISM_PRECISION
 
@@ -162,7 +168,7 @@ async def test_orchestrator_process_message_returns_response():
         }]
     }
     
-    orch = CognitiveOrchestrator(mock_adapter)
+    orch = CognitiveOrchestrator(mock_adapter, settings)
     response = await orch.process_message("test input")
     
     assert "choices" in response
@@ -173,7 +179,7 @@ async def test_orchestrator_process_message_returns_response():
 
 @pytest.mark.asyncio
 async def test_orchestrator_preserves_parent_behavior():
-    """Orchestrator calls parent's AI adapter correctly."""
+    """Orchestrator calls composed ChatService's AI adapter correctly."""
     mock_adapter = AsyncMock()
     mock_adapter.chat.return_value = {
         "id": "test-456",
@@ -182,8 +188,8 @@ async def test_orchestrator_preserves_parent_behavior():
         }]
     }
     
-    orch = CognitiveOrchestrator(mock_adapter)
+    orch = CognitiveOrchestrator(mock_adapter, settings)
     await orch.process_message("hello world", context="system prompt")
     
-    # Verify adapter was called
-    mock_adapter.chat.assert_called_once()
+    # Verify adapter was called via the composed chat_service
+    orch.chat_service.ai_adapter.chat.assert_called_once()

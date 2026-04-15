@@ -1,4 +1,4 @@
-"""Cognitive Orchestrator - Enhanced Middle Layer for Sentinel Forge.
+"""Cognitive Orchestrator - Enhanced Middle Layer for Sovereign Forge.
 
 Extends ChatService with three-zone memory, symbolic processing, and
 neurodivergent cognitive lenses while preserving all existing behavior.
@@ -16,8 +16,8 @@ from __future__ import annotations
 
 import logging
 from typing import Dict, Any, Optional, List
-import asyncio
 
+from backend.core.config import Settings
 from backend.services.chat_service import ChatService
 from backend.domain.models import (
     Note,
@@ -36,7 +36,6 @@ from backend.services.memory_zones import (
 )
 from backend.services.glyph_processor import (
     GlyphProcessor,
-    get_glyph_processor,
 )
 from backend.services.glyph_parser import (
     parse_glyph_sequence,
@@ -54,11 +53,6 @@ from backend.services.dyslexia_lens import (
     DyslexiaLens,
     create_dyslexia_lens,
 )
-from backend.services.l6_firewall import l6_firewall
-from backend.core.hal import hal
-from backend.services.validation_loop import validator
-from backend.core.bridge import bridge
-from backend.core.calculus import calculus_core as calculus
 from backend.infrastructure.cosmos_repo import cosmos_repo
 from backend.eventbus import bus
 
@@ -71,7 +65,7 @@ CognitiveZone = MemoryZone  # Alias
 
 # --- Main Orchestrator ---
 
-class CognitiveOrchestrator(ChatService):
+class CognitiveOrchestrator:
     """
     Enhanced middle layer orchestrating the Cognitive Pipeline:
     
@@ -82,12 +76,13 @@ class CognitiveOrchestrator(ChatService):
     5. Memory Consolidation (zone-tagged storage)
     6. Event Publishing (real-time updates)
     
-    Inherits all ChatService behavior - safe extension.
+    This service composes a ChatService to handle the core AI interaction.
     """
     
     def __init__(
         self,
         ai_adapter,
+        settings: Settings,
         default_lens: CognitiveLens = CognitiveLens.NEUROTYPICAL,
         memory_manager: Optional[ThreeZoneMemory] = None,
         glyph_processor: Optional[GlyphProcessor] = None,
@@ -96,103 +91,23 @@ class CognitiveOrchestrator(ChatService):
         Initialize CognitiveOrchestrator.
         
         Args:
-            ai_adapter: Mock or Azure OpenAI adapter (inherited)
+            ai_adapter: Mock or Azure OpenAI adapter, passed to the internal ChatService.
+            settings: The application settings object.
             default_lens: Default cognitive processing mode
             memory_manager: Three-zone memory manager (defaults to shared instance)
             glyph_processor: Glyph processor for symbolic pattern recognition
         """
-        super().__init__(ai_adapter)
+        self.chat_service = ChatService(ai_adapter, settings)
+        self.settings = settings
         self.default_lens = default_lens
-        self.memory_manager = memory_manager or get_memory_manager()
-        self.glyph_processor = glyph_processor or get_glyph_processor()
-        self.adhd_lens = create_adhd_lens()
-        self.autism_lens = create_autism_lens()
-        self.dyslexia_lens = create_dyslexia_lens()
+        self.memory_manager = memory_manager or get_memory_manager(settings)
+        self.glyph_processor = glyph_processor or GlyphProcessor(settings)
+        self.adhd_lens = create_adhd_lens(settings)
+        self.autism_lens = create_autism_lens(settings)
+        self.dyslexia_lens = create_dyslexia_lens(settings)
         self._zone_counts = {zone: 0 for zone in CognitiveZone}
-        self._event_bus_task: Optional[asyncio.Task] = None
-        logger.info(f"🧠 CognitiveOrchestrator initialized with lens: {default_lens.value}")
-
-    def start_event_listener(self):
-        """Start listening to the event bus for raw events."""
-        if self._event_bus_task is None:
-            loop = asyncio.get_event_loop()
-            queue = bus.subscribe(loop, topic="raw_events")
-            self._event_bus_task = loop.create_task(self._process_event_queue(queue))
-            logger.info("👂 Event bus listener started for 'raw_events' topic.")
-
-    def stop_event_listener(self):
-        """Stop the event bus listener."""
-        if self._event_bus_task:
-            self._event_bus_task.cancel()
-            self._event_bus_task = None
-            logger.info("🛑 Event bus listener stopped.")
-
-    async def _process_event_queue(self, queue: asyncio.Queue):
-        """Process incoming events from the subscription queue."""
-        while True:
-            try:
-                event = await queue.get()
-                logger.debug(f"📬 Received raw event: {event}")
-                
-                # Pass the event to the GlyphProcessor
-                symbolic_metadata = self.glyph_processor.process_event(event)
-                
-                if symbolic_metadata and symbolic_metadata.matched_glyphs:
-                    logger.info(f"🜂 Processed event and found {len(symbolic_metadata.matched_glyphs)} glyphs.")
-                    # Here we can trigger cognitive functions based on the glyph
-                    await self._react_to_glyphs(symbolic_metadata)
-
-                queue.task_done()
-            except asyncio.CancelledError:
-                logger.info("Event processing task cancelled.")
-                break
-            except Exception as e:
-                logger.error(f"🔥 Error processing event: {e}", exc_info=True)
-
-    async def _react_to_glyphs(self, symbolic_metadata: SymbolicMetadata):
-        """
-        React to detected glyphs by triggering cognitive functions.
-        This fulfills Task 4.4.
-        """
-        dominant_topic = symbolic_metadata.dominant_topic
-        if not dominant_topic:
-            return
-
-        logger.info(f"💡 Reacting to dominant topic: {dominant_topic}")
-
-        # Example of routing logic based on dominant topic
-        if dominant_topic == "initiation":
-            # For 'initiation' glyphs, we might want a quick, broad response.
-            logger.info("🚀 Triggering ADHD_BURST lens for initiation topic.")
-            # This is a fire-and-forget style action for demonstration.
-            # A real implementation might queue this or handle the response.
-            asyncio.create_task(
-                self.process_message(
-                    "New initiation event detected. Provide a brief, high-level summary.",
-                    lens=CognitiveLens.ADHD_BURST
-                )
-            )
-        elif dominant_topic == "ethics":
-            # For 'ethics' glyphs, we need a precise, detailed analysis.
-            logger.info("🛡️ Triggering AUTISM_PRECISION lens for ethics topic.")
-            asyncio.create_task(
-                self.process_message(
-                    "An ethics-related event has been flagged. Perform a detailed analysis of the implications.",
-                    lens=CognitiveLens.AUTISM_PRECISION
-                )
-            )
-        elif dominant_topic == "stability":
-            # For 'stability' glyphs, a holistic view is required.
-            logger.info("🧊 Triggering DYSLEXIA_SPATIAL lens for stability topic.")
-            asyncio.create_task(
-                self.process_message(
-                    "A system stability event occurred. Visualize the relationships and overall system state.",
-                    lens=CognitiveLens.DYSLEXIA_SPATIAL
-                )
-            )
-        else:
-            logger.debug(f"No specific reaction defined for topic: {dominant_topic}")
-
+        # Lens processing is handled by _apply_lens method
+        logger.info(f"🧠 CognitiveOrchestrator initialized with default lens: {self.default_lens.value}")
 
     async def process_message(
         self,
@@ -203,7 +118,7 @@ class CognitiveOrchestrator(ChatService):
         """
         Process a user message through the enhanced Cognitive Pipeline.
         
-        Extends ChatService.process_message with:
+        Extends ChatService behavior with:
         - Entropy-based zone classification
         - Symbolic pattern recognition
         - Lens-adjusted processing
@@ -217,22 +132,15 @@ class CognitiveOrchestrator(ChatService):
         Returns:
             Standard chat completion response with added zone metadata
         """
-        # 0. L6 Firewall Check (Ethical Mirror)
-        if not l6_firewall.validate_request(user_message):
-            logger.warning("🛡️ L6 Firewall blocked request due to Ethical Mirror violation.")
-            # In a real scenario, we might raise an exception or return a canned response.
-            # For now, we proceed but log it, as the validator is currently permissive.
-
-        # 0.1 L1 HAL Check (Brain Stem)
-        hal_status = hal.get_anchor_status()
-        if hal_status["status"] != "ANCHORED":
-             logger.warning(f"⚠️ L1 HAL Warning: System not anchored. Status: {hal_status}")
-
         active_lens = lens or self.default_lens
         
         # 1. Calculate input entropy
         input_entropy = calculate_entropy(user_message)
-        input_zone = classify_zone(input_entropy)
+        input_zone = classify_zone(
+            input_entropy,
+            self.settings.ZONE_ACTIVE_THRESHOLD,
+            self.settings.ZONE_PATTERN_THRESHOLD
+        )
         
         logger.debug(f"📊 Input entropy: {input_entropy:.2f} → Zone: {input_zone.value}")
         
@@ -242,21 +150,16 @@ class CognitiveOrchestrator(ChatService):
         logger.debug(f"🜂 Symbolic processing: {len(symbolic_metadata.matched_glyphs)} matches")
         
         # 2.5. Parse glyph sequences in the message
-        glyph_parse_result = parse_glyph_sequence(user_message)
+        glyph_parse_result = parse_glyph_sequence(user_message, self.settings)
         
         logger.debug(f"🜂 Glyph parsing: {glyph_parse_result['parsed_count']} glyphs parsed")
-
-        # 2.6 L5 Bridge Processing (Corpus Callosum)
-        # Simulates high-performance C++ interop for heavy lifting
-        bridge_result = bridge.process_data({"text": user_message, "entropy": input_entropy})
-        logger.debug(f"🌉 L5 Bridge Result: {bridge_result}")
         
         # 3. Apply lens transformation to context (placeholder for future enhancement)
         adjusted_context = self._apply_lens(context, active_lens)
         
-        # 4. Call parent's AI processing (preserves existing behavior)
+        # 4. Call composed ChatService for AI processing
         try:
-            response = await super().process_message(user_message, adjusted_context)
+            response = await self.chat_service.process_message(user_message, adjusted_context)
         except Exception as e:
             logger.error(f"🔴 AI processing failed: {e}")
             raise
@@ -265,30 +168,16 @@ class CognitiveOrchestrator(ChatService):
         choices = response.get("choices", [])
         if choices:
             ai_text = choices[0].get("message", {}).get("content", "")
-
-            # --- L6 Firewall Output Constraints ---
-            ai_text = l6_firewall.apply_constraints(ai_text, lens=active_lens.value)
-            choices[0]["message"]["content"] = ai_text
-            # --------------------------------------
-            
             output_entropy = calculate_entropy(ai_text)
-            output_zone = classify_zone(output_entropy)
-
-            # 5.1 L2 Validation Loop (Cerebellum)
-            validation_result = validator.validate_output(ai_text)
-            if not validation_result["consensus"]:
-                 logger.warning(f"⚠️ L2 Validation Failed: {validation_result['status']}")
-            
-            # 5.2 L7 Singularity Metric (Singularity Kernel)
-            singularity_metric = calculus.calculate_singularity_metric(input_entropy, output_entropy)
-            logger.info(f"🌌 L7 Singularity Metric: {singularity_metric}")
-
+            output_zone = classify_zone(
+                output_entropy,
+                self.settings.ZONE_ACTIVE_THRESHOLD,
+                self.settings.ZONE_PATTERN_THRESHOLD
+            )
         else:
             ai_text = ""
             output_entropy = 0.0
             output_zone = CognitiveZone.CRYSTALLIZED
-            validation_result = {"consensus": False, "status": "NO_OUTPUT"}
-            singularity_metric = 0.0
         
         # 6. Update zone counts
         self._zone_counts[output_zone] += 1
@@ -326,8 +215,6 @@ class CognitiveOrchestrator(ChatService):
             "dominant_topic": symbolic_metadata.dominant_topic,
             "parsed_glyphs": glyph_parse_result["parsed_count"],
             "glyph_concepts": glyph_parse_result["concepts"],
-            "validation_status": validation_result["consensus"],
-            "singularity_metric": singularity_metric,
         }
         
         return response
@@ -356,6 +243,12 @@ class CognitiveOrchestrator(ChatService):
         
         # Default: return context unchanged
         return context
+
+    async def process_neurotypical(self, text: str, context: str) -> str:
+        """Placeholder for baseline neurotypical processing."""
+        logger.debug("🧠 Applying Neurotypical (baseline) lens")
+        # In a real implementation, this might do nothing or apply a baseline summary
+        return text
 
     def _publish_zone_event(
         self,
@@ -452,12 +345,13 @@ class CognitiveOrchestrator(ChatService):
 
 # --- Factory Function (Optional convenience) ---
 
-def create_orchestrator(ai_adapter, lens: str = "neurotypical") -> CognitiveOrchestrator:
+def create_orchestrator(ai_adapter, settings: Settings, lens: str = "neurotypical") -> CognitiveOrchestrator:
     """
     Factory function to create CognitiveOrchestrator with string lens name.
     
     Args:
         ai_adapter: The AI adapter (Mock or Azure)
+        settings: The application settings object.
         lens: Lens name as string ("neurotypical", "adhd", "autism", "dyslexia")
     
     Returns:
@@ -470,4 +364,4 @@ def create_orchestrator(ai_adapter, lens: str = "neurotypical") -> CognitiveOrch
         "dyslexia": CognitiveLens.DYSLEXIA_SPATIAL,
     }
     cognitive_lens = lens_map.get(lens.lower(), CognitiveLens.NEUROTYPICAL)
-    return CognitiveOrchestrator(ai_adapter, default_lens=cognitive_lens)
+    return CognitiveOrchestrator(ai_adapter, settings, default_lens=cognitive_lens)

@@ -14,6 +14,8 @@ import logging
 import re
 from typing import List, Dict, Any, Optional
 
+from backend.core.config import Settings
+
 logger = logging.getLogger(__name__)
 
 
@@ -28,93 +30,120 @@ class AutismLens:
     - Highlights patterns and details
     """
 
-    # Configuration
-    CATEGORY_MARKERS = ["📂", "🏷️", "🔍", "📊", "🔗"]
-    RELATIONSHIP_INDICATORS = ["→", "↔", "⊂", "⊃", "∋"]
-    STRUCTURE_PATTERNS = [
-        r"^(\d+\.|\-|\•)\s*",  # Numbered/bulleted lists
-        r"^(First|Second|Third|Next|Then|Finally)\b",  # Sequential words
-        r"^(Because|Therefore|However|Although|Since)\b",  # Logical connectors
-    ]
-    
-    # Odooe Lattice Integration
-    ODOOE_LATTICE_ENABLED = True
-    MIRROR_ID = "M3"  # Deconstruction
-
-    def __init__(self):
+    def __init__(self, settings: Settings):
         """Initialize Autism lens with default settings."""
+        self.settings = settings
         self.category_index = 0
-        logger.info("🧠 Autism Precision Lens initialized (Odooe Lattice Active)")
+        # These could be moved to config if they need to be more dynamic
+        self.CATEGORY_MARKERS = ["📂", "🏷️", "🔍", "📊", "🔗"]
+        self.RELATIONSHIP_INDICATORS = ["→", "↔", "⊂", "⊃", "∋"]
+        self.STRUCTURE_PATTERNS = [
+            r"^(\d+\.|\-|\•)\s*",  # Numbered/bulleted lists
+            r"^(First|Second|Third|Next|Then|Finally)\b",  # Sequential words
+            r"^(Because|Therefore|However|Although|Since)\b",  # Logical connectors
+        ]
+        logger.info("🧠 Autism Precision Lens initialized")
 
     def transform_context(self, context: str) -> str:
         """
-        Transform context into an Autism-friendly format with explicit structure.
-        This fulfills Task 5.2.
+        Transform context into Autism-friendly format.
 
         Args:
-            context: Original context string.
+            context: Original context string
 
         Returns:
-            Transformed context with headings, numbered lists, and definitions.
+            Transformed context with explicit structure and detail emphasis
         """
-        if not context or not context.strip():
+        if not context.strip():
             return context
 
-        # 1. Identify the main point or summary
-        sentences = re.split(r'(?<=[.!?])\s+', context.strip())
-        main_point = sentences[0] if sentences else ""
-        
-        # 2. Extract key details or steps
-        # Simple heuristic: find bullet points, numbered lists, or just split the rest
-        details = []
-        if '- ' in context or '* ' in context:
-            details = [line.strip() for line in context.split('\n') if line.strip().startswith(('- ', '* '))]
-        elif len(sentences) > 1:
-            details = sentences[1:]
+        # Split into paragraphs for processing
+        paragraphs = [p.strip() for p in context.split('\n\n') if p.strip()]
 
-        # 3. Look for potential definitions (e.g., "X is Y", "X means Y")
-        definitions = re.findall(r'\b([A-Z][a-zA-Z0-9_]+)\s+(is|means)\s+([^.]+)\.', context)
+        transformed_paragraphs = []
+        for para in paragraphs:
+            transformed = self._enhance_structure(para)
+            transformed = self._add_categorization(transformed)
+            transformed = self._emphasize_relationships(transformed)
+            transformed_paragraphs.append(transformed)
 
-        # 4. Assemble the structured output
-        transformed_parts = []
-        transformed_parts.append("### 🎯 Main Point")
-        transformed_parts.append(main_point)
-        transformed_parts.append("\n---")
+        result = '\n\n'.join(transformed_paragraphs)
 
-        if details:
-            transformed_parts.append("### 🔢 Key Details")
-            for i, detail in enumerate(details, 1):
-                transformed_parts.append(f"{i}. {detail}")
-            transformed_parts.append("\n---")
+        # Add overall structure summary if multiple paragraphs
+        if len(transformed_paragraphs) > 1:
+            result = self._add_structure_summary(result)
 
-        if definitions:
-            transformed_parts.append("### 📚 Definitions")
-            for term, _, definition in definitions:
-                transformed_parts.append(f"- **{term.strip()}**: {definition.strip()}.")
-            transformed_parts.append("\n---")
-
-        conclusion = f"### 🏁 Conclusion\nThe text covers the main point about '{main_point[:30]}...' with {len(details)} supporting detail(s) and {len(definitions)} definition(s)."
-        transformed_parts.append(conclusion)
-
-        logger.debug(f"🧠 Autism lens transformed text into {len(transformed_parts)} structured parts.")
-        return "\n\n".join(transformed_parts)
+        return result
 
     def _enhance_structure(self, text: str) -> str:
-        """DEPRECATED: This logic has been replaced by the new transform_context method."""
-        return text
+        """Enhance structural clarity in text."""
+        lines = text.split('\n')
+        enhanced_lines = []
+
+        for line in lines:
+            line = line.strip()
+            if not line:
+                enhanced_lines.append("")
+                continue
+
+            # Check for existing structure
+            has_structure = any(re.match(pattern, line) for pattern in self.STRUCTURE_PATTERNS)
+
+            if not has_structure and len(line) > 50:
+                # Add structural markers for long lines
+                if any(word in line.lower() for word in ['first', 'then', 'next', 'finally']):
+                    line = f"🔗 {line}"
+                elif any(word in line.lower() for word in ['because', 'therefore', 'however']):
+                    line = f"📊 {line}"
+                else:
+                    line = f"📝 {line}"
+
+            enhanced_lines.append(line)
+
+        return '\n'.join(enhanced_lines)
 
     def _add_categorization(self, text: str) -> str:
-        """DEPRECATED: This logic has been replaced by the new transform_context method."""
-        return text
+        """Add explicit categorization labels."""
+        # Identify potential categories
+        categories = []
+        lines = text.split('\n')
+
+        for i, line in enumerate(lines):
+            line_lower = line.lower()
+            if any(keyword in line_lower for keyword in ['definition', 'concept', 'category']):
+                categories.append((i, "Definition"))
+            elif any(keyword in line_lower for keyword in ['example', 'instance', 'case']):
+                categories.append((i, "Example"))
+            elif any(keyword in line_lower for keyword in ['relationship', 'connection', 'link']):
+                categories.append((i, "Relationship"))
+            elif any(keyword in line_lower for keyword in ['process', 'method', 'approach']):
+                categories.append((i, "Process"))
+
+        # Add category markers
+        for line_idx, category in categories:
+            marker = self.CATEGORY_MARKERS[self.category_index % len(self.CATEGORY_MARKERS)]
+            lines[line_idx] = f"{marker} **{category}:** {lines[line_idx]}"
+            self.category_index += 1
+
+        return '\n'.join(lines)
 
     def _emphasize_relationships(self, text: str) -> str:
-        """DEPRECATED: This logic has been replaced by the new transform_context method."""
+        """Emphasize logical relationships and connections."""
+        # Add relationship indicators
+        text = re.sub(r'\b(because|since|therefore|thus|hence|consequently)\b',
+                     r'→ \1', text, flags=re.IGNORECASE)
+        text = re.sub(r'\b(if|when|where|while)\b',
+                     r'↔ \1', text, flags=re.IGNORECASE)
+        text = re.sub(r'\b(contains|includes|has|part of)\b',
+                     r'⊂ \1', text, flags=re.IGNORECASE)
+
         return text
 
     def _add_structure_summary(self, text: str) -> str:
-        """DEPRECATED: This logic has been replaced by the new transform_context method."""
-        return text
-
+        """Add a summary of the overall structure."""
+        paragraphs = [p for p in text.split('\n\n') if p.strip()]
+        summary = f"📋 **Structure Overview:** {len(paragraphs)} sections identified\n\n{text}"
+        return summary
 
     def get_transformation_stats(self) -> Dict[str, Any]:
         """Get statistics about transformations applied."""
@@ -128,12 +157,12 @@ class AutismLens:
 
 # --- Convenience Functions ---
 
-def create_autism_lens() -> AutismLens:
+def create_autism_lens(settings: Settings) -> AutismLens:
     """Create and return a configured Autism lens instance."""
-    return AutismLens()
+    return AutismLens(settings)
 
 
-def transform_with_autism_lens(text: str) -> str:
+def transform_with_autism_lens(text: str, settings: Settings) -> str:
     """Convenience function to transform text with Autism lens."""
-    lens = AutismLens()
+    lens = AutismLens(settings)
     return lens.transform_context(text)

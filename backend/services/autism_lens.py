@@ -14,6 +14,8 @@ import logging
 import re
 from typing import List, Dict, Any, Optional
 
+from backend.core.config import Settings
+
 logger = logging.getLogger(__name__)
 
 
@@ -28,18 +30,18 @@ class AutismLens:
     - Highlights patterns and details
     """
 
-    # Configuration
-    CATEGORY_MARKERS = ["📂", "🏷️", "🔍", "📊", "🔗"]
-    RELATIONSHIP_INDICATORS = ["→", "↔", "⊂", "⊃", "∋"]
-    STRUCTURE_PATTERNS = [
-        r"^(\d+\.|\-|\•)\s*",  # Numbered/bulleted lists
-        r"^(First|Second|Third|Next|Then|Finally)\b",  # Sequential words
-        r"^(Because|Therefore|However|Although|Since)\b",  # Logical connectors
-    ]
-
-    def __init__(self):
+    def __init__(self, settings: Settings):
         """Initialize Autism lens with default settings."""
+        self.settings = settings
         self.category_index = 0
+        # These could be moved to config if they need to be more dynamic
+        self.CATEGORY_MARKERS = ["📂", "🏷️", "🔍", "📊", "🔗"]
+        self.RELATIONSHIP_INDICATORS = ["→", "↔", "⊂", "⊃", "∋"]
+        self.STRUCTURE_PATTERNS = [
+            r"^(\d+\.|\-|\•)\s*",  # Numbered/bulleted lists
+            r"^(First|Second|Third|Next|Then|Finally)\b",  # Sequential words
+            r"^(Because|Therefore|However|Although|Since)\b",  # Logical connectors
+        ]
         logger.info("🧠 Autism Precision Lens initialized")
 
     def transform_context(self, context: str) -> str:
@@ -155,12 +157,12 @@ class AutismLens:
 
 # --- Convenience Functions ---
 
-def create_autism_lens() -> AutismLens:
+def create_autism_lens(settings: Settings) -> AutismLens:
     """Create and return a configured Autism lens instance."""
-    return AutismLens()
+    return AutismLens(settings)
 
 
-def transform_with_autism_lens(text: str) -> str:
+def transform_with_autism_lens(text: str, settings: Settings) -> str:
     """Convenience function to transform text with Autism lens."""
-    lens = AutismLens()
+    lens = AutismLens(settings)
     return lens.transform_context(text)

@@ -14,6 +14,9 @@ import logging
 import re
 from typing import List, Dict, Any, Optional
 
+from backend.core.config import Settings
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -28,14 +31,9 @@ class DyslexiaLens:
     - Provides alternative navigation paths
     """
 
-    # Configuration
-    SPATIAL_ANCHORS = ["🌟", "🔮", "🎨", "🌈", "🎭", "🎪", "🎨", "🌟"]
-    CHUNK_MARKERS = ["📦", "🎁", "🗂️", "📚", "🎯", "🧭"]
-    NAVIGATION_SYMBOLS = ["⬆️", "⬇️", "⬅️", "➡️", "🔄", "🔀"]
-    COLOR_INDICATORS = ["🟡", "🟠", "🟣", "🟢", "🔵", "🟤"]
-
-    def __init__(self):
-        """Initialize Dyslexia lens with default settings."""
+    def __init__(self, settings: Settings):
+        """Initialize Dyslexia lens with settings."""
+        self.settings = settings
         self.anchor_index = 0
         self.chunk_index = 0
         self.color_index = 0
@@ -95,77 +93,40 @@ class DyslexiaLens:
 
     def _add_spatial_anchors(self, chunk: str, position: int) -> str:
         """Add spatial anchor to chunk."""
-        anchor = self.SPATIAL_ANCHORS[self.anchor_index % len(self.SPATIAL_ANCHORS)]
+        anchor = self.settings.DYSLEXIA_LENS_SPATIAL_ANCHORS[self.anchor_index % len(self.settings.DYSLEXIA_LENS_SPATIAL_ANCHORS)]
         self.anchor_index += 1
-
-        # Add anchor at the beginning
         return f"{anchor} {chunk}"
 
     def _add_visual_chunking(self, chunk: str, position: int) -> str:
         """Add visual chunking markers."""
-        marker = self.CHUNK_MARKERS[self.chunk_index % len(self.CHUNK_MARKERS)]
-        color = self.COLOR_INDICATORS[self.color_index % len(self.COLOR_INDICATORS)]
-
+        marker = self.settings.DYSLEXIA_LENS_CHUNK_MARKERS[self.chunk_index % len(self.settings.DYSLEXIA_LENS_CHUNK_MARKERS)]
+        color = self.settings.DYSLEXIA_LENS_COLOR_INDICATORS[self.color_index % len(self.settings.DYSLEXIA_LENS_COLOR_INDICATORS)]
         self.chunk_index += 1
         self.color_index += 1
+        return f"\n--- {marker} {color} Chunk {position + 1} ---\n{chunk}"
 
-        # Wrap chunk in visual container
-        return f"{marker}{color} {chunk} {color}{marker}"
-
-    def _add_navigation_paths(self, chunk: str, position: int, total: int) -> str:
-        """Add navigation path indicators."""
-        nav_symbols = []
-
-        # Add flow indicators
+    def _add_navigation_paths(self, chunk: str, position: int, total_chunks: int) -> str:
+        """Add navigation symbols for alternative pathways."""
+        nav = []
         if position > 0:
-            nav_symbols.append("⬆️")  # Previous
-        if position < total - 1:
-            nav_symbols.append("⬇️")  # Next
+            nav.append(f"{self.settings.DYSLEXIA_LENS_NAVIGATION_SYMBOLS[0]} Prev")
+        if position < total_chunks - 1:
+            nav.append(f"{self.settings.DYSLEXIA_LENS_NAVIGATION_SYMBOLS[1]} Next")
 
-        # Add connection indicators
-        if total > 1:
-            nav_symbols.append("🔀")  # Connections
-
-        nav_string = ' '.join(nav_symbols)
-        if nav_string:
-            chunk = f"{chunk} [{nav_string}]"
-
-        return chunk
+        nav.append(f"{self.settings.DYSLEXIA_LENS_NAVIGATION_SYMBOLS[4]} Re-read")
+        nav_str = " | ".join(nav)
+        return f"{chunk}\n\n_Navigate: [ {nav_str} ]_"
 
     def _create_spatial_layout(self, chunks: List[str]) -> str:
         """Create a spatial layout for the chunks."""
-        if len(chunks) <= 3:
-            # Simple vertical layout
-            return '\n\n'.join(chunks)
-        else:
-            # Create a grid-like layout with visual separation
-            layout_lines = []
-            for i, chunk in enumerate(chunks):
-                if i % 2 == 0:
-                    layout_lines.append(chunk)
-                else:
-                    # Indent alternating chunks for spatial variety
-                    layout_lines.append(f"   ↳ {chunk}")
+        # Simple vertical layout for now
+        return "\n".join(chunks)
 
-            return '\n\n'.join(layout_lines)
-
-    def _add_overview_map(self, text: str, num_chunks: int) -> str:
-        """Add an overview map of the content structure."""
-        if num_chunks <= 1:
-            return text
-
-        # Create a simple map
-        map_symbols = []
-        for i in range(min(num_chunks, 5)):  # Limit to 5 for readability
-            map_symbols.append(self.SPATIAL_ANCHORS[i % len(self.SPATIAL_ANCHORS)])
-
-        if num_chunks > 5:
-            map_symbols.append("...")
-
-        map_str = ' → '.join(map_symbols)
-        overview = f"🗺️ **Content Map:** {map_str}\n\n{text}"
-
-        return overview
+    def _add_overview_map(self, text: str, total_chunks: int) -> str:
+        """Add an overview map to the beginning of the text."""
+        map_items = [f"{self.settings.DYSLEXIA_LENS_CHUNK_MARKERS[i % len(self.settings.DYSLEXIA_LENS_CHUNK_MARKERS)]} Chunk {i+1}" for i in range(total_chunks)]
+        overview = f"🗺️ Overview Map: {' -> '.join(map_items)}\n\n"
+        return overview + text
 
     def get_transformation_stats(self) -> Dict[str, Any]:
         """Get statistics about transformations applied."""
@@ -174,19 +135,19 @@ class DyslexiaLens:
             "anchors_used": self.anchor_index,
             "chunks_processed": self.chunk_index,
             "colors_used": self.color_index,
-            "spatial_anchors": self.SPATIAL_ANCHORS,
-            "navigation_symbols": self.NAVIGATION_SYMBOLS,
+            "spatial_anchors": self.settings.DYSLEXIA_LENS_SPATIAL_ANCHORS,
+            "navigation_symbols": self.settings.DYSLEXIA_LENS_NAVIGATION_SYMBOLS,
         }
 
 
 # --- Convenience Functions ---
 
-def create_dyslexia_lens() -> DyslexiaLens:
+def create_dyslexia_lens(settings: Settings) -> DyslexiaLens:
     """Create and return a configured Dyslexia lens instance."""
-    return DyslexiaLens()
+    return DyslexiaLens(settings)
 
 
-def transform_with_dyslexia_lens(text: str) -> str:
+def transform_with_dyslexia_lens(text: str, settings: Settings) -> str:
     """Convenience function to transform text with Dyslexia lens."""
-    lens = DyslexiaLens()
+    lens = DyslexiaLens(settings)
     return lens.transform_context(text)

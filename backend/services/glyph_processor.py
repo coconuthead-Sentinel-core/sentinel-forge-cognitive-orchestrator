@@ -15,11 +15,10 @@ from pathlib import Path
 from typing import Dict, List, Any, Optional, Set
 from dataclasses import dataclass
 
-logger = logging.getLogger(__name__)
-
-# Import from domain models to avoid circular imports
+from backend.core.config import Settings, settings
 from backend.domain.models import GlyphMatch, SymbolicMetadata
 
+logger = logging.getLogger(__name__)
 
 class GlyphProcessor:
     """
@@ -32,33 +31,27 @@ class GlyphProcessor:
     4. Apply transformation rules based on matches
     """
 
-    def __init__(self, glyphs_path: Optional[str] = None):
+    def __init__(self, settings: Settings):
         """
         Initialize GlyphProcessor.
 
         Args:
-            glyphs_path: Path to glyphs JSON file. Defaults to data/glyphs_pack.json
+            settings: The application settings object.
         """
-        self.glyphs_path = glyphs_path or self._default_glyphs_path()
+        self.settings = settings
         self.glyphs: Dict[str, Dict[str, Any]] = {}
         self._load_glyphs()
-        logger.info(f"🜂 GlyphProcessor initialized with {len(self.glyphs)} shapes")
-
-    def _default_glyphs_path(self) -> str:
-        """Get default path to glyphs file."""
-        # Assume we're in backend/services/, go up two levels to project root
-        backend_dir = Path(__file__).parent.parent.parent
-        return str(backend_dir / "data" / "glyphs_pack.json")
+        logger.info(f"🜂 GlyphProcessor initialized with {len(self.glyphs)} shapes from {self.settings.GLYPHS_PATH}")
 
     def _load_glyphs(self) -> None:
         """Load glyph definitions from JSON file."""
         try:
-            with open(self.glyphs_path, 'r', encoding='utf-8') as f:
+            with open(self.settings.GLYPHS_PATH, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 self.glyphs = data.get('shapes', {})
                 logger.info(f"📖 Loaded {len(self.glyphs)} glyph shapes")
         except FileNotFoundError:
-            logger.warning(f"⚠️ Glyphs file not found: {self.glyphs_path}")
+            logger.warning(f"⚠️ Glyphs file not found: {self.settings.GLYPHS_PATH}")
             # Create sample glyphs if file doesn't exist
             self._create_sample_glyphs()
         except json.JSONDecodeError as e:
@@ -68,33 +61,7 @@ class GlyphProcessor:
     def _create_sample_glyphs(self) -> None:
         """Create sample glyphs for development."""
         logger.info("🜂 Creating sample glyphs for development")
-        self.glyphs = {
-            "APEX": {
-                "topic": "initiation",
-                "seeds": ["apex", "ignite", "ai_infer", "start", "init", "query"],
-                "rules": {"apex": "tag:initiation"}
-            },
-            "CORE": {
-                "topic": "process",
-                "seeds": ["core", "resolve", "process", "logic", "reason"],
-                "rules": {"process": "tag:process.core"}
-            },
-            "EMIT": {
-                "topic": "action",
-                "seeds": ["emit", "launch", "trigger", "output", "send"],
-                "rules": {"launch": "tag:action.emit"}
-            },
-            "ROOT": {
-                "topic": "ethics",
-                "seeds": ["root", "link", "thread", "memory", "ethics", "bind"],
-                "rules": {"ethics": "tag:ethics.guard"}
-            },
-            "CUBE": {
-                "topic": "stability",
-                "seeds": ["cube", "resonate", "stabilize", "harmonize", "ground"],
-                "rules": {"cube": "tag:stability.struct"}
-            }
-        }
+        self.glyphs = self.settings.SAMPLE_GLYPHS
 
     def process_text(self, text: str) -> SymbolicMetadata:
         """
@@ -210,5 +177,5 @@ def get_glyph_processor() -> GlyphProcessor:
     """
     global _glyph_processor
     if _glyph_processor is None:
-        _glyph_processor = GlyphProcessor()
+        _glyph_processor = GlyphProcessor(settings)
     return _glyph_processor

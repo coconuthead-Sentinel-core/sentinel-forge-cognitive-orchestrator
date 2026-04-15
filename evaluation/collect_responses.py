@@ -9,6 +9,10 @@ import time
 import os
 from pathlib import Path
 from typing import Optional
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
 
 
 def load_queries(queries_path: str) -> list[dict]:
@@ -19,7 +23,7 @@ def load_queries(queries_path: str) -> list[dict]:
 
 def collect_response(base_url: str, query: str, context: str, api_key: str = None, timeout: int = 30) -> dict:
     """Call the AI chat endpoint and collect response via HTTP requests."""
-    endpoint = f"{base_url}/api/chat"
+    endpoint = f"{base_url}/api/ai/chat"
     
     headers = {"Content-Type": "application/json"}
     if api_key:

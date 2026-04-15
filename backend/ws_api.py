@@ -1,178 +1,142 @@
 import asyncio
 import json
 import logging
-from typing import Any
+from typing import Any, List, Annotated
 
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect  # type: ignore[reportMissingImports]
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends
 
 from .eventbus import bus
 from .security import websocket_require_api_key
-from .service import service
+from .core.config import Settings
+from .core.dependencies import get_settings
+from .services.memory_zones import ThreeZoneMemory
 
 logger = logging.getLogger(__name__)
 
-
-router = APIRouter()
+router = APIRouter(tags=["WebSockets"])
 
 
 class ConnectionManager:
+    """Manages active WebSocket connections."""
     def __init__(self):
-        self.active_connections: list[WebSocket] = []
+        self.active_connections: List[WebSocket] = []
 
     async def connect(self, websocket: WebSocket):
         await websocket.accept()
         self.active_connections.append(websocket)
 
     def disconnect(self, websocket: WebSocket):
-        self.active_connections.remove(websocket)
+        if websocket in self.active_connections:
+            self.active_connections.remove(websocket)
 
     async def broadcast(self, message: dict):
+        """Broadcast a message to all connected clients."""
         for connection in self.active_connections:
             try:
                 await connection.send_json(message)
-            except:
+            except RuntimeError:
+                # Handle case where connection is closed during broadcast
                 pass
 
+# Singleton instance of the connection manager
 manager = ConnectionManager()
 
 
-@router.websocket("/ws/cognitive")
-async def ws_cognitive(websocket: WebSocket) -> Any:
-    """WebSocket endpoint for real-time cognitive processing events."""
-    # Enforce API key if configured
-    websocket_require_api_key(websocket)
-    await websocket.accept()
+async def event_broadcaster():
+    """
+    Subscribes to the event bus and broadcasts messages to all connected clients.
+    This runs as a background task.
+    """
     loop = asyncio.get_running_loop()
-
-    # Subscribe to cognitive events (zone, symbolic, glyph)
-    cognitive_queue = bus.subscribe(loop, maxsize=100, policy="latest", topic="cognitive")
-    symbolic_queue = bus.subscribe(loop, maxsize=100, policy="latest", topic="symbolic")
-    glyph_queue = bus.subscribe(loop, maxsize=100, policy="latest", topic="glyph")
-
-    try:
-        # Send initial cognitive state
-        from .services.memory_zones import get_memory_manager
-        memory_manager = get_memory_manager()
-        zone_metrics = memory_manager.get_zone_metrics() if hasattr(memory_manager, 'get_zone_metrics') else {}
-
-        initial_state = {
-            "type": "cognitive.state",
-            "data": {
-                "zone_metrics": zone_metrics,
-                "active_lens": "neurotypical",  # Default
-                "timestamp": __import__("time").time(),
-            }
-        }
-        await websocket.send_text(json.dumps(initial_state))
-
-        # Listen for events from all cognitive topics
-        while True:
-            # Wait for any cognitive event
-            import asyncio
-            done, pending = await asyncio.wait(
-                [
-                    asyncio.create_task(cognitive_queue.get()),
-                    asyncio.create_task(symbolic_queue.get()),
-                    asyncio.create_task(glyph_queue.get()),
-                ],
-                return_when=asyncio.FIRST_COMPLETED
-            )
-
-            # Cancel pending tasks
-            for task in pending:
-                task.cancel()
-
-            # Process the completed event
-            for task in done:
-                try:
-                    event = task.result()
-                    await websocket.send_text(json.dumps(event))
-                except Exception as e:
-                    logger.warning(f"Error processing cognitive event: {e}")
-
-    except WebSocketDisconnect:
-        pass
-    finally:
-        bus.unsubscribe(cognitive_queue)
-        bus.unsubscribe(symbolic_queue)
-        bus.unsubscribe(glyph_queue)
-        while True:
-            # Wait for next event or client ping
-            payload = await queue.get()
-            await websocket.send_text(json.dumps(payload))
-    except WebSocketDisconnect:
-        pass
-    finally:
-        bus.unsubscribe(queue)
+    # Subscribe to all relevant topics
+    queue = bus.subscribe(loop, maxsize=1000, policy="latest", topic="*")
+    logger.info("Event broadcaster started, subscribed to all topics.")
+    while True:
+        try:
+            event = await queue.get()
+            await manager.broadcast(event)
+        except Exception as e:
+            logger.error(f"Error in event broadcaster: {e}", exc_info=True)
+            # Avoid tight loop on continuous errors
+            await asyncio.sleep(1)
 
 
-@router.websocket("/ws/metrics")
-async def websocket_metrics(websocket: WebSocket):
-    """WebSocket endpoint for real-time metrics streaming."""
-    await manager.connect(websocket)
-    try:
-        from .service import service
-
-        while True:
-            # Send metrics every 2 seconds
-            try:
-                metrics = service.metrics()
-                status = service.status()
-
-                await websocket.send_json(
-                    {
-                        "type": "metrics_update",
-                        "data": {
-                            "metrics": metrics,
-                            "status": status,
-                            "timestamp": __import__("time").time(),
-                        },
-                    }
-                )
-            except Exception as e:
-                print(f"Error sending metrics: {e}")
-
-            await asyncio.sleep(2)
-    except WebSocketDisconnect:
-        manager.disconnect(websocket)
-    except Exception as e:
-        print(f"WebSocket error: {e}")
-        manager.disconnect(websocket)
+@router.on_event("startup")
+async def startup_event():
+    """Start the event broadcaster as a background task."""
+    asyncio.create_task(event_broadcaster())
 
 
 @router.websocket("/ws/events")
-async def websocket_events(websocket: WebSocket):
-    """WebSocket endpoint for real-time event streaming."""
+async def ws_events(
+    websocket: WebSocket,
+    api_key: None = Depends(websocket_require_api_key)
+):
+    """
+    Master WebSocket endpoint for all real-time events.
+    Authenticates the connection and then keeps it open to receive
+    broadcasted events from the `event_broadcaster`.
+    """
     await manager.connect(websocket)
+    logger.info(f"New WebSocket connection established: /ws/events")
     try:
-        from .service import service
-
-        last_event_count = 0
-
         while True:
-            try:
-                # Get recent events
-                events = service.recent_events(20)
-                current_count = len(events)
-
-                # Only send if new events appeared
-                if current_count > last_event_count:
-                    new_events = events[last_event_count:]
-                    await websocket.send_json(
-                        {
-                            "type": "new_events",
-                            "data": new_events,
-                            "timestamp": __import__("time").time(),
-                        }
-                    )
-                    last_event_count = current_count
-
-            except Exception as e:
-                print(f"Error sending events: {e}")
-
-            await asyncio.sleep(1)
+            # Keep the connection alive, listening for client messages (if any)
+            # or disconnects. The broadcaster handles sending data.
+            await websocket.receive_text()
     except WebSocketDisconnect:
+        logger.info("WebSocket connection closed.")
+    finally:
         manager.disconnect(websocket)
-    except Exception as e:
-        print(f"WebSocket error: {e}")
-        manager.disconnect(websocket)
+
+
+@router.websocket("/ws/cognitive")
+async def ws_cognitive(
+    websocket: WebSocket,
+    settings: Annotated[Settings, Depends(get_settings)],
+    api_key: None = Depends(websocket_require_api_key)
+):
+    """
+    [DEPRECATED] WebSocket endpoint for cognitive events.
+    Use /ws/events instead.
+    """
+    await websocket.accept()
+    await websocket.send_json({
+        "type": "deprecation_warning",
+        "message": "This endpoint is deprecated. Please use /ws/events for all real-time updates."
+    })
+    await websocket.close()
+
+
+@router.websocket("/ws/sync")
+async def ws_sync(
+    websocket: WebSocket,
+    api_key: None = Depends(websocket_require_api_key)
+):
+    """
+    [DEPRECATED] WebSocket endpoint for sync events.
+    Use /ws/events instead.
+    """
+    await websocket.accept()
+    await websocket.send_json({
+        "type": "deprecation_warning",
+        "message": "This endpoint is deprecated. Please use /ws/events for all real-time updates."
+    })
+    await websocket.close()
+
+
+@router.websocket("/ws/metrics")
+async def ws_metrics(
+    websocket: WebSocket,
+    api_key: None = Depends(websocket_require_api_key)
+):
+    """
+    [DEPRECATED] WebSocket endpoint for metrics.
+    Use /ws/events instead.
+    """
+    await websocket.accept()
+    await websocket.send_json({
+        "type": "deprecation_warning",
+        "message": "This endpoint is deprecated. Please use /ws/events for all real-time updates."
+    })
+    await websocket.close()

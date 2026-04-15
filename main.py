@@ -45,9 +45,9 @@ async def lifespan(app: FastAPI):
     # Cleanup is handled per adapter if you extend
 
 app = FastAPI(
-    title="Quantum Nexus Forge API",
+    title="Sentinel Forge AI API",
     version="1.0.0",
-    description="FastAPI backend exposing QuantumNexusForge operations with a service layer.",
+    description="FastAPI backend for adaptive AI processing with neurodivergent-aware capabilities.",
     lifespan=lifespan,
 )
 
@@ -81,7 +81,7 @@ except Exception:
 
 @app.get("/")
 async def root():
-    return {"service": "Quantum Nexus Forge", "docs": "/docs"}
+    return {"service": "Sentinel Forge AI", "docs": "/docs"}
 
 # Health (replaces old status)
 @app.get("/api/status")

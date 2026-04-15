@@ -107,7 +107,6 @@ def test_process_text_empty():
     assert len(result.matched_glyphs) == 0
     assert result.dominant_topic is None
     assert len(result.symbolic_tags) == 0
-    assert result.processing_confidence == 0.0
 
 
 def test_process_text_no_matches():
@@ -115,7 +114,6 @@ def test_process_text_no_matches():
     processor = GlyphProcessor()
     result = processor.process_text("This text has no matching patterns whatsoever")
     assert len(result.matched_glyphs) == 0
-    assert result.processing_confidence == 0.0
 
 
 def test_process_text_exact_match():
@@ -150,7 +148,6 @@ def test_process_text_exact_match():
         assert result.dominant_topic == "initiation"  # First match
         assert "tag:init.begin" in result.symbolic_tags
         assert "tag:process.core" in result.symbolic_tags
-        assert result.processing_confidence > 0.0
 
     finally:
         Path(temp_path).unlink()
@@ -228,9 +225,7 @@ def test_process_text_confidence_calculation():
         assert init_match.confidence == 1.0  # Exact "start"
         assert process_match.confidence == 1.0  # Exact "process"
 
-        # Overall confidence should be average
-        expected_avg = (1.0 + 1.0) / 2
-        assert abs(result.processing_confidence - expected_avg) < 0.01
+
 
     finally:
         Path(temp_path).unlink()

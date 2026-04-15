@@ -9,6 +9,7 @@ from __future__ import annotations
 import logging
 from typing import List, Dict, Any, Optional
 
+from backend.core.config import Settings
 from backend.domain.models import Note
 from backend.infrastructure.cosmos_repo import cosmos_repo
 
@@ -33,8 +34,9 @@ class ChatService:
     4. Memory Consolidation (Storage)
     """
     
-    def __init__(self, ai_adapter):
+    def __init__(self, ai_adapter, settings: Settings):
         self.ai_adapter = ai_adapter
+        self.settings = settings
 
     async def process_message(self, user_message: str, context: str = "") -> Dict[str, Any]:
         """
@@ -53,9 +55,9 @@ class ChatService:
         try:
             # Call AI Adapter (Mock or Azure)
             response = await self.ai_adapter.chat(
-                deployment="gpt-4", # Config driven in real impl
+                deployment=self.settings.AOAI_CHAT_DEPLOYMENT,
                 messages=messages,
-                temperature=0.7
+                temperature=self.settings.AI_TEMPERATURE
             )
             # response = {
             #     "id": "test-id",

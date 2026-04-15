@@ -4,7 +4,6 @@ import sys
 import os
 import socket
 from pathlib import Path
-from typing import Optional
 
 # --- Unicode Patch for Windows Consoles ---
 # Ensures emojis (🚀, ✅, etc.) don't crash the script on legacy terminals.
@@ -35,65 +34,63 @@ def main():
     print("🚀 Starting Sentinel Forge Evaluation Pipeline...")
     print("=" * 60)
 
-    server_process: Optional[subprocess.Popen] = None
+    server_process = None
     try:
-        # 1. Start the backend server
-        print("\n[1/4] Starting Backend Server...")
-        # Ensure MOCK_AI mode for evaluation
-        env = os.environ.copy()
-        env["MOCK_AI"] = "true"
-        
+        # 1. Start the FastAPI server
+        print("\n[1/3] Starting FastAPI server...")
         server_process = subprocess.Popen(
-            [sys.executable, "-m", "backend.main"],
+            [sys.executable, "-m", "uvicorn", "backend.main:app", "--port", "8000"],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            cwd=project_root,
-            env=env
+            text=True,
+            encoding='utf-8'
         )
         
-        # Wait for server to be ready
-        if wait_for_port(8000, timeout=30):
-            print("      ✅ Server ready at http://localhost:8000")
-        else:
-            print("      ❌ Server failed to start within 30 seconds")
-            if server_process:
-                server_process.terminate()
+        if not wait_for_port(8000):
+            print("❌ Server failed to start.")
+            stdout, stderr = server_process.communicate()
+            print("--- Server STDOUT ---")
+            print(stdout)
+            print("--- Server STDERR ---")
+            print(stderr)
             return
+        
+        print("      ✅ Server is running on http://127.0.0.1:8000")
+        print("      Waiting 2 seconds for application to initialize...")
+        time.sleep(2) # Give the app a moment to initialize fully
 
-        # 2. Run the Collection Script (uses requests library for real HTTP)
-        print("\n[2/4] Collecting Responses via HTTP...")
+        # 2. Run the Collection Script
+        print("\n[2/3] Collecting Responses via HTTP...")
         collect_result = subprocess.run(
             [sys.executable, "evaluation/collect_responses.py"],
-            capture_output=False 
+            capture_output=False, # We want to see the output in real-time
+            check=True # Raise an exception if it fails
         )
-        
-        if collect_result.returncode != 0:
-            print("❌ Collection failed.")
-            return
         
         # 3. Run the Evaluation Script
-        print("\n[3/4] Running Evaluation...")
+        print("\n[3/3] Running Evaluation...")
         eval_result = subprocess.run(
             [sys.executable, "evaluation/run_evaluation.py"],
-            capture_output=False
+            capture_output=False,
+            check=True
         )
-        if eval_result.returncode != 0:
-            print("❌ Evaluation failed.")
-        else:
-            print("\n[4/4] Shutting down server...")
-            print("✅ Pipeline Complete.")
+        
+        print("\n✅ Pipeline Complete.")
 
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        print(f"❌ Pipeline script failed: {e}")
     except Exception as e:
-        print(f"❌ Pipeline failed: {e}")
+        print(f"❌ An unexpected error occurred: {e}")
     finally:
-        # Always clean up the server process
         if server_process:
+            print("\n[+] Shutting down FastAPI server...")
             server_process.terminate()
             try:
                 server_process.wait(timeout=5)
+                print("      ✅ Server shut down gracefully.")
             except subprocess.TimeoutExpired:
+                print("      ⚠️ Server did not respond, forcing shutdown.")
                 server_process.kill()
-                server_process.wait()
 
 if __name__ == "__main__":
     main()

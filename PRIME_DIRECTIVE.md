@@ -1,199 +1,38 @@
-# PRIME DIRECTIVE - Sentinel Forge Cognitive Orchestrator
+# Prime Directive: Sentinel Forge Task Execution Protocol
 
-## Mission Statement
+This document outlines the mandatory operational methodology for all tasks performed on the Sentinel Forge codebase. Each task, without exception, must follow this protocol.
 
-Sentinel Forge is a **Cognitive AI Orchestration Platform** designed to support neurodivergent-aware AI processing. The system provides adaptive processing modes for ADHD, Autism, Dyslexia, and Neurotypical cognitive patterns, with a three-zone memory system for optimal information management.
+## Core Methodology
 
-## Core Principles
+For every task undertaken, the following framework must be applied and explicitly documented in the response to the user.
 
-### 1. Neurodivergent-First Design
-- **ADHD Lens**: Burst processing with rapid context switching
-- **Autism Lens**: Precision-focused with deep pattern analysis  
-- **Dyslexia Lens**: Spatial and visual processing emphasis
-- **Neurotypical Lens**: Baseline balanced processing
+### 1. Three Verifiable Proofs
 
-### 2. Three-Zone Memory Architecture
-- **🟢 Active Zone** (>0.7 entropy): High-entropy, actively processed information
-- **🟡 Pattern Zone** (0.3-0.7 entropy): Mid-level patterns and connections
-- **🔴 Crystal Zone** (<0.3 entropy): Low-entropy, crystallized knowledge
+Before any action is taken, three distinct, verifiable pieces of evidence must be presented to establish the necessity and context of the task. These proofs must be grounded in observable data from the workspace.
 
-### 3. Domain-Driven Design
-- Pure domain models with no infrastructure concerns
-- Repository pattern for data persistence abstraction
-- Clean separation between API, domain, and infrastructure layers
+- **Proof 1:** Direct evidence from terminal output, error logs, or application behavior.
+- **Proof 2:** Specific lines of code from a relevant file that are the source of the issue or the target of the improvement.
+- **Proof 3:** The execution context, such as the command used to run a process or the architectural pattern that dictates the required change.
 
-## Development Workflow
+### 2. Three Actionable Next Steps
 
-### Quick Start
-```bash
-# Install dependencies
-pip install -r requirements.txt
+Based on the verifiable proofs, three distinct and actionable next steps must be proposed. These options should represent different valid approaches to addressing the task.
 
-# Create local configuration
-cp .env.example .env
+### 3. Eisenhower Matrix Prioritization
 
-# Run in mock mode (zero external dependencies)
-uvicorn backend.main:app --reload --port 8000
-```
+The three actionable steps must be placed into an Eisenhower Matrix to determine the correct priority. The reasoning for each placement must be explicitly stated, referencing the verifiable proofs.
 
-### Environment Modes
+| | **Urgent** | **Not Urgent** |
+| :--- | :--- | :--- |
+| **Important** | **Quadrant 1: Do** | **Quadrant 2: Decide / Schedule** |
+| **Not Important** | **Quadrant 3: Delegate** | **Quadrant 4: Delete / Eliminate** |
 
-#### Mock Mode (Development)
-- Set `MOCK_AI=true` in .env
-- Leave `COSMOS_KEY` empty
-- Zero external dependencies
-- Instant startup
+The action residing in **Quadrant 1** is the one that must be executed.
 
-#### Production Mode
-- Set `MOCK_AI=false`
-- Configure Azure OpenAI credentials
-- Configure Cosmos DB credentials
-- Full cloud integration
+## Task Execution Cycle
 
-## Automated Pull Request Protocol
-
-### Pre-Commit Checklist
-1. ✅ All backend dependencies in requirements.txt
-2. ✅ Backend starts without errors in mock mode
-3. ✅ API endpoints return valid responses
-4. ✅ Evaluation pipeline runs successfully
-5. ✅ Documentation updated as needed
-
-### CI/CD Pipeline
-The repository uses GitHub Actions for continuous integration:
-
-1. **Backend Stability**: Server must start without errors
-2. **Dependency Check**: All Python dependencies must be installable
-3. **HTTP Testing**: Evaluation uses real HTTP requests (not TestClient)
-4. **Automated Lifecycle**: run_full_eval.py manages server start/stop
-
-### Pull Request Standards
-
-#### Title Format
-```
-[Type]: Brief description
-
-Types: Fix, Feat, Refactor, Docs, Test, Chore
-```
-
-#### Description Template
-```markdown
-## Summary
-Brief description of changes
-
-## Changes Made
-- [ ] Backend stability fixes
-- [ ] Evaluation pipeline updates
-- [ ] Documentation updates
-- [ ] Configuration improvements
-
-## Testing
-- [ ] Backend starts without errors
-- [ ] Full evaluation pipeline passes
-- [ ] CI/CD passes
-
-## Breaking Changes
-None / List any breaking changes
-```
-
-### Automated Server Lifecycle
-
-The evaluation pipeline (`scripts/run_full_eval.py`) follows this workflow:
-
-1. **Start Server**: Spawn backend server process
-2. **Wait for Ready**: Poll port 8000 until server responds
-3. **Run Collection**: HTTP requests to collect AI responses
-4. **Run Evaluation**: Score responses using evaluation metrics
-5. **Cleanup**: Terminate server process gracefully
-
-**Key Change from Previous Version**: Uses `requests` library with real HTTP instead of FastAPI's `TestClient` for true integration testing.
-
-## Architecture Overview
-
-```
-backend/
-├── domain/          # Pure business logic (no DB fields)
-├── infrastructure/  # Cosmos DB, repositories
-├── services/        # Cognitive orchestration, lenses
-├── adapters/        # AI provider adapters (Azure, Mock)
-├── api.py          # FastAPI routes
-└── main.py         # Application entry point
-
-evaluation/
-├── test_queries.json      # Test cases
-├── collect_responses.py   # HTTP-based collection
-└── run_evaluation.py      # Scoring engine
-
-scripts/
-└── run_full_eval.py       # Full pipeline orchestration
-```
-
-## Configuration Management
-
-All environment variables defined in `backend/core/config.py` using Pydantic Settings:
-- Single source of truth
-- Type validation
-- .env file support
-- Graceful defaults
-
-Example `.env` file provided in `.env.example` with comprehensive documentation.
-
-## Error Handling Philosophy
-
-### Graceful Degradation
-- Mock DB mode if Cosmos DB unavailable
-- Mock AI mode if Azure OpenAI unavailable
-- Continue operation with reduced functionality
-
-### Explicit Logging
-- Clear warning messages for degraded mode
-- Info messages for successful initialization
-- Error messages with context
-
-### Zero External Dependencies (Development)
-- Local development requires NO cloud services
-- Full mock mode for offline development
-- CI/CD can run without Azure credentials
-
-## Testing Strategy
-
-### Integration Testing
-- Real HTTP requests via `requests` library
-- Automated server lifecycle management
-- End-to-end pipeline validation
-
-### Evaluation Metrics
-- Relevance scoring
-- Coherence analysis  
-- Groundedness verification
-- Mock mode for pipeline testing
-
-## Security Considerations
-
-1. **API Key Protection**: Never commit real keys
-2. **Environment Variables**: Use .env (gitignored)
-3. **Mock Mode Defaults**: Safe for public repositories
-4. **Azure AAD**: Token-based authentication when enabled
-
-## Contribution Guidelines
-
-1. Fork the repository
-2. Create feature branch
-3. Make minimal, focused changes
-4. Run full evaluation pipeline locally
-5. Create PR following template
-6. Wait for CI/CD validation
-7. Address review feedback
-
-## Resources
-
-- **Architecture**: See ARCHITECTURE.md
-- **Quick Start**: See README.md  
-- **API Docs**: http://localhost:8000/docs (when running)
-- **Troubleshooting**: See TROUBLESHOOTING.md
-
----
-
-**Last Updated**: 2025-12-28  
-**Version**: 2.0.0  
-**Status**: Active Development
+1. **Initiate Task:** State the task clearly.
+2. **Analyze & Report:** Present the "Three Verifiable Proofs" and the "Eisenhower Matrix" analysis for the three proposed actions.
+3. **Execute:** Perform the **Quadrant 1** action.
+4. **Confirm & Refer:** After the action is complete, confirm its success. State explicitly: "Referring to `PRIME_DIRECTIVE.md`."
+5. **Proceed:** Move to the next logical task and repeat the entire protocol.

@@ -3,10 +3,15 @@ import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .api import router as api_router
+from .api import router as api_router, ai_router
+from .ws_api import router as ws_router
+from .core.dependencies import get_settings
 from .infrastructure.cosmos_repo import CosmosDBRepository
+from .adapters.azure_openai import AzureOpenAIAdapter, AzureCognitiveTokenProvider, AIO_TIMEOUT
+from .mock_adapter import MockOpenAIAdapter
 import uvicorn
 import asyncio
+import httpx
 
 # Set event loop policy for Windows
 if os.name == 'nt':
@@ -18,41 +23,55 @@ logger = logging.getLogger("sentinel-middleware")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Initialize Cosmos DB Repository (will use Mock DB mode if unavailable)
-    try:
-        await CosmosDBRepository.initialize()
-        logger.info("Cosmos DB Repository initialized.")
-    except Exception as exc:
-        logger.warning("Cosmos DB initialization failed, using Mock DB: %s", exc)
-
-    # Warm up token to fail-fast on bad identity/env.
-    # Only attempt if not in MOCK_AI mode
-    from .core.config import settings
-    if not settings.MOCK_AI:
-        try:
-            from .adapters.azure_openai import AzureCognitiveTokenProvider
-            provider = AzureCognitiveTokenProvider()
-            try:
-                await provider.get_token()
-                logger.info("AAD token warmup successful.")
-            except Exception as exc:
-                logger.warning("AAD warmup failed (will use mock): %s", exc)
-            finally:
-                await provider.aclose()
-        except ImportError as exc:
-            logger.warning("Azure adapters not available: %s", exc)
-    else:
-        logger.info("MOCK_AI mode enabled, skipping AAD token warmup.")
+    """Application lifecycle manager."""
+    settings = get_settings()
     
+    # Initialize Cosmos DB Repository
+    await CosmosDBRepository.initialize()
+    logger.info("Cosmos DB Repository initialized.")
+
+    # Initialize the AI adapter to warm up connections and auth
+    adapter = None
+    token_provider = None
+    http_client = None
+
+    if settings.MOCK_AI:
+        adapter = MockOpenAIAdapter()
+        logger.info("AI Adapter running in mock mode. No remote initialization needed.")
+    else:
+        try:
+            token_provider = AzureCognitiveTokenProvider()
+            http_client = httpx.AsyncClient(timeout=AIO_TIMEOUT)
+            adapter = AzureOpenAIAdapter(http=http_client, token_provider=token_provider)
+            logger.info("AI Adapter initialized and AAD token warmup successful.")
+        except Exception as exc:
+            logger.warning(f"AI Adapter initialization failed: {exc}", exc_info=True)
+            # Fallback to mock adapter if real one fails
+            adapter = MockOpenAIAdapter()
+            logger.info("Fell back to mock AI adapter.")
+
+    app.state.adapter = adapter
+    app.state.token_provider = token_provider
+    app.state.http_client = http_client
+
     yield
     
     # Cleanup on shutdown
-    try:
-        await CosmosDBRepository.close()
-    except Exception as exc:
-        logger.warning("Cosmos DB close failed: %s", exc)
+    logger.info("Closing application resources.")
+    if app.state.adapter and not isinstance(app.state.adapter, MockOpenAIAdapter):
+        if app.state.token_provider:
+            await app.state.token_provider.aclose()
+        if app.state.http_client:
+            await app.state.http_client.aclose()
+    
+    await CosmosDBRepository.close()
 
-app = FastAPI(title="Neurodivergent AI Middleware", lifespan=lifespan)
+app = FastAPI(
+    title="Sentinel Forge Cognitive Orchestrator",
+    description="A neurodivergent-aware AI processing platform.",
+    version="2.0.0",
+    lifespan=lifespan
+)
 
 # Add CORS
 app.add_middleware(
@@ -68,7 +87,13 @@ app.add_middleware(
 
 # Include routers
 app.include_router(api_router, prefix="/api")
-# app.include_router(ai_router, prefix="/api")
+app.include_router(ai_router, prefix="/api/ai")
+app.include_router(ws_router)
+
+@app.get("/", tags=["Status"])
+async def root():
+    """Root endpoint providing a welcome message."""
+    return {"message": "Welcome to the Sentinel Forge Cognitive Orchestrator."}
 
 @app.post("/api/testpost")
 async def test_post():

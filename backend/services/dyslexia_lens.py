@@ -14,6 +14,9 @@ import logging
 import re
 from typing import List, Dict, Any, Optional
 
+from backend.core.config import Settings
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -28,115 +31,102 @@ class DyslexiaLens:
     - Provides alternative navigation paths
     """
 
-    # Configuration
-    SPATIAL_ANCHORS = ["🌟", "🔮", "🎨", "🌈", "🎭", "🎪", "🎨", "🌟"]
-    CHUNK_MARKERS = ["📦", "🎁", "🗂️", "📚", "🎯", "🧭"]
-    NAVIGATION_SYMBOLS = ["⬆️", "⬇️", "⬅️", "➡️", "🔄", "🔀"]
-    COLOR_INDICATORS = ["🟡", "🟠", "🟣", "🟢", "🔵", "🟤"]
-    
-    # Odooe Lattice Integration
-    ODOOE_LATTICE_ENABLED = True
-    MIRROR_ID = "M5"  # Spatial Mapping
-
-    def __init__(self):
-        """Initialize Dyslexia lens with default settings."""
+    def __init__(self, settings: Settings):
+        """Initialize Dyslexia lens with settings."""
+        self.settings = settings
         self.anchor_index = 0
         self.chunk_index = 0
         self.color_index = 0
-        logger.info("🧠 Dyslexia Spatial Lens initialized (Odooe Lattice Active)")
+        logger.info("🧠 Dyslexia Spatial Lens initialized")
 
     def transform_context(self, context: str) -> str:
         """
-        Transform context into a Dyslexia-friendly format using spatial layout and symbols.
-        This fulfills Task 5.3.
+        Transform context into Dyslexia-friendly format.
 
         Args:
-            context: Original context string.
+            context: Original context string
 
         Returns:
-            Transformed context with a mind-map-like structure.
+            Transformed context with spatial anchors and visual organization
         """
-        if not context or not context.strip():
+        if not context.strip():
             return context
 
-        sentences = re.split(r'(?<=[.!?])\s+', context.strip())
-        if not sentences:
-            return ""
+        # Split into logical chunks
+        chunks = self._identify_chunks(context)
 
-        # 1. Identify the central idea (first sentence)
-        central_idea = sentences[0]
-        
-        # 2. Identify key concepts (nouns and verbs from the rest of the text)
-        other_text = " ".join(sentences[1:])
-        words = re.findall(r'\b\w{4,}\b', other_text.lower()) # Find words with 4+ letters
-        # A simple way to get "key concepts" is to find unique words.
-        # A more advanced method would use NLP part-of-speech tagging.
-        key_concepts = sorted(list(set(words)))[:5] # Limit to 5 key concepts
+        # Transform each chunk
+        transformed_chunks = []
+        for i, chunk in enumerate(chunks):
+            transformed = self._add_spatial_anchors(chunk, i)
+            transformed = self._add_visual_chunking(transformed, i)
+            transformed = self._add_navigation_paths(transformed, i, len(chunks))
+            transformed_chunks.append(transformed)
 
-        # 3. Create a symbol map for concepts
-        symbol_map = {concept: symbol for concept, symbol in zip(key_concepts, ["💡", "⚙️", "🔗", "🎯", "📊"])}
+        # Combine with spatial layout
+        result = self._create_spatial_layout(transformed_chunks)
 
-        # 4. Assemble the spatial/symbolic output
-        transformed_parts = []
-        transformed_parts.append("--- Spatial Map ---")
-        transformed_parts.append(f"      [ 🧠 Central Idea ]")
-        transformed_parts.append(f"              |")
-        transformed_parts.append(f"      \" {central_idea} \"")
-        transformed_parts.append("              |")
-        transformed_parts.append("     /        |        \\")
-        transformed_parts.append("    /         |         \\")
+        # Add overview map
+        result = self._add_overview_map(result, len(chunks))
 
-        # Branch out with key concepts
-        if key_concepts:
-            concept_lines = []
-            for concept in key_concepts:
-                symbol = symbol_map.get(concept, "🔹")
-                concept_lines.append(f"{symbol} {concept.capitalize()}")
-            
-            # Arrange concepts in a branching structure
-            if len(concept_lines) > 0:
-                transformed_parts.append(f"  {concept_lines[0]:<15}")
-            if len(concept_lines) > 1:
-                transformed_parts[-1] += f"--- [ {concept_lines[1]} ]"
-            if len(concept_lines) > 2:
-                 transformed_parts.append(f"    /         |         \\")
-                 transformed_parts.append(f"  [ {concept_lines[2]} ]")
-            if len(concept_lines) > 3:
-                 transformed_parts[-1] += f" --- {concept_lines[3]} 🔹"
-            if len(concept_lines) > 4:
-                 transformed_parts.append(f"              |")
-                 transformed_parts.append(f"        🔹 {concept_lines[4]}")
-
-
-        transformed_parts.append("\n--- End Map ---")
-
-        logger.debug(f"🧠 Dyslexia lens transformed text into a spatial map with {len(key_concepts)} concepts.")
-        return "\n".join(transformed_parts)
+        return result
 
     def _identify_chunks(self, text: str) -> List[str]:
-        """DEPRECATED: This logic has been replaced by the new transform_context method."""
-        return text.split('\n\n')
+        """Identify logical chunks in the text."""
+        # Split by paragraphs first
+        paragraphs = [p.strip() for p in text.split('\n\n') if p.strip()]
+
+        chunks = []
+        for para in paragraphs:
+            # Further split long paragraphs into sentences
+            if len(para) > 200:
+                sentences = re.split(r'(?<=[.!?])\s+', para)
+                # Group sentences into chunks of 2-3
+                for i in range(0, len(sentences), 2):
+                    chunk = ' '.join(sentences[i:i+2])
+                    if chunk.strip():
+                        chunks.append(chunk.strip())
+            else:
+                chunks.append(para)
+
+        return chunks
 
     def _add_spatial_anchors(self, chunk: str, position: int) -> str:
-        """DEPRECATED: This logic has been replaced by the new transform_context method."""
-        return chunk
+        """Add spatial anchor to chunk."""
+        anchor = self.settings.DYSLEXIA_LENS_SPATIAL_ANCHORS[self.anchor_index % len(self.settings.DYSLEXIA_LENS_SPATIAL_ANCHORS)]
+        self.anchor_index += 1
+        return f"{anchor} {chunk}"
 
     def _add_visual_chunking(self, chunk: str, position: int) -> str:
-        """DEPRECATED: This logic has been replaced by the new transform_context method."""
-        return chunk
+        """Add visual chunking markers."""
+        marker = self.settings.DYSLEXIA_LENS_CHUNK_MARKERS[self.chunk_index % len(self.settings.DYSLEXIA_LENS_CHUNK_MARKERS)]
+        color = self.settings.DYSLEXIA_LENS_COLOR_INDICATORS[self.color_index % len(self.settings.DYSLEXIA_LENS_COLOR_INDICATORS)]
+        self.chunk_index += 1
+        self.color_index += 1
+        return f"\n--- {marker} {color} Chunk {position + 1} ---\n{chunk}"
 
-    def _add_navigation_paths(self, chunk: str, position: int, total: int) -> str:
-        """DEPRECATED: This logic has been replaced by the new transform_context method."""
-        return chunk
+    def _add_navigation_paths(self, chunk: str, position: int, total_chunks: int) -> str:
+        """Add navigation symbols for alternative pathways."""
+        nav = []
+        if position > 0:
+            nav.append(f"{self.settings.DYSLEXIA_LENS_NAVIGATION_SYMBOLS[0]} Prev")
+        if position < total_chunks - 1:
+            nav.append(f"{self.settings.DYSLEXIA_LENS_NAVIGATION_SYMBOLS[1]} Next")
+
+        nav.append(f"{self.settings.DYSLEXIA_LENS_NAVIGATION_SYMBOLS[4]} Re-read")
+        nav_str = " | ".join(nav)
+        return f"{chunk}\n\n_Navigate: [ {nav_str} ]_"
 
     def _create_spatial_layout(self, chunks: List[str]) -> str:
-        """DEPRECATED: This logic has been replaced by the new transform_context method."""
+        """Create a spatial layout for the chunks."""
+        # Simple vertical layout for now
         return "\n".join(chunks)
 
-    def _add_overview_map(self, text: str, num_chunks: int) -> str:
-        """DEPRECATED: This logic has been replaced by the new transform_context method."""
-        return text
-
+    def _add_overview_map(self, text: str, total_chunks: int) -> str:
+        """Add an overview map to the beginning of the text."""
+        map_items = [f"{self.settings.DYSLEXIA_LENS_CHUNK_MARKERS[i % len(self.settings.DYSLEXIA_LENS_CHUNK_MARKERS)]} Chunk {i+1}" for i in range(total_chunks)]
+        overview = f"🗺️ Overview Map: {' -> '.join(map_items)}\n\n"
+        return overview + text
 
     def get_transformation_stats(self) -> Dict[str, Any]:
         """Get statistics about transformations applied."""
@@ -145,19 +135,19 @@ class DyslexiaLens:
             "anchors_used": self.anchor_index,
             "chunks_processed": self.chunk_index,
             "colors_used": self.color_index,
-            "spatial_anchors": self.SPATIAL_ANCHORS,
-            "navigation_symbols": self.NAVIGATION_SYMBOLS,
+            "spatial_anchors": self.settings.DYSLEXIA_LENS_SPATIAL_ANCHORS,
+            "navigation_symbols": self.settings.DYSLEXIA_LENS_NAVIGATION_SYMBOLS,
         }
 
 
 # --- Convenience Functions ---
 
-def create_dyslexia_lens() -> DyslexiaLens:
+def create_dyslexia_lens(settings: Settings) -> DyslexiaLens:
     """Create and return a configured Dyslexia lens instance."""
-    return DyslexiaLens()
+    return DyslexiaLens(settings)
 
 
-def transform_with_dyslexia_lens(text: str) -> str:
+def transform_with_dyslexia_lens(text: str, settings: Settings) -> str:
     """Convenience function to transform text with Dyslexia lens."""
-    lens = DyslexiaLens()
+    lens = DyslexiaLens(settings)
     return lens.transform_context(text)

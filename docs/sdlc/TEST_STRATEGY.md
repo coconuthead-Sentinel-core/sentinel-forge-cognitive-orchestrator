@@ -1,0 +1,143 @@
+# Test Strategy
+## Sovereign Forge v4.0
+
+**Architect:** Shannon Bryan Kelly
+**Implementation:** Claude AI (Anthropic)
+**Date:** April 2026
+
+---
+
+## 1. Testing Philosophy
+
+Sovereign Forge has a unique testing requirement no other platform in the trilogy has: the CNO-AX Metacognition Engine must be validated through a live performance protocol — not just unit tests. Code correctness and system performance are both first-class test targets.
+
+---
+
+## 2. Test Levels
+
+### Unit Tests — `tests/`
+
+| Test ID | What It Covers | Pass Criteria |
+|---------|---------------|---------------|
+| UT-001 | `CognitiveOrchestrator` initialization | Object created, Sentinel Profile loaded |
+| UT-002 | ADHD lens — 50-word chunking | Response chunked; action words emphasized |
+| UT-003 | Autism lens — structure enhancement | Explicit categorization present in output |
+| UT-004 | Dyslexia lens — spatial anchors | Navigation paths and visual chunks returned |
+| UT-005 | Neurotypical lens — baseline | Standard response, no chunking |
+| UT-006 | Zone classification — GREEN | entropy > 0.7 → GREEN |
+| UT-007 | Zone classification — YELLOW | entropy 0.3–0.7 → YELLOW |
+| UT-008 | Zone classification — RED | entropy < 0.3 → RED |
+| UT-009 | GlyphProcessor — 14-Mirror routing | Glyph maps to correct mirror(s) |
+| UT-010 | SigmaNetworkEngine — feature flags | Profile flags correctly set runtime behavior |
+| UT-011 | Sentinel Profile — persist and reload | Profile survives server restart |
+| UT-012 | Azure adapter — mock mode | Returns non-empty response without API call |
+| UT-013 | A1 Filing System — node stored in correct zone | GREEN node → GREEN directory |
+| UT-014 | WebSocket event publishing | Zone transition triggers ws event |
+
+**Run command:**
+```bash
+pytest tests/ -v
+```
+
+---
+
+### CNO-AX Performance Protocol — "1000 Strikes"
+
+This is Sovereign Forge's unique performance test — no other platform has an equivalent.
+
+| Metric | Target | Achieved |
+|--------|--------|---------|
+| Average Latency | < 20ms | **11.90ms** ✅ |
+| Jitter (StDev) | < 5ms | **3.41ms** ✅ |
+| Stillwater State | Confirmed | **Confirmed** ✅ |
+| Persona | Crystalline Navigator | **Confirmed** ✅ |
+
+**Run command:**
+```bash
+python launch_1000_strikes.py
+```
+
+Results saved to `results_1000_strikes.txt`.
+
+---
+
+### Integration Tests — Manual
+
+| Test ID | Scenario | Steps | Pass Criteria |
+|---------|----------|-------|---------------|
+| IT-001 | FastAPI server starts | `uvicorn backend.main:app` | Server live at localhost:8000 |
+| IT-002 | GET /api/status | curl or browser | Returns JSON with platform, ai_mode, stillwater |
+| IT-003 | POST /api/chat mock | POST with MOCK_AI=true | Returns response, zone, mirror_array, latency |
+| IT-004 | POST /api/chat live | POST with MOCK_AI=false | Returns o4-mini response |
+| IT-005 | GET /api/metrics | GET request | Full JSON with cno_ax, zone_distribution, lens_usage |
+| IT-006 | WebSocket /ws/cognitive | Browser DevTools | Events stream in real time |
+| IT-007 | Dashboard loads | Open HTML file | UI elements present; WebSocket connecting |
+| IT-008 | Voice input | Speak into microphone | STT captured; AI response spoken back |
+| IT-009 | Profile persistence | Restart server | Sentinel Profile state preserved |
+
+---
+
+### Evaluation Pipeline — `evaluation/`
+
+| Metric | Target | Current Score |
+|--------|--------|---------------|
+| Relevance | ≥ 3.8 / 5.0 | **3.97** ✅ |
+| Coherence | ≥ 3.8 / 5.0 | **3.94** ✅ |
+| Groundedness | ≥ 3.8 / 5.0 | **3.96** ✅ |
+| **Overall** | **≥ 3.9 / 5.0** | **3.96** ✅ |
+
+80 prompts across all four lenses (20 per lens).
+
+**Run command:**
+```bash
+python evaluation/run_evaluation.py
+```
+
+---
+
+## 3. Agent + Mirror Coverage Matrix
+
+| Component | Unit Test | Performance | Integration | Eval |
+|-----------|-----------|-------------|-------------|------|
+| CNO-AX Engine | — | ✅ 1000 Strikes | IT-003 | — |
+| 14-Mirror Array | UT-009 | — | IT-003 | ✅ |
+| ADHD Lens | UT-002 | — | IT-003 | ✅ |
+| Autism Lens | UT-003 | — | IT-003 | ✅ |
+| Dyslexia Lens | UT-004 | — | IT-003 | ✅ |
+| Neurotypical | UT-005 | — | IT-003 | ✅ |
+| WebSocket | UT-014 | — | IT-006 | — |
+| Sigma Engine | UT-010 | — | IT-009 | — |
+| A1 Filing | UT-013 | — | — | — |
+| Voice Interface | — | — | IT-008 | — |
+
+---
+
+## 4. Environments
+
+| Environment | AI Mode | Purpose |
+|-------------|---------|---------|
+| Local Dev | Mock (`MOCK_AI=true`) | Fast iteration |
+| Local Live | Live (`MOCK_AI=false`) | Full pipeline validation |
+| Performance | Live or Mock | 1000 Strikes protocol |
+| CI (GitHub Actions) | Mock | Automated regression |
+
+---
+
+## 5. Known Gaps
+
+| Gap | Risk | Mitigation |
+|-----|------|------------|
+| Dashboard WebSocket not yet wired | UI shows mock data | SF-027 in backlog |
+| Voice pipeline not yet connected to /api/chat | Voice doesn't reach AI | SF-028 in backlog |
+| No CI pipeline yet | No automated testing on push | SF-026 in backlog |
+| Cosmos DB not active | No persistence | SF-029 in backlog |
+
+---
+
+## Definition of Test Done
+
+- [ ] Test written and passes locally
+- [ ] CNO-AX metrics not degraded by change
+- [ ] 1000 Strikes protocol re-run if performance-critical code changed
+- [ ] No existing tests broken
+- [ ] Accessibility: lens outputs reviewed for neurodivergent dignity

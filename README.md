@@ -5,7 +5,7 @@
 **Neurodivergent-Aware Cognitive Orchestration** | December 19, 2025
 
 ## 🎯 Mission
-Building AI that adapts to neurodivergent thinking patterns instead of forcing conformity. This platform orchestrates cognitive processing through specialized lenses for ADHD, autism, dyslexia, and[...]
+Building AI that adapts to neurodivergent thinking patterns instead of forcing conformity. This platform orchestrates cognitive processing through specialized lenses for ADHD, autism, dyslexia, and neurotypical cognition.
 
 ## 🧠 Core Architecture
 

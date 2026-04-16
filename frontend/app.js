@@ -36,19 +36,54 @@ async function loadRules() {
   $('rulesText').value = JSON.stringify(r.rules, null, 2);
 }
 
-async function saveRules() {
-  let rules;
-  try {
-    rules = JSON.parse($('rulesText').value || '{}');
-  } catch (e) {
-    alert('Invalid JSON for rules');
-    return;
+async function loadMirrors() {
+  const mirrors = [
+    { id: "M1", glyph: "📥", name: "Concept Injection", status: "active" },
+    { id: "M2", glyph: "🔍", name: "Pattern Rec", status: "active" },
+    { id: "M3", glyph: "🧩", name: "Deconstruction", status: "active" },
+    { id: "M4", glyph: "💡", name: "Synthesis", status: "active" },
+    { id: "M5", glyph: "🗺️", name: "Spatial Map", status: "active" },
+    { id: "M6", glyph: "⚡", name: "Burst Proc", status: "active" },
+    { id: "M7", glyph: "🧊", name: "Grounding", status: "active" },
+    { id: "M8", glyph: "📜", name: "Recursive Rules", status: "active" },
+    { id: "M9", glyph: "🎭", name: "Persona Sim", status: "active" },
+    { id: "M10", glyph: "⚖️", name: "Ethical Mirror", status: "active" },
+    { id: "M11", glyph: "🌉", name: "Code Bridge", status: "active" },
+    { id: "M12", glyph: "🌀", name: "Recursive Becoming", status: "active" },
+    { id: "M13", glyph: "🔮", name: "Hypothetical", status: "active" },
+    { id: "M14", glyph: "👑", name: "Sovereign Cmd", status: "active" }
+  ];
+
+  const grid = $('mirrorGrid');
+  if (!grid) return;
+
+  grid.innerHTML = mirrors.map(m => `
+    <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px;">
+      <div style="font-size: 2em;">${m.glyph}</div>
+      <div style="font-size: 0.8em; font-weight: bold;">${m.id}</div>
+      <div style="font-size: 0.7em; opacity: 0.8;">${m.name}</div>
+    </div>
+  `).join('');
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  loadMirrors();
+
+  // Initialize Weather Map
+  if (window.CognitiveWeatherMap) {
+    window.weatherMap = new CognitiveWeatherMap('weatherMapContainer');
+    window.weatherMap.update(0.15); // Initial Crystalline State
   }
-  const r = await api('/cog/rules', {
-    method: 'PUT',
-    body: JSON.stringify({ rules }),
-  });
-  $('rulesText').value = JSON.stringify(r.rules, null, 2);
+
+  // Initialize Sentient City Dashboard
+  if (window.SentientCityDashboard) {
+    window.cityDashboard = new SentientCityDashboard('sentientCityContainer');
+  }
+
+  // Other init logic...
+});
+$('rulesText').value = JSON.stringify(r.rules, null, 2);
 }
 
 async function memSnapshot() {
@@ -64,6 +99,11 @@ async function memClear() {
 async function getPrime() {
   const p = await api('/cog/prime');
   pretty($('prime'), p);
+
+  // Update Weather Map if available
+  if (window.weatherMap && p.entropy !== undefined) {
+    window.weatherMap.update(p.entropy);
+  }
 }
 
 async function getSuggestions() {

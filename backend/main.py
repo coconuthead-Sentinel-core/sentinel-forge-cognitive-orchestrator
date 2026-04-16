@@ -4,8 +4,11 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .api import router as api_router
+from .ws_api import router as ws_router
 from .adapters.azure_openai import AzureCognitiveTokenProvider
 from .infrastructure.cosmos_repo import CosmosDBRepository
+from .services.cno_ax_engine import cno_ax_engine
+from .services.uismt import uismt
 import uvicorn
 import asyncio
 
@@ -33,6 +36,11 @@ async def lifespan(app: FastAPI):
     finally:
         await provider.aclose()
     
+    # Auto-start 1000 Strikes Simulation
+    logger.info("🚀 Auto-starting 1000 Strikes Protocol...")
+    uismt.thread_input("START 1000 STRIKES", input_type="command")
+    asyncio.create_task(cno_ax_engine.start_traffic_optimization_loop())
+
     yield
     
     # Cleanup on shutdown
@@ -54,20 +62,12 @@ app.add_middleware(
 
 # Include routers
 app.include_router(api_router, prefix="/api")
+app.include_router(ws_router)
 # app.include_router(ai_router, prefix="/api")
 
 @app.post("/api/testpost")
 async def test_post():
     return {"message": "ok"}
-
-if __name__ == "__main__":
-    uvicorn.run(
-        app,
-        host="0.0.0.0",
-        port=8000,
-        timeout_keep_alive=75,
-        log_level="info"
-    )
 
 if __name__ == "__main__":
     uvicorn.run(

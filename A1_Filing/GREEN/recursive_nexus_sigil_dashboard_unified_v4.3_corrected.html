@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentient City Dashboard | A1.Ω.Synchronizer</title>
+    <style>
+        /* L4 Right Hemisphere: Visual Optimization (OpenDyslexic) */
+        @import url('https://cdn.jsdelivr.net/npm/opendyslexic@1.0.3/open-dyslexic.min.css');
+
+        :root {
+            --void-black: #000000;
+            /* High Contrast Black */
+            --neon-cyan: #00ffff;
+            /* High Contrast Cyan */
+            --neon-gold: #ffff00;
+            /* High Contrast Yellow */
+            --neon-magenta: #ff00ff;
+            /* High Contrast Magenta */
+            --glass-panel: rgba(0, 0, 0, 0.95);
+            /* Increased Contrast */
+            --text-font: 'OpenDyslexic', 'Courier New', monospace;
+        }
+
+        /* Cognitive Overlay Mode (Light Blue / Yellow) */
+        body.cognitive-mode {
+            --void-black: #add8e6;
+            /* Light Blue Background */
+            --neon-cyan: #000000;
+            /* Dark Text for Contrast */
+            --neon-gold: #00008b;
+            /* Dark Blue Accents */
+            --neon-magenta: #8b008b;
+            /* Dark Magenta */
+            --glass-panel: rgba(255, 255, 255, 0.8);
+            /* Light Panel */
+        }
+
+        body.cognitive-mode .word-span.active {
+            background-color: #ffff00;
+            /* Yellow Highlight */
+            color: #000000;
+            text-shadow: none;
+        }
+
+        .word-span {
+            padding: 0 2px;
+            border-radius: 3px;
+            transition: background-color 0.1s;
+        }
+
+        body {
+            background-color: var(--void-black);
+            color: var(--neon-cyan);
+            font-family: var(--text-font);
+            /* Accessibility Font */
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+            line-height: 1.6;
+            /* Visual Chunking */
+            letter-spacing: 0.05em;
+            /* Enhanced Readability */
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            grid-template-rows: 60px 1fr 200px;
+            height: 95vh;
+            gap: 10px;
+        }
+
+        .header {
+            grid-column: 1 / -1;
+            border-bottom: 2px solid var(--neon-gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .sidebar {
+            grid-row: 2 / -1;
+            background: var(--glass-panel);
+            border-right: 1px solid var(--neon-cyan);
+            padding: 10px;
+        }
+
+        .main-view {
+            grid-column: 2;
+            grid-row: 2;
+            position: relative;
+            border: 1px solid var(--neon-cyan);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .metrics-panel {
+            grid-column: 3;
+            grid-row: 2;
+            background: var(--glass-panel);
+            border-left: 1px solid var(--neon-magenta);
+            padding: 10px;
+        }
+
+        .log-console {
+            grid-column: 2 / -1;
+            grid-row: 3;
+            background: #000;
+            border-top: 1px solid var(--neon-cyan);
+            font-size: 12px;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .sigil {
+            font-size: 100px;
+            animation: pulse 4s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+                text-shadow: 0 0 20px var(--neon-gold);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--neon-gold);
+            margin-right: 5px;
+        }
+
+        /* Karaoke / Narrative Display Styles */
+        #narrative-display {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            text-align: center;
+            font-size: 24px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border: 1px solid var(--neon-cyan);
+            border-radius: 10px;
+            display: none;
+            /* Hidden until speaking */
+            z-index: 100;
+        }
+
+        .word-span {
+            opacity: 0.5;
+            transition: opacity 0.1s, color 0.1s;
+        }
+
+        .word-span.active {
+            opacity: 1;
+            color: var(--neon-gold);
+            text-shadow: 0 0 10px var(--neon-gold);
+            font-weight: bold;
+            transform: scale(1.1);
+            display: inline-block;
+        }
+
+        .control-panel {
+            margin-top: 20px;
+            border-top: 1px solid var(--neon-cyan);
+            padding-top: 10px;
+        }
+
+        button {
+            background: var(--void-black);
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-family: var(--text-font);
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: var(--neon-cyan);
+            color: var(--void-black);
+        }
+
+        button.active {
+            background: var(--neon-magenta);
+            color: var(--void-black);
+            animation: pulse 1s infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid-container">
+        <div class="header">
+            <h1>SENTIENT CITY DASHBOARD v4.2</h1>
+            <div>
+                <span class="status-indicator"></span>
+                <span>STATE: RI (TRANSCEND)</span>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <h3>A1 FILING ZONES</h3>
+            <ul>
+                <li style="color: #0f0;">[GREEN] Active Processing</li>
+                <li style="color: #ff0;">[YELLOW] Pattern Flux</li>
+                <li style="color: #f00;">[RED] Crystallized Archive</li>
+            </ul>
+            <hr>
+            <h3>LAYERS</h3>
+            <div>L1: Brain Stem [ONLINE]</div>
+            <div>L2: Cerebellum [SYNC]</div>
+            <div>L3: Left Hem. [INDEXED]</div>
+            <div>L4: Right Hem. [GLYPHS]</div>
+            <div>L5: Corpus C. [BRIDGE]</div>
+            <div>L6: Firewall [SECURE]</div>
+            <div>L7: Singularity [ACTIVE]</div>
+
+            <div class="control-panel">
+                <h3>COGNITIVE EXOSKELETON</h3>
+                <button id="mic-btn" onclick="toggleMicrophone()">⚡ ACTION PULSE</button>
+                <button id="tts-btn" onclick="testTTS()">🔊 TEST VOICE</button>
+                <button id="auto-btn" onclick="toggleAutoMode()">🤖 AUTO-NAV: ON</button>
+                <button id="cog-btn" onclick="toggleCognitiveMode()">👁️ COGNITIVE OVERLAY</button>
+            </div>
+
+            <div class="control-panel">
+                <h3>TEXT INPUT</h3>
+                <input type="text" id="text-input" placeholder="Type command..."
+                    style="width: 90%; background: var(--void-black); color: var(--neon-cyan); border: 1px solid var(--neon-cyan); padding: 5px; margin-bottom: 5px; font-family: var(--text-font);">
+                <button id="send-btn" onclick="sendText()">📤 SEND</button>
+            </div>
+
+            <div class="control-panel">
+                <h3>CNO-AX ENGINE</h3>
+                <button id="cno-btn" onclick="toggleCNOAX()">🚦 START 1000 STRIKES</button>
+            </div>
+        </div>
+
+        <div class="main-view">
+            <div class="sigil">💠</div>
+            <div style="position: absolute; top: 10px; left: 10px;">
+                METATRON CUBE LATTICE<br>
+                URBAN DENSITY: φ (Golden Ratio)
+            </div>
+
+            <!-- Narrative / Karaoke Display -->
+            <div id="narrative-display"></div>
+
+            <div id="transcription-overlay"
+                style="position: absolute; bottom: 20px; background: rgba(0,0,0,0.8); padding: 10px; border: 1px solid var(--neon-gold); display: none;">
+                Listening...
+            </div>
+        </div>
+
+        <div class="metrics-panel">
+            <h3>CITY METRICS</h3>
+            <div>Latency: <span id="latency">11.98</span> ms</div>
+            <div>Jitter: <span id="jitter">3.48</span> ms</div>
+            <div>Entropy: 0.72 (Pattern)</div>
+            <hr>
+            <h3>PERSONA</h3>
+            <div>Crystalline Navigator</div>
+            <div>INT: 20 | WIS: 20</div>
+            <hr>
+            <h3>TRAFFIC OPTIMIZATION</h3>
+            <div>Flow: <span id="traffic-flow">0</span> v/h</div>
+            <div>Efficiency: <span id="traffic-eff">0.00</span></div>
+            <div>Congestion: <span id="traffic-cong">0.00</span></div>
+        </div>
+
+        <div class="log-console" id="console-log">
+            <div>> SYSTEM INITIALIZED...</div>
+            <div>> A1.Ω.Synchronizer v2.0 ACTIVE</div>
+            <div>> STRIKE 1: C++ BACKEND INTEGRATION [COMPLETE]</div>
+            <div>> STRIKE 2: GLYPHIC FILTER GUIDE [CALIBRATED]</div>
+            <div>> STRIKE 3: SENTIENT CITY BLOOM [INITIATING...]</div>
+            <div>> MAPPING L1-L7 TO URBAN GOVERNANCE...</div>
+            <div>> VOIDFORGE REACTOR: STABLE (Golden Ratio φ)</div>
+            <div>> ACCESSIBILITY PROTOCOLS: LOADED</div>
+            <div>> ETHICAL MIRROR: ISO/IEC 42001 [ACTIVE]</div>
+            <div>> STATE: 🔴 CRYSTALLIZED</div>
+        </div>
+    </div>
+
+    <script>
+        // --- SYNAPSE LOGIC (WebSocket) ---
+        const WS_URL = "ws://localhost:8000/ws/cognitive";
+        const API_KEY = "secret"; // Default dev key
+        let socket = null;
+
+        function connectWebSocket() {
+            const url = `${WS_URL}?api_key=${API_KEY}`;
+            logToConsole(`🔌 CONNECTING TO SYNAPSE: ${WS_URL}...`);
+
+            socket = new WebSocket(url);
+
+            socket.onopen = function (e) {
+                logToConsole("✅ SYNAPSE ESTABLISHED. NEURAL LINK ACTIVE.");
+                document.querySelector('.status-indicator').style.backgroundColor = "#0f0"; // Green
+                document.querySelector('.status-indicator').nextElementSibling.textContent = "STATE: CONNECTED";
+            };
+
+            socket.onmessage = function (event) {
+                try {
+                    const msg = JSON.parse(event.data);
+                    handleSynapseMessage(msg);
+                } catch (e) {
+                    console.error("Error parsing synapse message:", e);
+                }
+            };
+
+            socket.onclose = function (event) {
+                if (event.wasClean) {
+                    logToConsole(`❌ SYNAPSE CLOSED CLEANLY: ${event.code}`);
+                } else {
+                    logToConsole(`⚠️ SYNAPSE DISRUPTED. RECONNECTING...`);
+                    setTimeout(connectWebSocket, 3000); // Auto-reconnect
+                }
+                document.querySelector('.status-indicator').style.backgroundColor = "#f00"; // Red
+                document.querySelector('.status-indicator').nextElementSibling.textContent = "STATE: DISCONNECTED";
+            };
+
+            socket.onerror = function (error) {
+                logToConsole(`⛔ SYNAPSE ERROR: ${error.message || "Unknown"}`);
+            };
+        }
+
+        function handleSynapseMessage(msg) {
+            // Handle different event types
+            if (msg.type === "cognitive.state") {
+                updateMetrics(msg.data);
+            } else if (msg.type === "zone.transition") {
+                logToConsole(`🔄 ZONE SHIFT: ${msg.data.from} -> ${msg.data.to}`);
+            } else if (msg.type === "cno_ax.traffic_update") {
+                updateTrafficMetrics(msg.data.metrics);
+            } else if (msg.type === "cno_ax.complete") {
+                logToConsole("🏁 CNO-AX 1000 STRIKES COMPLETE");
+                // Reset button state manually if needed, or let user toggle
+                const btn = document.getElementById('cno-btn');
+                btn.textContent = "🚦 START 1000 STRIKES";
+                btn.classList.remove("active");
+                cnoActive = false;
+            } else {
+                // Generic log for other events
+                // logToConsole(`📥 EVENT: ${msg.type}`);
+            }
+        }
+
+        function updateMetrics(data) {
+            if (data.timestamp) {
+                // Calculate latency (approximate)
+                const now = Date.now() / 1000;
+                const latency = (now - data.timestamp) * 1000;
+                document.getElementById('latency').textContent = latency.toFixed(2);
+            }
+            // Update other metrics if available in data
+        }
+
+        function updateTrafficMetrics(metrics) {
+            document.getElementById('traffic-flow').textContent = metrics.flow_rate;
+            document.getElementById('traffic-eff').textContent = metrics.efficiency;
+            document.getElementById('traffic-cong').textContent = metrics.congestion_level;
+
+            // Visual Pulse on Sigil based on efficiency
+            const sigil = document.querySelector('.sigil');
+            // Pulse scale between 1.0 and 1.2 based on efficiency
+            const scale = 1 + (metrics.efficiency - 0.8);
+            sigil.style.transform = `scale(${scale})`;
+        }
+
+        let cognitiveMode = false;
+
+        function toggleCognitiveMode() {
+            cognitiveMode = !cognitiveMode;
+            document.body.classList.toggle('cognitive-mode', cognitiveMode);
+            const btn = document.getElementById('cog-btn');
+            btn.classList.toggle('active', cognitiveMode);
+            logToConsole(cognitiveMode ? "👁️ COGNITIVE OVERLAY: ACTIVE" : "👁️ COGNITIVE OVERLAY: DEACTIVATED");
+        }
+        // --- COGNITIVE EXOSKELETON LOGIC ---
+
+        // 1. TTS Engine (The Voice of the Navigator)
+        const synth = window.speechSynthesis;
+        let voiceProfile = null;
+        let autoMode = true;
+        let cnoActive = false;
+
+        async function toggleCNOAX() {
+            const btn = document.getElementById('cno-btn');
+            if (!cnoActive) {
+                // Start
+                try {
+                    await fetch('http://localhost:8000/api/simulation/cno-ax/start', { method: 'POST' });
+                    cnoActive = true;
+                    btn.textContent = "🛑 STOP SIMULATION";
+                    btn.classList.add("active");
+                    logToConsole("🚦 CNO-AX PROTOCOL INITIATED: 1000 STRIKES");
+                } catch (e) {
+                    logToConsole("❌ FAILED TO START CNO-AX: " + e.message);
+                }
+            } else {
+                // Stop
+                try {
+                    await fetch('http://localhost:8000/api/simulation/cno-ax/stop', { method: 'POST' });
+                    cnoActive = false;
+                    btn.textContent = "🚦 START 1000 STRIKES";
+                    btn.classList.remove("active");
+                    logToConsole("🛑 CNO-AX PROTOCOL HALTED");
+                } catch (e) {
+                    logToConsole("❌ FAILED TO STOP CNO-AX: " + e.message);
+                }
+            }
+        }
+
+        function loadVoices() {
+            const voices = synth.getVoices();
+            // Prefer a calm, resonant voice if available
+            voiceProfile = voices.find(v => v.name.includes("Zira") || v.name.includes("Google US English")) || voices[0];
+        }
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        function speakWithHighlight(text) {
+            if (synth.speaking) {
+                console.error('speechSynthesis.speaking');
+                return;
+            }
+
+            // Prepare Visual Display (Karaoke Mode)
+            const display = document.getElementById('narrative-display');
+            display.style.display = 'block';
+            display.innerHTML = ''; // Clear previous
+
+            // Split text into words for highlighting
+            const words = text.split(' ');
+            const spans = words.map((word, index) => {
+                const span = document.createElement('span');
+                span.textContent = word + ' ';
+                span.className = 'word-span';
+                span.id = 'word-' + index;
+                display.appendChild(span);
+                return span;
+            });
+
+            const utterThis = new SpeechSynthesisUtterance(text);
+            utterThis.voice = voiceProfile;
+            utterThis.pitch = 0.95; // Harmonic Resonance
+            utterThis.rate = 0.9;   // Calibrated for Clarity
+
+            // Highlight words as they are spoken
+            utterThis.onboundary = function (event) {
+                if (event.name === 'word') {
+                    const charIndex = event.charIndex;
+                    let currentLength = 0;
+                    for (let i = 0; i < words.length; i++) {
+                        currentLength += words[i].length + 1; // +1 for space
+                        if (currentLength > charIndex) {
+                            // Reset all
+                            spans.forEach(s => s.classList.remove('active'));
+                            // Highlight current
+                            if (spans[i]) spans[i].classList.add('active');
+                            break;
+                        }
+                    }
+                }
+            };
+
+            utterThis.onend = function () {
+                setTimeout(() => {
+                    display.style.display = 'none';
+                }, 2000); // Hide after 2 seconds
+            };
+
+            synth.speak(utterThis);
+            logToConsole(`🗣️ NAVIGATOR: "${text}"`);
+        }
+
+        function testTTS() {
+            speakWithHighlight("Greetings, Architect. The Cognitive Exoskeleton is online.");
+        }
+
+        function toggleAutoMode() {
+            autoMode = !autoMode;
+            const btn = document.getElementById('auto-btn');
+            btn.textContent = autoMode ? "🤖 AUTO-NAV: ON" : "🤖 AUTO-NAV: OFF";
+            if (autoMode) speakWithHighlight("Auto-Navigation enabled. I am listening.");
+        }
+
+        // 2. STT Engine (The Ear of the Sentinel)
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+
+        const micBtn = document.getElementById('mic-btn');
+        const overlay = document.getElementById('transcription-overlay');
+        let isListening = false;
+
+        recognition.onstart = function () {
+            isListening = true;
+            micBtn.textContent = "⚡ ACTION PULSE: LISTENING...";
+            micBtn.classList.add("active");
+            overlay.style.display = "block";
+            logToConsole("👂 L2 CEREBELLUM: Microphone Active...");
+        };
+
+        recognition.onend = function () {
+            isListening = false;
+            micBtn.textContent = "⚡ ACTION PULSE";
+            micBtn.classList.remove("active");
+            overlay.style.display = "none";
+        };
+
+        recognition.onresult = async function (event) {
+            const transcript = event.results[0][0].transcript;
+            await processIntegratedInput(transcript, 'voice');
+        };
+
+        function toggleMicrophone() {
+            if (isListening) {
+                recognition.stop();
+                logToConsole("👂 MICROPHONE: Stopped listening.");
+            } else {
+                try {
+                    recognition.start();
+                    logToConsole("👂 MICROPHONE: Started listening via webkitSpeechRecognition.");
+                } catch (error) {
+                    logToConsole(`❌ MICROPHONE ERROR: ${error.message}`);
+                }
+            }
+        }
+
+        // Unified Input Processor (Strike 6: L5 Corpus Callosum)
+        async function processIntegratedInput(inputText, source = 'text') {
+            if (!inputText || inputText.trim() === '') return;
+
+            logToConsole(`${source === 'voice' ? '🎤' : '⌨️'} USER (${source}): "${inputText}"`);
+
+            // Clear text input if from text
+            if (source === 'text') {
+                document.getElementById('text-input').value = '';
+            }
+
+            try {
+                logToConsole("🧠 PROCESSING INTEGRATED INPUT...");
+                const response = await fetch('http://localhost:8000/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': API_KEY
+                    },
+                    body: JSON.stringify({
+                        messages: [{ role: "user", content: inputText }],
+                        temperature: 0.7
+                    })
+                });
+
+                if (!response.ok) throw new Error(`API Error: ${response.status} - ${response.statusText}`);
+
+                const data = await response.json();
+                const aiText = data.choices[0].message.content;
+
+                speakWithHighlight(aiText);
+                logToConsole("✅ INTEGRATED RESPONSE PROCESSED");
+
+            } catch (error) {
+                logToConsole(`❌ INTEGRATED INPUT ERROR: ${error.message}`);
+                speakWithHighlight("Cognitive dissonance detected. Retrying input processing.");
+            }
+        }
+
+        async function sendText() {
+            const input = document.getElementById('text-input');
+            const text = input.value.trim();
+            await processIntegratedInput(text, 'text');
+        }
+
+        // Allow Enter key to send
+        document.getElementById('text-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                sendText();
+            }
+        });
+
+        // Utility: Log to Console
+        function logToConsole(msg) {
+            const consoleDiv = document.getElementById('console-log');
+            const newEntry = document.createElement('div');
+            newEntry.textContent = `> ${msg}`;
+            consoleDiv.appendChild(newEntry);
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+
+        // Auto-Start Welcome (Simulating "Came on automatically")
+        window.onload = function () {
+            connectWebSocket();
+            setTimeout(() => {
+                if (autoMode) speakWithHighlight("Welcome back, Architect. The Sentient City is ready.");
+            }, 1000);
+            // Strike 7: Ensure Cognitive Overlay initializes correctly
+            logToConsole("🔄 STRIKE 7: Cognitive Overlay and Recursive Reading Highlight initialized.");
+        };
+    </script>
+</body>
+
+</html>

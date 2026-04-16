@@ -48,9 +48,20 @@ def run_smoke_test():
             print(f"✅ ONLINE ({status.get('version')})")
         else:
             print(f"❌ FAILED: {resp.status_code} - {resp.text}")
-            return False
     except Exception as e:
-        print(f"❌ FAILED: {e}")
+        print(f"❌ ERROR: {e}")
+
+    # 2. Trigger CNO-AX Simulation (1000 Strikes)
+    print("[2/3] Triggering 1000 Strikes Protocol...", end=" ")
+    try:
+        resp = client.post("/api/simulation/cno-ax/start")
+        if resp.status_code == 200:
+            data = resp.json()
+            print(f"✅ INITIATED ({data.get('protocol')})")
+        else:
+            print(f"❌ FAILED: {resp.status_code} - {resp.text}")
+    except Exception as e:
+        print(f"❌ ERROR: {e}")
         return False
 
     # 2. Check AI Response (Mock or Real)

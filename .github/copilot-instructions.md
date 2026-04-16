@@ -1,28 +1,28 @@
-# Sentinel Forge - AI Coding Agent Instructions
+﻿# Sentinel Forge - AI Coding Agent Instructions
 
 ## Architecture Overview
 
 Sentinel Forge is a **Cognitive AI Orchestration Platform** for neurodivergent-aware AI processing. Two subsystems:
 
 1. **Backend API** (`backend/`) - FastAPI with Domain-Driven Design (DDD)
-2. **Quantum Nexus Forge** (`quantum_nexus_forge_v5_2_enhanced.py`) - Standalone cognitive engine
+2. **Sentinel Forge Cognitive AI Orchestration Platform** (`quantum_nexus_forge_v5_2_enhanced.py`) - Standalone cognitive engine
 
-**Three-Zone Memory System**: 🟢 Active (>0.7 entropy) → 🟡 Pattern (0.3-0.7) → 🔴 Crystal (<0.3)
+**Three-Zone Memory System**: ðŸŸ¢ Active (>0.7 entropy) â†’ ðŸŸ¡ Pattern (0.3-0.7) â†’ ðŸ”´ Crystal (<0.3)
 
 **Cognitive Lenses**: ADHD (burst processing), Autism (precision), Dyslexia (spatial), Neurotypical (baseline)
 
 ```
 backend/
-├── domain/models.py      # Pure entities (Note, Entity) - NO DB fields allowed
-├── infrastructure/       # cosmos_repo.py with auto Mock DB fallback
-├── services/             # CognitiveOrchestrator: Input → AI → Memory → Glyph processing
-├── adapters/             # AzureOpenAIAdapter (AAD) ↔ MockOpenAIAdapter
-├── core/config.py        # ALL env vars via Pydantic Settings (single source)
-├── api.py                # router (public) + ai_router (API key guarded)
-└── ws_api.py             # /ws/cognitive, /ws/sync, /ws/metrics, /ws/events
+â”œâ”€â”€ domain/models.py      # Pure entities (Note, Entity) - NO DB fields allowed
+â”œâ”€â”€ infrastructure/       # cosmos_repo.py with auto Mock DB fallback
+â”œâ”€â”€ services/             # CognitiveOrchestrator: Input â†’ AI â†’ Memory â†’ Glyph processing
+â”œâ”€â”€ adapters/             # AzureOpenAIAdapter (AAD) â†” MockOpenAIAdapter
+â”œâ”€â”€ core/config.py        # ALL env vars via Pydantic Settings (single source)
+â”œâ”€â”€ api.py                # router (public) + ai_router (API key guarded)
+â””â”€â”€ ws_api.py             # /ws/cognitive, /ws/sync, /ws/metrics, /ws/events
 ```
 
-**Data Flow:** `api.py` → `CognitiveOrchestrator` → `AI Adapter` → `cosmos_repo.upsert_note()`
+**Data Flow:** `api.py` â†’ `CognitiveOrchestrator` â†’ `AI Adapter` â†’ `cosmos_repo.upsert_note()`
 
 ## Quick Start
 
@@ -33,7 +33,7 @@ uvicorn backend.main:app --reload --port 8000
 curl http://localhost:8000/api/status
 ```
 
-**Mock Mode:** Set `MOCK_AI=true` + leave `COSMOS_KEY` empty → zero external dependencies.
+**Mock Mode:** Set `MOCK_AI=true` + leave `COSMOS_KEY` empty â†’ zero external dependencies.
 
 ## Critical Domain Model Pattern
 
@@ -71,9 +71,9 @@ async def embeddings(deployment, inputs, dimensions=1536) -> Dict
 ## Repository Auto-Fallback
 
 `cosmos_repo.py` enables mock mode on ANY failure:
-- Missing credentials → mock mode
-- Connection error → mock mode
-- Container not found → mock mode
+- Missing credentials â†’ mock mode
+- Connection error â†’ mock mode
+- Container not found â†’ mock mode
 
 Look for `[MOCK DB]` in logs. Field mapping happens here: `item["partitionKey"] = note.tag`
 
@@ -93,10 +93,8 @@ API_KEY=secret             # For X-API-Key validation
 ```powershell
 pytest tests/                      # Unit tests
 python scripts/smoke_test.py       # Integration (needs running server)
-python scripts/run_full_eval.py    # Full pipeline: server → collect → evaluate
+python scripts/run_full_eval.py    # Full pipeline: server â†’ collect â†’ evaluate
 ```
-
-Evaluation outputs: `evaluation/test_responses.json`, `evaluation/eval_results.json`
 
 ## WebSocket Pattern
 
@@ -134,3 +132,42 @@ sys.path.insert(0, str(root_dir))
 4. **AAD auth** - `AzureOpenAIAdapter` uses `DefaultAzureCredential`, not API keys
 5. **Lifespan initialization** - Cosmos DB and AAD token warmup happen in `main.py` lifespan
 6. **Cognitive lenses** - Always apply appropriate lens based on user context for processing
+
+
+## WebSocket Pattern
+
+```python
+# ws_api.py pattern:
+websocket_require_api_key(websocket)  # Enforce before accept
+queue = bus.subscribe(loop, maxsize=1000, policy="latest")
+# Send initial snapshot, then stream EventBus updates
+```
+
+## EventBus Usage
+
+```python
+# Publish events
+from .eventbus import bus
+await bus.publish("cognitive", {"type": "zone.transition", "data": {...}})
+
+# Subscribe in WebSockets
+queue = bus.subscribe(loop, maxsize=100, policy="latest", topic="cognitive")
+```
+
+## Script Import Pattern
+
+Scripts in `scripts/` or `evaluation/` must add repo root:
+```python
+root_dir = Path(__file__).parent.parent
+sys.path.insert(0, str(root_dir))
+```
+
+## Common Gotchas
+
+1. **Windows emoji handling** - `run_full_eval.py` patches `stdout.reconfigure(encoding='utf-8')`
+2. **Adapters must match interface** - New AI adapters need identical signatures
+3. **EventBus policies** - Use `"latest"` for real-time UIs (drops old messages when full)
+4. **AAD auth** - `AzureOpenAIAdapter` uses `DefaultAzureCredential`, not API keys
+5. **Lifespan initialization** - Cosmos DB and AAD token warmup happen in `main.py` lifespan
+6. **Cognitive lenses** - Always apply appropriate lens based on user context for processing
+

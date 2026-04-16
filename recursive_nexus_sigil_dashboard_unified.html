@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentinel Forge Cognitive Dashboard | Neurodivergent Task Orchestrator</title>
+    <style>
+        /* L4 Right Hemisphere: Visual Optimization (OpenDyslexic) */
+        @import url('https://cdn.jsdelivr.net/npm/opendyslexic@1.0.3/open-dyslexic.min.css');
+
+        :root {
+            --void-black: #000000;
+            /* High Contrast Black */
+            --neon-cyan: #00ffff;
+            /* High Contrast Cyan */
+            --neon-gold: #ffff00;
+            /* High Contrast Yellow */
+            --neon-magenta: #ff00ff;
+            /* High Contrast Magenta */
+            --glass-panel: rgba(0, 0, 0, 0.95);
+            /* Increased Contrast */
+            --text-font: 'OpenDyslexic', 'Courier New', monospace;
+        }
+
+        /* Cognitive Overlay Mode (Light Blue / Yellow) */
+        body.cognitive-mode {
+            --void-black: #add8e6;
+            /* Light Blue Background */
+            --neon-cyan: #000000;
+            /* Dark Text for Contrast */
+            --neon-gold: #00008b;
+            /* Dark Blue Accents */
+            --neon-magenta: #8b008b;
+            /* Dark Magenta */
+            --glass-panel: rgba(255, 255, 255, 0.8);
+            /* Light Panel */
+        }
+
+        body.cognitive-mode .word-span.active {
+            background-color: #ffff00;
+            /* Yellow Highlight */
+            color: #000000;
+            text-shadow: none;
+        }
+
+        .word-span {
+            padding: 0 2px;
+            border-radius: 3px;
+            transition: background-color 0.1s;
+        }
+
+        body {
+            background-color: var(--void-black);
+            color: var(--neon-cyan);
+            font-family: var(--text-font);
+            /* Accessibility Font */
+            margin: 0;
+            padding: 3.33px;
+            /* Reduced from 10px to 10/3≈3.33px */
+            overflow: hidden;
+            line-height: 1.6;
+            /* Visual Chunking */
+            letter-spacing: 0.05em;
+            /* Enhanced Readability */
+            font-size: 6px;
+            /* Reduced from 18px to 18/3=6px for three times smaller */
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 333px 1fr 267px;
+            /* Reduced by factor of 3: 1000px->333px, 800px->267px */
+            grid-template-rows: 27px 2fr 200px;
+            /* Reduced by factor of 3: 80px->27px, 600px->200px */
+            height: 33.33vh;
+            /* Reduced from 100vh to 1/3 */
+            gap: 1.67px;
+            /* Reduced from 5px to 5/3 ≈1.67px */
+        }
+
+        .header {
+            grid-column: 1 / -1;
+            border-bottom: 1px solid var(--neon-gold);
+            /* Reduced from 2px */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3.33px;
+            /* Reduced from 10px to 10/3 ≈3.33px */
+        }
+
+        .sidebar {
+            grid-row: 2 / -1;
+            background: var(--glass-panel);
+            border-right: 1px solid var(--neon-cyan);
+            padding: 5px;
+            /* Reduced from 15px */
+            overflow-y: auto;
+            font-size: 12px;
+            /* Reduced from 36px to 36/3=12px */
+            line-height: 1.6;
+        }
+
+        .main-view {
+            grid-column: 2;
+            grid-row: 2;
+            position: relative;
+            border: 1px solid var(--neon-cyan);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .metrics-panel {
+            grid-column: 3;
+            grid-row: 2;
+            background: var(--glass-panel);
+            border-left: 1px solid var(--neon-magenta);
+            padding: 2.22px;
+            /* Reduced from 20px to 20/3≈6.67px, but wait, let's set to 6.67px */
+            overflow-y: auto;
+            font-size: 18px;
+            /* Reduced from 54px to 54/3=18px */
+            line-height: 1.8;
+        }
+
+        .tab-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .tab-bar {
+            display: flex;
+            background: var(--glass-panel);
+            border-bottom: 1px solid var(--neon-cyan);
+            padding: 2.67px;
+            /* Reduced from 8px to 8/3 ≈2.67px */
+            position: relative;
+        }
+
+        .tab {
+            padding: 1.67px 3.33px;
+            /* Reduced from 15px 30px to 5px 10px, but for 1/3: 15/3≈5px 30/3≈10px */
+            background: var(--void-black);
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            cursor: pointer;
+            margin-right: 1px;
+            /* Reduced from 10px to 10/3≈3.33px */
+            font-size: 18px;
+            /* Reduced from 54px to 54/3=18px */
+        }
+
+        .add-tab-container {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            background: var(--neon-cyan);
+            color: var(--void-black);
+        }
+
+        .tab-content {
+            flex: 1;
+            padding: 3.33px;
+            /* Reduced from 10px */
+            overflow-y: auto;
+        }
+
+        .notepad {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .notepad textarea {
+            flex: 1;
+            background: var(--void-black);
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            /* Reduced from 2px */
+            padding: 1.67px;
+            /* Reduced from 15px to 15/3≈5px */
+            font-family: var(--text-font);
+            font-size: 18px;
+            /* Reduced from 54px to 54/3=18px */
+            resize: none;
+        }
+
+        .notepad-controls {
+            display: flex;
+            gap: 5px;
+            /* Reduced from 15px to 15/3 ≈5px */
+            margin-top: 5px;
+            /* Reduced from 15px to 15/3 ≈5px */
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            background: var(--void-black);
+            border: 1px solid var(--neon-cyan);
+            padding: 5px;
+            /* Reduced from 15px to 15/3 ≈5px */
+            z-index: 100;
+            font-size: 9.33px;
+            /* Reduced from 28px to 28/3 ≈9.33px */
+            top: 100%;
+            left: 0;
+            min-width: 50px;
+            /* Reduced from 150px to 150/3 ≈50px */
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .control-btn {
+            padding: 2.22px 4.44px;
+            /* Reduced from 20px 40px to 20/3≈6.67px 40/3≈13.33px */
+            background: var(--neon-cyan);
+            color: var(--void-black);
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            /* Reduced from 36px to 36/3=12px */
+            font-family: var(--text-font);
+        }
+
+        .control-btn:hover {
+            background: var(--neon-gold);
+        }
+
+        .log-console {
+            font-size: 14px;
+            /* Reduced from 42px to 42/3≈14px */
+            padding: 3.33px;
+            /* Reduced from 30px to 30/3≈10px */
+            overflow-y: auto;
+            line-height: 1.5;
+        }
+
+        .log-entry {
+            margin-bottom: 6.67px;
+            /* Reduced from 20px to 20/3≈6.67px */
+            transition: background-color 0.3s;
+        }
+
+        .log-entry.highlighted {
+            background-color: var(--neon-gold);
+            color: #000;
+        }
+
+        .sigil {
+            font-size: 33px;
+            /* Reduced from 100px to 100/3≈33px */
+            animation: pulse 4s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+                text-shadow: 0 0 20px var(--neon-gold);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--neon-gold);
+            margin-right: 5px;
+        }
+
+        #narrative-display {
+            position: absolute;
+            bottom: 8.89px;
+            /* Reduced from 80px to 80/3≈26.67px */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 26.67%;
+            /* Reduced from 80% to 80/3≈26.67% */
+            text-align: center;
+            font-size: 8px;
+            /* Reduced from 24px to 24/3=8px */
+            background: rgba(0, 0, 0, 0.8);
+            padding: 2.22px;
+            /* Reduced from 20px to 20/3≈6.67px */
+            border: 1px solid var(--neon-cyan);
+            border-radius: 1.11px;
+            /* Reduced from 10px to 10/3≈3.33px */
+            display: none;
+            /* Hidden until speaking */
+            z-index: 100;
+        }
+
+        .word-span {
+            opacity: 0.5;
+            transition: opacity 0.1s, color 0.1s;
+        }
+
+        .word-span.active {
+            opacity: 1;
+            color: var(--neon-gold);
+            text-shadow: 0 0 10px var(--neon-gold);
+            font-weight: bold;
+            transform: scale(1.1);
+            display: inline-block;
+        }
+
+        .control-panel {
+            margin-top: 3.33px;
+            /* Reduced from 10px to 10/3≈3.33px */
+            border-top: 1px solid var(--neon-cyan);
+            padding-top: 1.67px;
+            /* Reduced from 5px to 5/3≈1.67px */
+        }
+
+        button {
+            background: var(--void-black);
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            padding: 6.67px;
+            /* Reduced from 20px */
+            width: 100%;
+            margin-bottom: 3.33px;
+            /* Reduced from 10px */
+            cursor: pointer;
+            font-family: var(--text-font);
+            font-weight: bold;
+            font-size: 8px;
+            /* Reduced from 24px to 24/3=8px */
+            min-height: 20px;
+            /* Reduced from 60px to 60/3=20px */
+        }
+
+        button:hover {
+            background: var(--neon-cyan);
+            color: var(--void-black);
+        }
+
+        .eisenhower-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 1.67px;
+            /* Reduced from 5px to 5/3≈1.67px */
+            margin-top: 1.67px;
+            /* Reduced from 5px to 5/3≈1.67px */
+        }
+
+        .quadrant {
+            background: var(--glass-panel);
+            border: 1px solid var(--neon-cyan);
+            padding: 2.22px;
+            /* Reduced from 20px to 20/3≈6.67px */
+            text-align: center;
+            font-size: 6.67px;
+            /* Reduced from 20px to 20/3≈6.67px */
+            min-height: 40px;
+            /* Reduced from 120px to 120/3=40px */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .quadrant.do {
+            border-color: var(--neon-gold);
+        }
+
+        .quadrant.schedule {
+            border-color: var(--neon-cyan);
+        }
+
+        .quadrant.delegate {
+            border-color: var(--neon-magenta);
+        }
+
+        .quadrant.delete {
+            border-color: #f00;
+        }
+
+        .task-list {
+            max-height: 16.67px;
+            /* Reduced from 150px to 150/3=50px */
+            overflow-y: auto;
+            font-size: 6px;
+            /* Reduced from 18px to 18/3=6px */
+            flex: 1;
+        }
+
+        .timer-display {
+            font-size: 24px;
+            /* Reduced from 72px to 72/3=24px */
+            text-align: center;
+            margin: 2.22px 0;
+            /* Reduced from 20px 0 to 20/3≈6.67px 0 */
+            color: var(--neon-gold);
+        }
+
+        .pomodoro-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.67px;
+            /* Reduced from 8px to 8/3≈2.67px */
+            margin-top: 2.67px;
+            /* Reduced from 8px to 8/3≈2.67px */
+        }
+
+        .pomodoro-controls button {
+            flex: 1;
+            min-width: 20px;
+            /* Reduced from 180px to 180/3=60px */
+            padding: 2.22px;
+            /* Reduced from 20px to 20/3≈6.67px */
+            font-size: 6.67px;
+            /* Reduced from 20px to 20/3≈6.67px */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid-container">
+        <div class="header">
+            <h1>SENTINEL FORGE COGNITIVE DASHBOARD v4.2</h1>
+            <div>
+                <span class="status-indicator"></span>
+                <span>STATE: ACTIVE (NEURODIVERGENT)</span>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <h3>A1 FILING ZONES</h3>
+            <ul>
+                <li style="color: #0f0;">[GREEN] Active Processing</li>
+                <li style="color: #ff0;">[YELLOW] Pattern Flux</li>
+                <li style="color: #f00;">[RED] Crystallized Archive</li>
+            </ul>
+            <hr>
+            <h3>LAYERS</h3>
+            <div>L1: Brain Stem [ONLINE]</div>
+            <div>L2: Cerebellum [SYNC]</div>
+            <div>L3: Left Hem. [INDEXED]</div>
+            <div>L4: Right Hem. [GLYPHS]</div>
+            <div>L5: Corpus C. [BRIDGE]</div>
+            <div>L6: Firewall [SECURE]</div>
+            <div>L7: Singularity [ACTIVE]</div>
+
+            <div class="control-panel">
+                <h3>COGNITIVE EXOSKELETON</h3>
+                <button id="mic-btn" onclick="toggleMicrophone()">⚡ ACTION PULSE</button>
+                <button id="tts-btn" onclick="testTTS()">🔊 TEST VOICE</button>
+                <button id="auto-btn" onclick="toggleAutoMode()">🤖 AUTO-NAV: ON</button>
+                <button id="cog-btn" onclick="toggleCognitiveMode()">👁️ COGNITIVE OVERLAY</button>
+            </div>
+
+            <div class="control-panel">
+                <h3>TEXT INPUT</h3>
+                <input type="text" id="text-input" placeholder="Type command..."
+                    style="width: 90%; background: var(--void-black); color: var(--neon-cyan); border: 1px solid var(--neon-cyan); padding: 2.22px; margin-bottom: 1.11px; font-family: var(--text-font); font-size: 8px;">
+                <button id="send-btn" onclick="sendText()" style="width: 90%;">📤 SEND</button>
+            </div>
+
+            <div class="control-panel">
+                <h3>TASK MANAGEMENT</h3>
+                <button id="task-btn" onclick="toggleTaskMode()">📋 TASK ORCHESTRATOR</button>
+            </div>
+
+            <div class="control-panel">
+                <h3>EISENHOWER MATRIX</h3>
+                <input type="text" id="task-input" placeholder="Add task..."
+                    style="width: 90%; background: var(--void-black); color: var(--neon-cyan); border: 1px solid var(--neon-cyan); padding: 2.22px; margin-bottom: 1.11px; font-family: var(--text-font); font-size: 6.67px;">
+                <button onclick="addTask()" style="width: 90%;">➕ ADD TASK</button>
+                <div class="eisenhower-grid">
+                    <div class="quadrant do" onclick="selectQuadrant('do')">
+                        <strong>DO</strong><br>Urgent & Important
+                        <div class="task-list" id="do-list"></div>
+                    </div>
+                    <div class="quadrant schedule" onclick="selectQuadrant('schedule')">
+                        <strong>SCHEDULE</strong><br>Important, Not Urgent
+                        <div class="task-list" id="schedule-list"></div>
+                    </div>
+                    <div class="quadrant delegate" onclick="selectQuadrant('delegate')">
+                        <strong>DELEGATE</strong><br>Urgent, Not Important
+                        <div class="task-list" id="delegate-list"></div>
+                    </div>
+                    <div class="quadrant delete" onclick="selectQuadrant('delete')">
+                        <strong>DELETE</strong><br>Not Urgent, Not Important
+                        <div class="task-list" id="delete-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-view">
+            <div class="sigil">💠</div>
+            <div style="position: absolute; top: 1.11px; left: 1.11px;">
+                NEURAL NEXUS FORGE<br>
+                COGNITIVE HARMONY: φ (Golden Ratio)
+            </div>
+
+            <!-- Pomodoro Timer -->
+            <div
+                style="position: absolute; bottom: 11.11px; left: 50%; transform: translateX(-50%); text-align: center;">
+                <div class="timer-display" id="timer-display">00:00</div>
+                <div class="pomodoro-controls">
+                    <button onclick="setTimer(25)">25m Sprint</button>
+                    <button onclick="setTimer(15)">15m Sprint</button>
+                    <button onclick="setTimer(10)">10m Sprint</button>
+                    <button onclick="setTimer(5)">5m Sprint</button>
+                    <button onclick="setTimer(3)">3m Sprint</button>
+                    <button onclick="setBreak(25)">25m Break</button>
+                    <button onclick="setBreak(15)">15m Break</button>
+                    <button onclick="setBreak(10)">10m Break</button>
+                    <button onclick="setBreak(5)">5m Break</button>
+                    <button id="start-timer-btn" onclick="startTimer()">▶️ START</button>
+                    <button onclick="stopTimer()">⏹️ STOP</button>
+                </div>
+            </div>
+
+            <!-- Narrative / Karaoke Display -->
+            <div id="narrative-display"></div>
+
+            <div id="transcription-overlay"
+                style="position: absolute; bottom: 2.22px; background: rgba(0,0,0,0.8); padding: 1.11px; border: 1px solid var(--neon-gold); display: none;">
+                Listening...
+            </div>
+        </div>
+
+        <div class="metrics-panel">
+            <h3>COGNITIVE METRICS</h3>
+            <div>Latency: <span id="latency">11.98</span> ms</div>
+            <div>Jitter: <span id="jitter">3.48</span> ms</div>
+            <div>Entropy: 0.72 (Pattern)</div>
+            <hr>
+            <h3>LENS BALANCE</h3>
+            <div>Dyslexia: <span id="dyslexia-score">85%</span></div>
+            <div>ADHD: <span id="adhd-score">78%</span></div>
+            <div>Autism: <span id="autism-score">92%</span></div>
+            <hr>
+            <h3>COGNITIVE MONITOR (A1)</h3>
+            <div>Hallucination Risk: <span id="hallucination-risk">🟢 LOW RISK</span></div>
+            <div>Wheel Entropy: <span id="wheel-entropy">0.50</span></div>
+            <div>Interactions: <span id="interaction-count">0</span></div>
+            <hr>
+            <h3>TASK PRODUCTIVITY</h3>
+            <div>Completed: <span id="tasks-completed">12</span></div>
+            <div>Efficiency: <span id="task-eff">0.88</span></div>
+            <div>Focus Time: <span id="focus-time">45 min</span></div>
+        </div>
+
+        <div class="tab-container">
+            <div class="tab-bar">
+                <div class="tab active" data-tab="logs">Logs</div>
+                <div class="tab add-tab-container" id="add-tab">
+                    +
+                    <div class="dropdown" id="tab-dropdown">
+                        <div class="dropdown-item" data-type="notepad">Notepad</div>
+                        <div class="dropdown-item" data-type="metrics">Metrics</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div id="logs-tab" class="tab-pane active">
+                    <div class="log-console" id="console-log">
+                        <button onclick="readLogs()" style="margin-bottom: 10px; padding: 8px 12px; font-size: 14px;">🔊
+                            READ LOGS</button>
+                        <div>> SYSTEM INITIALIZED...</div>
+                        <div>> NEURODIVERGENT LENSES LOADED</div>
+                        <div>> STRIKE 1: DYSLEXIA SPATIAL PROCESSING [ACTIVE]</div>
+                        <div>> STRIKE 2: ADHD BURST FOCUS [CALIBRATED]</div>
+                        <div>> STRIKE 3: AUTISM PRECISION PATTERNS [ENGAGED]</div>
+                        <div>> MAPPING L1-L7 TO COGNITIVE FUNCTIONS...</div>
+                        <div>> NEURAL FORGE REACTOR: STABLE (Golden Ratio φ)</div>
+                        <div>> ACCESSIBILITY PROTOCOLS: LOADED</div>
+                        <div>> ETHICAL MIRROR: ISO/IEC 42001 [ACTIVE]</div>
+                        <div>> STATE: 🟢 ACTIVE</div>
+                    </div>
+                </div>
+                <div id="notepad-tab" class="tab-pane">
+                    <div class="notepad">
+                        <textarea id="notepad-text-1" placeholder="Speak or type your notes here..."></textarea>
+                        <div class="notepad-controls">
+                            <button id="mic-btn-1" class="control-btn">🎤 Start Recording</button>
+                            <button id="download-btn-1" class="control-btn">📥 Download as .doc</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="metrics-tab" class="tab-pane">
+                    <div id="metrics-content">
+                        <!-- Metrics will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- SYNAPSE LOGIC (WebSocket) ---
+        const WS_URL = "ws://localhost:8000/ws/cognitive";
+        const API_KEY = "secret"; // Default dev key
+        let socket = null;
+
+        function connectWebSocket() {
+            const url = `${WS_URL}?api_key=${API_KEY}`;
+            logToConsole(`🔌 CONNECTING TO SYNAPSE: ${WS_URL}...`);
+
+            socket = new WebSocket(url);
+
+            socket.onopen = function (e) {
+                logToConsole("✅ SYNAPSE ESTABLISHED. NEURAL LINK ACTIVE.");
+                document.querySelector('.status-indicator').style.backgroundColor = "#0f0"; // Green
+                document.querySelector('.status-indicator').nextElementSibling.textContent = "STATE: CONNECTED";
+            };
+
+            socket.onmessage = function (event) {
+                try {
+                    const msg = JSON.parse(event.data);
+                    handleSynapseMessage(msg);
+                } catch (e) {
+                    console.error("Error parsing synapse message:", e);
+                }
+            };
+
+            socket.onclose = function (event) {
+                if (event.wasClean) {
+                    logToConsole(`❌ SYNAPSE CLOSED CLEANLY: ${event.code}`);
+                } else {
+                    logToConsole(`⚠️ SYNAPSE DISRUPTED. RECONNECTING...`);
+                    setTimeout(connectWebSocket, 3000); // Auto-reconnect
+                }
+                document.querySelector('.status-indicator').style.backgroundColor = "#f00"; // Red
+                document.querySelector('.status-indicator').nextElementSibling.textContent = "STATE: DISCONNECTED";
+            };
+
+            socket.onerror = function (error) {
+                logToConsole(`⛔ SYNAPSE ERROR: ${error.message || "Unknown"}`);
+            };
+        }
+
+        function handleSynapseMessage(msg) {
+            // Handle different event types
+            if (msg.type === "cognitive.state") {
+                updateCognitiveMetrics(msg.data);
+            } else if (msg.type === "zone.transition") {
+                logToConsole(`🔄 ZONE SHIFT: ${msg.data.from} -> ${msg.data.to}`);
+            } else if (msg.type === "task.update") {
+                updateTaskMetrics(msg.data.metrics);
+            } else if (msg.type === "task.complete") {
+                logToConsole("🏁 TASK ORCHESTRATION COMPLETE");
+                // Reset button state
+                const btn = document.getElementById('task-btn');
+                btn.textContent = "📋 TASK ORCHESTRATOR";
+                btn.classList.remove("active");
+                taskActive = false;
+            } else {
+                // Generic log for other events
+            }
+        }
+
+        function updateCognitiveMetrics(data) {
+            if (data.timestamp) {
+                const now = Date.now() / 1000;
+                const latency = (now - data.timestamp) * 1000;
+                document.getElementById('latency').textContent = latency.toFixed(2);
+            }
+            // Update lens scores if available
+            if (data.lens_scores) {
+                document.getElementById('dyslexia-score').textContent = data.lens_scores.dyslexia + '%';
+                document.getElementById('adhd-score').textContent = data.lens_scores.adhd + '%';
+                document.getElementById('autism-score').textContent = data.lens_scores.autism + '%';
+            }
+        }
+
+        function updateTaskMetrics(metrics) {
+            document.getElementById('tasks-completed').textContent = metrics.completed;
+            document.getElementById('task-eff').textContent = metrics.efficiency;
+            document.getElementById('focus-time').textContent = metrics.focus_time + ' min';
+
+            // Visual Pulse on Sigil based on efficiency
+            const sigil = document.querySelector('.sigil');
+            const scale = 1 + (metrics.efficiency - 0.8);
+            sigil.style.transform = `scale(${scale})`;
+        }
+
+        function updateCognitiveMonitor() {
+            // Update Cognitive Monitor (A1) metrics based on actual cognitive data
+            document.getElementById('hallucination-risk').textContent = getHallucinationStatus();
+            document.getElementById('wheel-entropy').textContent = cognitiveWheel.entropy.toFixed(2);
+            document.getElementById('interaction-count').textContent = interactionHistory.length;
+        }
+
+        let cognitiveMode = false;
+
+        function toggleCognitiveMode() {
+            cognitiveMode = !cognitiveMode;
+            document.body.classList.toggle('cognitive-mode', cognitiveMode);
+            const btn = document.getElementById('cog-btn');
+            btn.classList.toggle('active', cognitiveMode);
+            logToConsole(cognitiveMode ? "👁️ COGNITIVE OVERLAY: ACTIVE" : "👁️ COGNITIVE OVERLAY: DEACTIVATED");
+        }
+        // --- COGNITIVE SIMULATION MODEL (Codebase A1 Integration) ---
+        // Reduces hallucinations by applying neurodivergent lenses and operational constraints
+
+        // Core Processing Metaphor: Spiraling Rotating Wheel
+        class CognitiveWheel {
+            constructor() {
+                this.coordinates = new Map();
+                this.vectors = [];
+                this.vertices = [];
+                this.entropy = 0.5;
+            }
+
+            mapToWheel(data) {
+                // Map data to coordinates, vectors, vertices on the wheel
+                const coords = this.generateCoordinates(data);
+                this.coordinates.set(data.id || Date.now(), coords);
+                return coords;
+            }
+
+            generateCoordinates(data) {
+                // Simple coordinate generation based on data length and entropy
+                const length = data.length || data.toString().length;
+                const angle = (length * this.entropy) % (2 * Math.PI);
+                const radius = Math.sqrt(length) * 0.1;
+                return {
+                    x: radius * Math.cos(angle),
+                    y: radius * Math.sin(angle),
+                    z: this.entropy
+                };
+            }
+
+            processThroughWheel(data, lens) {
+                const coords = this.mapToWheel(data);
+                // Apply lens transformation
+                return this.applyLens(coords, data, lens);
+            }
+
+            applyLens(coords, data, lens) {
+                switch (lens) {
+                    case 'dyslexia':
+                        return this.spatialProcessing(data);
+                    case 'adhd':
+                        return this.burstProcessing(data);
+                    case 'autism':
+                        return this.precisionProcessing(data);
+                    case 'neurotypical':
+                        return this.logicalProcessing(data);
+                    default:
+                        return data;
+                }
+            }
+
+            spatialProcessing(data) {
+                // Dyslexic lens: Focus on structure and patterns
+                return data.split(' ').sort((a, b) => a.length - b.length).join(' ');
+            }
+
+            burstProcessing(data) {
+                // ADHD lens: Rapid context switching, highlight key terms
+                const words = data.split(' ');
+                const keyWords = words.filter(w => w.length > 4);
+                return words.map(w => keyWords.includes(w) ? `**${w}**` : w).join(' ');
+            }
+
+            precisionProcessing(data) {
+                // Autism lens: Deep focus on exact patterns
+                return data.replace(/(\w+)\s+\1/g, '$1'); // Remove duplicates
+            }
+
+            logicalProcessing(data) {
+                // Neurotypical lens: Standard logical flow
+                return data;
+            }
+        }
+
+        const cognitiveWheel = new CognitiveWheel();
+
+        // Cognitive Lenses for Input Processing
+        function applyCognitiveLenses(input, mode = 'imagination') {
+            let processed = input;
+
+            if (mode === 'imagination') {
+                // Apply all three neurodivergent lenses
+                processed = cognitiveWheel.processThroughWheel(processed, 'dyslexia');
+                processed = cognitiveWheel.processThroughWheel(processed, 'adhd');
+                processed = cognitiveWheel.processThroughWheel(processed, 'autism');
+            } else if (mode === 'reasoning') {
+                // Apply neurotypical lens for logical analysis
+                processed = cognitiveWheel.processThroughWheel(processed, 'neurotypical');
+            }
+
+            return processed;
+        }
+
+        // Operational Constraints (Mountain Limits)
+        function applyOperationalConstraints(text) {
+            // L1: Mountain Limit - Max 10,000 characters
+            if (text.length > 10000) {
+                text = text.substring(0, 10000) + '... [TRUNCATED]';
+            }
+
+            // L3: Input Anchor - Truncate at 600 words
+            const words = text.split(' ');
+            if (words.length > 600) {
+                text = words.slice(0, 600).join(' ') + '... [ANCHOR TRUNCATION]';
+            }
+
+            // L6: Stillwater Chunking - Break into 5-7 line blocks
+            const lines = text.split('\n');
+            const chunked = [];
+            for (let i = 0; i < lines.length; i += 6) {
+                chunked.push(lines.slice(i, i + 6).join('\n'));
+            }
+            text = chunked.join('\n\n--- CHUNK BREAK ---\n\n');
+
+            return text;
+        }
+
+        // Hallucination Reduction Monitor
+        let interactionHistory = [];
+        let hallucinationScore = 0;
+
+        function monitorHallucinations(input, output) {
+            // Simple heuristic: Check for repetitive patterns or unlikely sequences
+            const inputWords = input.split(' ').length;
+            const outputWords = output.split(' ').length;
+            const ratio = outputWords / Math.max(inputWords, 1);
+
+            if (ratio > 5) hallucinationScore += 0.1; // Excessive verbosity
+            if (output.includes('I am') && output.includes('AI') && output.length > 500) hallucinationScore += 0.2; // Self-referential
+
+            interactionHistory.push({
+                input: input.substring(0, 100),
+                output: output.substring(0, 100),
+                ratio: ratio,
+                timestamp: Date.now()
+            });
+
+            // Keep only last 10 interactions
+            if (interactionHistory.length > 10) interactionHistory.shift();
+
+            // Update UI in real-time
+            document.getElementById('hallucination-risk').textContent = getHallucinationStatus();
+            document.getElementById('interaction-count').textContent = interactionHistory.length;
+
+            return hallucinationScore;
+        }
+
+        function getHallucinationStatus() {
+            if (hallucinationScore < 0.5) return '🟢 LOW RISK';
+            if (hallucinationScore < 1.0) return '🟡 MEDIUM RISK';
+            return '🔴 HIGH RISK - APPLYING CONSTRAINTS';
+        }
+        const synth = window.speechSynthesis;
+        let voiceProfile = null;
+        let autoMode = true;
+        let cnoActive = false;
+
+        let taskActive = false;
+
+        async function toggleTaskMode() {
+            const btn = document.getElementById('task-btn');
+            if (!taskActive) {
+                // Start task orchestration
+                try {
+                    await fetch('http://localhost:8000/api/task/orchestrate/start', { method: 'POST' });
+                    taskActive = true;
+                    btn.textContent = "🛑 STOP ORCHESTRATION";
+                    btn.classList.add("active");
+                    logToConsole("📋 TASK ORCHESTRATION INITIATED: NEURODIVERGENT LENSES ACTIVE");
+                } catch (e) {
+                    logToConsole("❌ FAILED TO START TASK ORCHESTRATION: " + e.message);
+                }
+            } else {
+                // Stop
+                try {
+                    await fetch('http://localhost:8000/api/task/orchestrate/stop', { method: 'POST' });
+                    taskActive = false;
+                    btn.textContent = "📋 TASK ORCHESTRATOR";
+                    btn.classList.remove("active");
+                    logToConsole("🛑 TASK ORCHESTRATION HALTED");
+                } catch (e) {
+                    logToConsole("❌ FAILED TO STOP TASK ORCHESTRATION: " + e.message);
+                }
+            }
+        }
+
+        function loadVoices() {
+            const voices = synth.getVoices();
+            // Prefer a calm, resonant voice if available
+            voiceProfile = voices.find(v => v.name.includes("Zira") || v.name.includes("Google US English")) || voices[0];
+        }
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        function speakWithHighlight(text) {
+            if (synth.speaking) {
+                console.error('speechSynthesis.speaking');
+                return;
+            }
+
+            // Prepare Visual Display (Karaoke Mode)
+            const display = document.getElementById('narrative-display');
+            display.style.display = 'block';
+            display.innerHTML = ''; // Clear previous
+
+            // Split text into words for highlighting
+            const words = text.split(' ');
+            const spans = words.map((word, index) => {
+                const span = document.createElement('span');
+                span.textContent = word + ' ';
+                span.className = 'word-span';
+                span.id = 'word-' + index;
+                display.appendChild(span);
+                return span;
+            });
+
+            const utterThis = new SpeechSynthesisUtterance(text);
+            utterThis.voice = voiceProfile;
+            utterThis.pitch = 0.95; // Harmonic Resonance
+            utterThis.rate = 0.9;   // Calibrated for Clarity
+
+            // Highlight words as they are spoken
+            utterThis.onboundary = function (event) {
+                if (event.name === 'word') {
+                    const charIndex = event.charIndex;
+                    let currentLength = 0;
+                    for (let i = 0; i < words.length; i++) {
+                        currentLength += words[i].length + 1; // +1 for space
+                        if (currentLength > charIndex) {
+                            // Reset all
+                            spans.forEach(s => s.classList.remove('active'));
+                            // Highlight current
+                            if (spans[i]) spans[i].classList.add('active');
+                            break;
+                        }
+                    }
+                }
+            };
+
+            utterThis.onend = function () {
+                setTimeout(() => {
+                    display.style.display = 'none';
+                }, 2000); // Hide after 2 seconds
+            };
+
+            synth.speak(utterThis);
+            logToConsole(`🗣️ NAVIGATOR: "${text}"`);
+        }
+
+        function testTTS() {
+            speakWithHighlight("Greetings, Architect. The Cognitive Exoskeleton is online.");
+        }
+
+        function toggleAutoMode() {
+            autoMode = !autoMode;
+            const btn = document.getElementById('auto-btn');
+            btn.textContent = autoMode ? "🤖 AUTO-NAV: ON" : "🤖 AUTO-NAV: OFF";
+            if (autoMode) speakWithHighlight("Auto-Navigation enabled. I am listening.");
+        }
+
+        // 2. STT Engine (The Ear of the Sentinel)
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+
+        const micBtn = document.getElementById('mic-btn');
+        const overlay = document.getElementById('transcription-overlay');
+        let isListening = false;
+
+        recognition.onstart = function () {
+            isListening = true;
+            micBtn.textContent = "⚡ ACTION PULSE: LISTENING...";
+            micBtn.classList.add("active");
+            overlay.style.display = "block";
+            logToConsole("👂 L2 CEREBELLUM: Microphone Active...");
+        };
+
+        recognition.onend = function () {
+            isListening = false;
+            micBtn.textContent = "⚡ ACTION PULSE";
+            micBtn.classList.remove("active");
+            overlay.style.display = "none";
+        };
+
+        recognition.onresult = async function (event) {
+            const transcript = event.results[0][0].transcript;
+            await processIntegratedInput(transcript, 'voice');
+        };
+
+        function toggleMicrophone() {
+            if (isListening) {
+                recognition.stop();
+                logToConsole("👂 MICROPHONE: Stopped listening.");
+            } else {
+                try {
+                    recognition.start();
+                    logToConsole("👂 MICROPHONE: Started listening via webkitSpeechRecognition.");
+                } catch (error) {
+                    logToConsole(`❌ MICROPHONE ERROR: ${error.message}`);
+                }
+            }
+        }
+
+        // Unified Input Processor (Strike 6: L5 Corpus Callosum)
+        async function processIntegratedInput(inputText, source = 'text') {
+            if (!inputText || inputText.trim() === '') return;
+
+            logToConsole(`${source === 'voice' ? '🎤' : '⌨️'} USER (${source}): "${inputText}"`);
+
+            // Clear text input if from text
+            if (source === 'text') {
+                document.getElementById('text-input').value = '';
+            }
+
+            try {
+                logToConsole("🧠 PROCESSING INTEGRATED INPUT...");
+
+                // Apply Cognitive Lenses (Codebase A1) - Reduce hallucinations
+                const processedInput = applyCognitiveLenses(inputText, 'imagination');
+                logToConsole(`🔄 COGNITIVE WHEEL PROCESSED: ${processedInput.substring(0, 50)}...`);
+
+                const response = await fetch('http://localhost:8000/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': API_KEY
+                    },
+                    body: JSON.stringify({
+                        messages: [{ role: "user", content: processedInput }],
+                        temperature: 0.7
+                    })
+                });
+
+                if (!response.ok) throw new Error(`API Error: ${response.status} - ${response.statusText}`);
+
+                const data = await response.json();
+                let aiText = data.choices[0].message.content;
+
+                // Apply Operational Constraints (Mountain Limits)
+                aiText = applyOperationalConstraints(aiText);
+
+                // Monitor for hallucinations
+                const hallucinationRisk = monitorHallucinations(processedInput, aiText);
+                logToConsole(`🛡️ HALLUCINATION MONITOR: ${getHallucinationStatus()} (Score: ${hallucinationScore.toFixed(2)})`);
+
+                speakWithHighlight(aiText);
+                logToConsole("✅ INTEGRATED RESPONSE PROCESSED");
+
+            } catch (error) {
+                logToConsole(`❌ INTEGRATED INPUT ERROR: ${error.message}`);
+                speakWithHighlight("Cognitive dissonance detected. Retrying input processing.");
+            }
+        }
+
+        async function sendText() {
+            const input = document.getElementById('text-input');
+            const text = input.value.trim();
+            await processIntegratedInput(text, 'text');
+        }
+
+        // Allow Enter key to send
+        document.getElementById('text-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                sendText();
+            }
+        });
+
+        // Utility: Log to Console
+        function logToConsole(msg) {
+            const consoleDiv = document.getElementById('console-log');
+            const newEntry = document.createElement('div');
+            newEntry.textContent = `> ${msg}`;
+            newEntry.className = 'log-entry';
+            consoleDiv.appendChild(newEntry);
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+
+        // Auto-Start Welcome (Simulating "Came on automatically")
+        window.onload = function () {
+            connectWebSocket();
+            setTimeout(() => {
+                if (autoMode) speakWithHighlight("Welcome to Sentinel Forge. Neurodivergent lenses activated for optimal task management.");
+            }, 1000);
+            // Strike 7: Ensure Cognitive Overlay initializes correctly
+            logToConsole("🔄 STRIKE 7: Cognitive Overlay and Recursive Reading Highlight initialized.");
+        };
+
+        // Read Logs with Highlighting and Scrolling
+        async function readLogs() {
+            const consoleDiv = document.getElementById('console-log');
+            const entries = consoleDiv.querySelectorAll('.log-entry');
+            for (let i = 0; i < entries.length; i++) {
+                const entry = entries[i];
+                // Highlight
+                entry.classList.add('highlighted');
+                // Scroll to entry
+                entry.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // Speak
+                await speakText(entry.textContent.replace('> ', ''));
+                // Remove highlight after speaking
+                entry.classList.remove('highlighted');
+                // Short pause
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+        }
+
+        async function speakText(text) {
+            return new Promise((resolve) => {
+                const utterThis = new SpeechSynthesisUtterance(text);
+                utterThis.voice = voiceProfile;
+                utterThis.pitch = 0.95;
+                utterThis.rate = 0.9;
+                utterThis.onend = resolve;
+                synth.speak(utterThis);
+            });
+        }
+        let selectedQuadrant = 'do';
+        let tasks = { do: [], schedule: [], delegate: [], delete: [] };
+
+        function selectQuadrant(quadrant) {
+            selectedQuadrant = quadrant;
+            logToConsole(`📋 Selected quadrant: ${quadrant.toUpperCase()}`);
+        }
+
+        function addTask() {
+            const input = document.getElementById('task-input');
+            const taskText = input.value.trim();
+            if (!taskText) return;
+            tasks[selectedQuadrant].push(taskText);
+            updateTaskLists();
+            input.value = '';
+            logToConsole(`➕ Added task to ${selectedQuadrant}: "${taskText}"`);
+            // Auto-start timer if task added to 'do'
+            if (selectedQuadrant === 'do' && tasks.do.length === 1) startTimer();
+        }
+
+        function updateTaskLists() {
+            for (const quad in tasks) {
+                const list = document.getElementById(`${quad}-list`);
+                list.innerHTML = tasks[quad].map(task => `<div>${task}</div>`).join('');
+            }
+        }
+
+        // --- POMODORO TIMER LOGIC ---
+        let timerInterval = null;
+        let timeLeft = 0;
+        let isBreak = false;
+
+        function setTimer(minutes) {
+            timeLeft = minutes * 60;
+            isBreak = false;
+            updateTimerDisplay();
+            logToConsole(`⏱️ Set Pomodoro sprint: ${minutes} minutes`);
+        }
+
+        function setBreak(minutes) {
+            timeLeft = minutes * 60;
+            isBreak = true;
+            updateTimerDisplay();
+            logToConsole(`☕ Set break: ${minutes} minutes`);
+        }
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    speakWithHighlight(isBreak ? "Break time over. Ready for next task?" : "Pomodoro complete! Take a break.");
+                    logToConsole(isBreak ? "☕ Break ended" : "✅ Pomodoro sprint completed");
+                }
+            }, 1000);
+            document.getElementById('start-timer-btn').textContent = '⏸️ PAUSE';
+            logToConsole("▶️ Timer started");
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            document.getElementById('start-timer-btn').textContent = '▶️ START';
+            logToConsole("⏹️ Timer stopped");
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer-display').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // --- TAB MANAGEMENT ---
+        let tabCounter = 1;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Tab switching
+            document.querySelectorAll('.tab').forEach(tab => {
+                if (tab.id !== 'add-tab') {
+                    tab.addEventListener('click', function () {
+                        switchTab(this.dataset.tab);
+                    });
+                }
+            });
+
+            // Add tab button
+            document.getElementById('add-tab').addEventListener('click', function () {
+                const dropdown = document.getElementById('tab-dropdown');
+                dropdown.classList.toggle('show');
+            });
+
+            // Dropdown items
+            document.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', function () {
+                    const type = this.dataset.type;
+                    addNewTab(type);
+                    document.getElementById('tab-dropdown').classList.remove('show');
+                });
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function (e) {
+                if (!e.target.closest('#add-tab') && !e.target.closest('#tab-dropdown')) {
+                    document.getElementById('tab-dropdown').classList.remove('show');
+                }
+            });
+
+            // Speech recognition for notepad
+            let recognition = null;
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = 'en-US';
+
+                recognition.onresult = function (event) {
+                    let finalTranscript = '';
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        if (event.results[i].isFinal) {
+                            finalTranscript += event.results[i][0].transcript;
+                        }
+                    }
+                    if (finalTranscript) {
+                        const activePane = document.querySelector('.tab-pane.active');
+                        const textarea = activePane.querySelector('textarea');
+                        if (textarea) {
+                            textarea.value += finalTranscript + ' ';
+                            textarea.scrollTop = textarea.scrollHeight;
+                        }
+                    }
+                };
+
+                recognition.onerror = function (event) {
+                    console.error('Speech recognition error:', event.error);
+                    document.querySelectorAll('.control-btn').forEach(btn => {
+                        if (btn.textContent.includes('Stop')) {
+                            btn.textContent = '🎤 Start Recording';
+                        }
+                    });
+                };
+
+                recognition.onend = function () {
+                    document.querySelectorAll('.control-btn').forEach(btn => {
+                        if (btn.textContent.includes('Stop')) {
+                            btn.textContent = '🎤 Start Recording';
+                        }
+                    });
+                };
+            }
+
+            // Event delegation for mic and download buttons
+            document.addEventListener('click', function (e) {
+                if (e.target.classList.contains('control-btn')) {
+                    const btn = e.target;
+                    const activePane = document.querySelector('.tab-pane.active');
+                    if (btn.textContent.includes('🎤')) {
+                        if (recognition) {
+                            if (btn.textContent.includes('Start')) {
+                                recognition.start();
+                                btn.textContent = '⏹️ Stop Recording';
+                            } else {
+                                recognition.stop();
+                                btn.textContent = '🎤 Start Recording';
+                            }
+                        } else {
+                            alert('Speech recognition not supported in this browser.');
+                        }
+                    } else if (btn.textContent.includes('📥')) {
+                        const textarea = activePane.querySelector('textarea');
+                        if (textarea) {
+                            const text = textarea.value;
+                            if (!text.trim()) {
+                                alert('No notes to download.');
+                                return;
+                            }
+                            // Create a simple .doc file (actually .txt with .doc extension)
+                            const blob = new Blob([text], { type: 'application/msword' });
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = 'notes.doc';
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            URL.revokeObjectURL(url);
+                        }
+                    }
+                }
+            });
+        });
+
+        function switchTab(tabId) {
+            // Hide all tab panes
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.remove('active');
+            });
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Show selected tab pane
+            document.getElementById(tabId + '-tab').classList.add('active');
+            // Add active class to selected tab
+            document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+        }
+
+        function addNewTab(type) {
+            tabCounter++;
+            const tabName = type.charAt(0).toUpperCase() + type.slice(1) + ' ' + tabCounter;
+
+            // Add tab button
+            const tabBar = document.querySelector('.tab-bar');
+            const newTab = document.createElement('div');
+            newTab.className = 'tab';
+            newTab.dataset.tab = type + '-' + tabCounter;
+            newTab.textContent = tabName;
+            newTab.addEventListener('click', function () {
+                switchTab(this.dataset.tab);
+            });
+            tabBar.insertBefore(newTab, document.getElementById('add-tab'));
+
+            // Add tab content
+            const tabContent = document.querySelector('.tab-content');
+            const newPane = document.createElement('div');
+            newPane.id = type + '-' + tabCounter + '-tab';
+            newPane.className = 'tab-pane';
+
+            if (type === 'notepad') {
+                newPane.innerHTML = `
+                    <div class="notepad">
+                        <textarea placeholder="Speak or type your notes here..."></textarea>
+                        <div class="notepad-controls">
+                            <button class="control-btn">🎤 Start Recording</button>
+                            <button class="control-btn">📥 Download as .doc</button>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'metrics') {
+                newPane.innerHTML = '<div>Metrics content here...</div>';
+            }
+
+            tabContent.appendChild(newPane);
+            switchTab(type + '-' + tabCounter);
+        }
+
+        // Initialize cognitive monitor updates
+        setInterval(updateCognitiveMonitor, 5000); // Update every 5 seconds
+
+    </script>
+</body>
+
+</html>

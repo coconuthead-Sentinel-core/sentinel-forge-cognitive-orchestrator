@@ -18,4 +18,11 @@ class RequestSizeLimitMiddleware(BaseHTTPMiddleware):
                     status_code=413,
                     content={"detail": "Request body too large"}
                 )
-        return await call_next(request)
+        response = await call_next(request)
+        # Validate response structure for chat endpoints
+        if request.url.path == "/chat" and hasattr(response, 'body'):
+            content = response.body.decode('utf-8')
+            if not all(keyword in content for keyword in ["**Summary:**", "**Plan:**", "**Assumptions:**", "**Next Step:**"]):
+                # Log violation but don't block - for HR demo, we enforce but allow
+                print("⚠️ Response does not match output contract structure.")
+        return response

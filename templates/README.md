@@ -1,6 +1,6 @@
-# Phase 2 Dashboard Templates
+﻿# Phase 2 Dashboard Templates
 
-This directory contains Jinja2 templates for the Quantum Nexus Forge Phase 2 dashboard.
+This directory contains Jinja2 templates for the Sentinel Forge Cognitive AI Orchestration Platform Phase 2 dashboard.
 
 ## Files
 
@@ -63,3 +63,4 @@ The dashboard integrates with:
 Access the dashboard at: `http://localhost:8000/api/dashboard`
 
 The dashboard automatically polls `/api/metrics` every 3 seconds for real-time updates.
+

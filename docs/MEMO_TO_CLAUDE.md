@@ -1,4 +1,4 @@
-# 📋 DEPARTMENTAL MEMO
+﻿# ðŸ“‹ DEPARTMENTAL MEMO
 
 **TO:** Claude AI (Built by Anthropic)  
 **FROM:** Entropic Archivist of Wisdom  
@@ -12,7 +12,7 @@
 
 The **Sentinel Forge** project has reached **100% Portfolio Completion** status. This memo serves as the canonical reference document for all project assets, current state, and actionable next steps for LinkedIn publication.
 
-**Repository URL:** https://github.com/coconuthead-Sentinel-core/Sentinel-of-sentinel-s-Forge  
+**Repository URL:** https://github.com/coconuthead-Sentinel-core/sentinel-forge-cognitive-orchestrator  
 **Latest Commit:** `1fa09ca` - "feat: Architectural Rebuild v2.0 (Cornerstone to Capstone)"  
 **Total Files:** 85  
 **Lines of Code:** 6,078  
@@ -22,71 +22,71 @@ The **Sentinel Forge** project has reached **100% Portfolio Completion** status.
 ## PROJECT STRUCTURE REFERENCE
 
 ```
-Sentinel-of-sentinel-s-Forge/
-│
-├── 📂 backend/                    # FastAPI Backend (DDD Architecture)
-│   ├── api.py                     # REST endpoints with router pattern
-│   ├── main.py                    # Application entry point
-│   ├── schemas.py                 # Pydantic request/response models
-│   ├── service.py                 # Business logic orchestration
-│   │
-│   ├── 📂 adapters/               # External service integrations
-│   │   └── azure_openai.py        # Azure OpenAI with AAD auth
-│   │
-│   ├── 📂 core/                   # Cross-cutting concerns
-│   │   ├── config.py              # Pydantic Settings (all env vars)
-│   │   └── security.py            # Auth utilities
-│   │
-│   ├── 📂 domain/                 # Pure Python entities (NO DB fields)
-│   │   └── models.py              # Note, Entity, MemorySnapshot
-│   │
-│   ├── 📂 infrastructure/         # Database layer
-│   │   └── cosmos_repo.py         # Repository pattern + Mock DB fallback
-│   │
-│   └── 📂 services/               # Application services
-│       └── chat_service.py        # AI pipeline orchestration
-│
-├── 📂 docs/                       # Documentation
-│   ├── API.md                     # API reference
-│   ├── API_EXAMPLES.md            # cURL/Python examples
-│   ├── QUICKSTART.md              # 5-minute setup guide
-│   ├── ROADMAP.md                 # Phase 1-4 roadmap
-│   ├── TROUBLESHOOTING.md         # Common issues + fixes
-│   └── env_setup.md               # Environment configuration
-│
-├── 📂 evaluation/                 # AI Evaluation Pipeline
-│   ├── test_queries.json          # 90 test cases (chat/command/philosophy)
-│   ├── collect_responses.py       # Response collector script
-│   ├── run_evaluation.py          # Scoring engine (Azure AI Eval SDK)
-│   └── HANDOFF_TO_CLAUDE.ipynb    # Jupyter handoff notebook
-│
-├── 📂 frontend/                   # Static UI
-│   ├── index.html                 # Main control panel
-│   ├── dashboard.html             # Real-time metrics dashboard
-│   └── app.js                     # WebSocket + API client
-│
-├── 📂 scripts/                    # Automation
-│   ├── run_full_eval.py           # One-click evaluation pipeline
-│   ├── smoke_test.py              # Integration smoke tests
-│   ├── preflight_check.py         # Environment validator
-│   └── init_cosmos.py             # Database bootstrapping
-│
-├── 📂 tests/                      # Unit Tests
-│   ├── test_domain.py             # Domain model tests
-│   ├── test_eventbus.py           # EventBus pub/sub tests
-│   ├── test_vectors.py            # Vector math tests
-│   └── test_ws_api.py             # WebSocket tests
-│
-├── 📂 .github/                    # CI/CD
-│   ├── copilot-instructions.md    # AI agent guidance
-│   └── workflows/ci.yml           # GitHub Actions workflow
-│
-├── 🐳 Dockerfile                  # Container image
-├── 🐳 docker-compose.yml          # Multi-service orchestration
-├── 📄 README.md                   # Project overview (HR-facing)
-├── 📄 requirements.txt            # Python dependencies
-├── 📄 Makefile                    # Build shortcuts
-└── 📄 startup.sh                  # Production startup script
+sentinel-forge-cognitive-orchestrator/
+â”‚
+â”œâ”€â”€ ðŸ“‚ backend/                    # FastAPI Backend (DDD Architecture)
+â”‚   â”œâ”€â”€ api.py                     # REST endpoints with router pattern
+â”‚   â”œâ”€â”€ main.py                    # Application entry point
+â”‚   â”œâ”€â”€ schemas.py                 # Pydantic request/response models
+â”‚   â”œâ”€â”€ service.py                 # Business logic orchestration
+â”‚   â”‚
+â”‚   â”œâ”€â”€ ðŸ“‚ adapters/               # External service integrations
+â”‚   â”‚   â””â”€â”€ azure_openai.py        # Azure OpenAI with AAD auth
+â”‚   â”‚
+â”‚   â”œâ”€â”€ ðŸ“‚ core/                   # Cross-cutting concerns
+â”‚   â”‚   â”œâ”€â”€ config.py              # Pydantic Settings (all env vars)
+â”‚   â”‚   â””â”€â”€ security.py            # Auth utilities
+â”‚   â”‚
+â”‚   â”œâ”€â”€ ðŸ“‚ domain/                 # Pure Python entities (NO DB fields)
+â”‚   â”‚   â””â”€â”€ models.py              # Note, Entity, MemorySnapshot
+â”‚   â”‚
+â”‚   â”œâ”€â”€ ðŸ“‚ infrastructure/         # Database layer
+â”‚   â”‚   â””â”€â”€ cosmos_repo.py         # Repository pattern + Mock DB fallback
+â”‚   â”‚
+â”‚   â””â”€â”€ ðŸ“‚ services/               # Application services
+â”‚       â””â”€â”€ chat_service.py        # AI pipeline orchestration
+â”‚
+â”œâ”€â”€ ðŸ“‚ docs/                       # Documentation
+â”‚   â”œâ”€â”€ API.md                     # API reference
+â”‚   â”œâ”€â”€ API_EXAMPLES.md            # cURL/Python examples
+â”‚   â”œâ”€â”€ QUICKSTART.md              # 5-minute setup guide
+â”‚   â”œâ”€â”€ ROADMAP.md                 # Phase 1-4 roadmap
+â”‚   â”œâ”€â”€ TROUBLESHOOTING.md         # Common issues + fixes
+â”‚   â””â”€â”€ env_setup.md               # Environment configuration
+â”‚
+â”œâ”€â”€ ðŸ“‚ evaluation/                 # AI Evaluation Pipeline
+â”‚   â”œâ”€â”€ test_queries.json          # 90 test cases (chat/command/philosophy)
+â”‚   â”œâ”€â”€ collect_responses.py       # Response collector script
+â”‚   â”œâ”€â”€ run_evaluation.py          # Scoring engine (Azure AI Eval SDK)
+â”‚   â””â”€â”€ HANDOFF_TO_CLAUDE.ipynb    # Jupyter handoff notebook
+â”‚
+â”œâ”€â”€ ðŸ“‚ frontend/                   # Static UI
+â”‚   â”œâ”€â”€ index.html                 # Main control panel
+â”‚   â”œâ”€â”€ dashboard.html             # Real-time metrics dashboard
+â”‚   â””â”€â”€ app.js                     # WebSocket + API client
+â”‚
+â”œâ”€â”€ ðŸ“‚ scripts/                    # Automation
+â”‚   â”œâ”€â”€ run_full_eval.py           # One-click evaluation pipeline
+â”‚   â”œâ”€â”€ smoke_test.py              # Integration smoke tests
+â”‚   â”œâ”€â”€ preflight_check.py         # Environment validator
+â”‚   â””â”€â”€ init_cosmos.py             # Database bootstrapping
+â”‚
+â”œâ”€â”€ ðŸ“‚ tests/                      # Unit Tests
+â”‚   â”œâ”€â”€ test_domain.py             # Domain model tests
+â”‚   â”œâ”€â”€ test_eventbus.py           # EventBus pub/sub tests
+â”‚   â”œâ”€â”€ test_vectors.py            # Vector math tests
+â”‚   â””â”€â”€ test_ws_api.py             # WebSocket tests
+â”‚
+â”œâ”€â”€ ðŸ“‚ .github/                    # CI/CD
+â”‚   â”œâ”€â”€ copilot-instructions.md    # AI agent guidance
+â”‚   â””â”€â”€ workflows/ci.yml           # GitHub Actions workflow
+â”‚
+â”œâ”€â”€ ðŸ³ Dockerfile                  # Container image
+â”œâ”€â”€ ðŸ³ docker-compose.yml          # Multi-service orchestration
+â”œâ”€â”€ ðŸ“„ README.md                   # Project overview (HR-facing)
+â”œâ”€â”€ ðŸ“„ requirements.txt            # Python dependencies
+â”œâ”€â”€ ðŸ“„ Makefile                    # Build shortcuts
+â””â”€â”€ ðŸ“„ startup.sh                  # Production startup script
 ```
 
 ---
@@ -97,7 +97,7 @@ Sentinel-of-sentinel-s-Forge/
 |---------|----------------|----------------|
 | **Domain-Driven Design** | Pure entities, no ORM coupling | `backend/domain/models.py` |
 | **Repository Pattern** | Cosmos DB + Mock fallback | `backend/infrastructure/cosmos_repo.py` |
-| **Adapter Pattern** | Azure OpenAI ↔ Mock AI | `backend/adapters/azure_openai.py`, `backend/mock_adapter.py` |
+| **Adapter Pattern** | Azure OpenAI â†” Mock AI | `backend/adapters/azure_openai.py`, `backend/mock_adapter.py` |
 | **Dependency Injection** | Settings via Pydantic | `backend/core/config.py` |
 | **Event-Driven** | Pub/Sub EventBus | `backend/eventbus.py` |
 | **Service Layer** | ChatService orchestration | `backend/services/chat_service.py` |
@@ -119,14 +119,14 @@ Sentinel-of-sentinel-s-Forge/
 
 ## ACTIONABLE NEXT STEPS FOR LINKEDIN PUBLICATION
 
-### ✅ COMPLETED (No Action Required)
+### âœ… COMPLETED (No Action Required)
 1. [x] Repository pushed to GitHub
 2. [x] README.md polished with Quick Start
 3. [x] Documentation complete (7 docs)
 4. [x] CI workflow configured
 5. [x] Feature branch created for future work
 
-### 🔄 OPTIONAL ENHANCEMENTS (Post-LinkedIn)
+### ðŸ”„ OPTIONAL ENHANCEMENTS (Post-LinkedIn)
 1. [ ] Add GitHub repository description and topics
 2. [ ] Create GitHub release tag `v2.0.0`
 3. [ ] Add repository social preview image
@@ -137,9 +137,9 @@ Sentinel-of-sentinel-s-Forge/
 ## LINKEDIN PUBLICATION CHECKLIST
 
 ### Step 1: Add Project to LinkedIn Profile
-1. Go to LinkedIn → Profile → Add profile section → Featured
-2. Click "Add" → "Link"
-3. Paste: `https://github.com/coconuthead-Sentinel-core/Sentinel-of-sentinel-s-Forge`
+1. Go to LinkedIn â†’ Profile â†’ Add profile section â†’ Featured
+2. Click "Add" â†’ "Link"
+3. Paste: `https://github.com/coconuthead-Sentinel-core/sentinel-forge-cognitive-orchestrator`
 4. Title: "Sentinel Forge - Enterprise AI Backend Platform"
 5. Description:
    ```
@@ -150,14 +150,14 @@ Sentinel-of-sentinel-s-Forge/
 
 ### Step 2: Post About the Project
 ```
-🚀 Just shipped: Sentinel Forge v2.0
+ðŸš€ Just shipped: Sentinel Forge v2.0
 
 An enterprise-grade AI backend platform showcasing:
-• Domain-Driven Design (DDD) architecture
-• Repository pattern with Cosmos DB
-• AI adapter pattern for Azure OpenAI
-• Mock mode for cost-free development
-• Comprehensive evaluation pipeline
+â€¢ Domain-Driven Design (DDD) architecture
+â€¢ Repository pattern with Cosmos DB
+â€¢ AI adapter pattern for Azure OpenAI
+â€¢ Mock mode for cost-free development
+â€¢ Comprehensive evaluation pipeline
 
 Built with Python 3.13, FastAPI, Pydantic v2, and Docker.
 
@@ -179,7 +179,7 @@ git log -1 --oneline
 
 # Verify remote sync
 git remote -v
-# Expected: origin https://github.com/coconuthead-Sentinel-core/Sentinel-of-sentinel-s-Forge.git
+# Expected: origin https://github.com/coconuthead-Sentinel-core/sentinel-forge-cognitive-orchestrator.git
 
 # Test mock mode works
 $env:MOCK_AI="true"; python -c "from backend.core.config import settings; print(f'Mock: {settings.MOCK_AI}')"
@@ -190,7 +190,7 @@ $env:MOCK_AI="true"; python -c "from backend.core.config import settings; print(
 
 ## CONCLUSION
 
-**Status:** Portfolio Complete ✅  
+**Status:** Portfolio Complete âœ…  
 **HR Readiness:** 100%  
 **LinkedIn Ready:** YES  
 
@@ -203,3 +203,4 @@ The Sentinel Forge project demonstrates enterprise-level software architecture, 
 *This memo was generated by the Entropic Archivist of Wisdom for handoff to Claude AI (Anthropic).*
 
 *Last Updated: December 14, 2025*
+

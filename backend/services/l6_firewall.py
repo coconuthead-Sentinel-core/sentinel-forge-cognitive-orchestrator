@@ -57,7 +57,10 @@ class L6EthicalFirewall:
         words = content.split()
         if len(words) > max_words:
             logger.info(f"L6 Firewall: Truncating content from {len(words)} to {max_words} words.")
-            content = " ".join(words[:max_words]) + "... [TRUNCATED BY L6 FIREWALL]"
+            truncation_marker = "[TRUNCATED BY L6 FIREWALL]"
+            marker_word_count = len(truncation_marker.split())
+            allowed_content_words = max(1, max_words - marker_word_count)
+            content = " ".join(words[:allowed_content_words]) + f" {truncation_marker}"
 
         # 2. Neurodivergent Formatting (Lens-specific)
         # These are "soft" constraints applied as post-processing if the AI missed them

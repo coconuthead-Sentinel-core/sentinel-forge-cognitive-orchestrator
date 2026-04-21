@@ -15,6 +15,26 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
+@router.websocket("/ws/sync")
+async def ws_sync(websocket: WebSocket) -> Any:
+    """Compatibility stream that forwards all EventBus traffic without an initial snapshot."""
+    websocket_require_api_key(websocket)
+    await websocket.accept()
+    loop = asyncio.get_running_loop()
+    queue = bus.subscribe(loop, maxsize=100, policy="latest", topic=None)
+
+    try:
+        while True:
+            event = await queue.get()
+            await websocket.send_json(event)
+    except WebSocketDisconnect:
+        logger.info("Client disconnected from /ws/sync.")
+    except Exception as e:
+        logger.error(f"An unexpected error occurred in /ws/sync: {e}", exc_info=True)
+    finally:
+        bus.unsubscribe(queue)
+
+
 @router.websocket("/ws/cognitive")
 async def ws_cognitive(websocket: WebSocket) -> Any:
     """WebSocket endpoint for real-time cognitive processing events."""

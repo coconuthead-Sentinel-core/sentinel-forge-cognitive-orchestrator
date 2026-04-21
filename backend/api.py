@@ -99,15 +99,6 @@ async def stop_task_orchestration():
     # Placeholder: Stop orchestration
     return {"status": "stopped"}
 
-# --- Lifecycle Hook to Init DB ---
-@router.on_event("startup")
-async def startup_event():
-    await cosmos_repo.initialize()
-
-@router.on_event("shutdown")
-async def shutdown_event():
-    await cosmos_repo.close()
-
 # --- AI Routes ---
 # @ai_router.post("/chat")
 # async def chat(req: dict = Body(...)):

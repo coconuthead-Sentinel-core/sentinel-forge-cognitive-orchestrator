@@ -139,10 +139,16 @@ class GlyphProcessor:
 
         # Derive metadata
         dominant_topic = matches[0].topic if matches else None
+        symbolic_tags = {
+            rule
+            for match in matches
+            for rule in match.applied_rules.values()
+        }
         
         return SymbolicMetadata(
             matched_glyphs=matches,
             dominant_topic=dominant_topic,
+            symbolic_tags=symbolic_tags,
         )
 
     def _match_glyph(self, text: str, shape_name: str, shape_data: Dict[str, Any]) -> Optional[GlyphMatch]:
@@ -186,12 +192,22 @@ class GlyphProcessor:
                 # Apply rules for partial matches too
                 if seed in rules:
                     applied_rules[seed] = rules[seed]
+            else:
+                partial_score = self._token_similarity_score(text_lower, seed_lower)
+                if partial_score > 0.0:
+                    matched_seeds.append(seed)
+                    total_score += partial_score
+                    match_count += 1
+                    if seed in rules:
+                        applied_rules[seed] = rules[seed]
 
         if match_count == 0:
             return None
 
         # Calculate average confidence
         confidence = total_score / match_count
+        if match_count > 1:
+            confidence -= 0.1 * (match_count - 1)
 
         return GlyphMatch(
             shape=shape_name,
@@ -200,6 +216,22 @@ class GlyphProcessor:
             matched_seeds=matched_seeds,
             applied_rules=applied_rules
         )
+
+    def _token_similarity_score(self, text: str, seed: str) -> float:
+        """Return a fuzzy partial-match score for one seed against text tokens."""
+        for token in re.findall(r"\b[\w_]+\b", text):
+            if token == seed:
+                continue
+            if len(token) < 4 or len(seed) < 4:
+                continue
+            common_prefix = 0
+            for left, right in zip(token, seed):
+                if left != right:
+                    break
+                common_prefix += 1
+            if common_prefix >= 5:
+                return 0.7
+        return 0.0
 
     def get_available_shapes(self) -> List[str]:
         """Get list of available glyph shapes."""

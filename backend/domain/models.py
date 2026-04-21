@@ -72,6 +72,7 @@ class SymbolicMetadata(BaseModel):
     """Metadata generated from symbolic processing."""
     matched_glyphs: List[GlyphMatch]
     dominant_topic: Optional[str] = None
+    symbolic_tags: Set[str] = Field(default_factory=set)
     model_config = ConfigDict(extra="ignore")
 
 

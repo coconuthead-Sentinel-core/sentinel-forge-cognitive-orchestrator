@@ -1,9 +1,7 @@
 
-import asyncio
 import json
 import pytest
 from fastapi.testclient import TestClient
-import websockets
 
 from backend.main import app
 from backend.eventbus import bus
@@ -24,21 +22,21 @@ async def test_ws_cognitive_endpoint():
 
         # 2. Publish a 'cognitive' event and verify it's received
         cognitive_event = {"type": "test.cognitive.event", "data": "cognitive_payload"}
-        asyncio.run(bus.publish("cognitive", cognitive_event))
+        bus.publish(cognitive_event, topic="cognitive")
         
         received_data = websocket.receive_json()
         assert received_data == cognitive_event
 
         # 3. Publish a 'symbolic' event and verify it's received
         symbolic_event = {"type": "test.symbolic.event", "data": "symbolic_payload"}
-        asyncio.run(bus.publish("symbolic", symbolic_event))
+        bus.publish(symbolic_event, topic="symbolic")
 
         received_data = websocket.receive_json()
         assert received_data == symbolic_event
 
         # 4. Publish a 'glyph' event and verify it's received
         glyph_event = {"type": "test.glyph.event", "data": "glyph_payload"}
-        asyncio.run(bus.publish("glyph", glyph_event))
+        bus.publish(glyph_event, topic="glyph")
 
         received_data = websocket.receive_json()
         assert received_data == glyph_event
@@ -57,30 +55,25 @@ async def test_ws_metrics_endpoint():
 
         # 2. Publish a relevant 'zone.classified' event and verify it's received
         classified_event = {"type": "zone.classified", "data": {"zone": "active", "entropy": 0.8}}
-        asyncio.run(bus.publish("cognitive", classified_event))
+        bus.publish(classified_event, topic="cognitive")
         
         received_data = websocket.receive_json()
         assert received_data == classified_event
 
         # 3. Publish a relevant 'zone.transition' event and verify it's received
         transition_event = {"type": "zone.transition", "data": {"note_id": "123", "from": "active", "to": "pattern"}}
-        asyncio.run(bus.publish("cognitive", transition_event))
+        bus.publish(transition_event, topic="cognitive")
 
         received_data = websocket.receive_json()
         assert received_data == transition_event
 
-        # 4. Publish an irrelevant event and ensure it's NOT received
+        # 4. Publish an irrelevant event, then a relevant one, and ensure the filter skips the irrelevant payload
         irrelevant_event = {"type": "some.other.event", "data": "should_be_ignored"}
-        asyncio.run(bus.publish("cognitive", irrelevant_event))
-
-        # The test client's receive method has a default timeout.
-        # If no message is received, it will raise an exception.
-        with pytest.raises(websockets.exceptions.ConnectionClosed):
-             # In the test client, a timeout is often represented by the connection closing
-             # or a specific timeout exception from the underlying library if it were used directly.
-             # The TestClient might abstract this. Let's assume a timeout will cause an issue.
-             # A more robust way would be to use a short timeout.
-             websocket.receive_json(timeout=0.1)
+        bus.publish(irrelevant_event, topic="cognitive")
+        followup_event = {"type": "zone.classified", "data": {"zone": "pattern", "entropy": 0.5}}
+        bus.publish(followup_event, topic="cognitive")
+        received_data = websocket.receive_json()
+        assert received_data == followup_event
 
 # To run these tests, use:
 # pytest tests/test_websockets.py

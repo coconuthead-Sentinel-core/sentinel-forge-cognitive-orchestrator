@@ -30,6 +30,7 @@ class ADHDLens:
 
     # Configuration
     CHUNK_SIZE_WORDS = 50
+    MAX_SENTENCES_PER_CHUNK = 4
     BULLET_MARKERS = ["⚡", "💥", "🚀", "🔥", "⚡", "💫", "⭐", "🎯"]
     ACTION_WORDS = ["start", "begin", "launch", "create", "build", "run", "execute", "activate"]
     
@@ -40,6 +41,9 @@ class ADHDLens:
     def __init__(self):
         """Initialize ADHD lens with default settings."""
         self.chunk_size = self.CHUNK_SIZE_WORDS
+        self.max_sentences_per_chunk = self.MAX_SENTENCES_PER_CHUNK
+        self.bullet_markers = list(self.BULLET_MARKERS)
+        self.action_words = list(self.ACTION_WORDS)
         self.bullet_index = 0
         logger.info("🧠 ADHD Burst Lens initialized (Odooe Lattice Active)")
 
@@ -103,7 +107,13 @@ class ADHDLens:
             sentence_words = len(sentence.split())
 
             # If adding this sentence would exceed chunk size, start new chunk
-            if current_word_count + sentence_words > self.chunk_size and current_chunk:
+            if (
+                current_chunk
+                and (
+                    current_word_count + sentence_words > self.chunk_size
+                    or len(current_chunk) >= self.max_sentences_per_chunk
+                )
+            ):
                 chunks.append(" ".join(current_chunk))
                 current_chunk = []
                 current_word_count = 0

@@ -2,7 +2,7 @@ import asyncio
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from backend.domain.models import SymbolicMetadata, GlyphMatch
+from backend.domain.models import SymbolicMetadata, GlyphMatch, CognitiveLens
 from backend.services.cognitive_orchestrator import CognitiveOrchestrator
 from backend.eventbus import bus
 
@@ -114,5 +114,5 @@ async def test_reaction_logic_triggers_process_message(orchestrator, mock_ai_ada
         mock_process_message.assert_awaited_once()
         # Check that it was called with the expected lens for the "ethics" topic
         call_args = mock_process_message.call_args
-        assert "lens=CognitiveLens.AUTISM_PRECISION" in str(call_args)
+        assert call_args.kwargs["lens"] == CognitiveLens.AUTISM_PRECISION
 

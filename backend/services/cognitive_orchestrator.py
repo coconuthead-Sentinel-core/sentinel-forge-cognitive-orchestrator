@@ -258,20 +258,26 @@ class CognitiveOrchestrator(ChatService):
         bridge_result = bridge.process_data({"text": user_message, "entropy": input_entropy})
         logger.debug(f"🌉 L5 Bridge Result: {bridge_result}")
         
-        # 3. Apply lens transformation to context (placeholder for future enhancement)
+        # 3. Apply lens transformation to context
         adjusted_context = self._apply_lens(context, active_lens)
-        
-        # 4. Use QuantumNexusForge for brain-modeled response generation
+
+        # 4. Prefer the configured AI adapter to preserve the chat contract.
         try:
-            forge_result = await asyncio.get_event_loop().run_in_executor(None, self.quantum_forge.process, user_message)
-            ai_text = str(forge_result.get("result", "No response generated"))
+            response = await super().process_message(user_message, adjusted_context)
         except Exception as e:
-            logger.error(f"🔴 QuantumNexusForge processing failed: {e}")
-            ai_text = "Cognitive processing error. Retrying with fallback."
-        
-        # Format as chat response with structured output contract
-        # Enforce 4-part output: Summary, Plan, Assumptions, Next Step
-        structured_content = f"""
+            logger.warning(f"⚠️ Primary AI adapter failed, falling back to QuantumNexusForge: {e}")
+            try:
+                forge_result = await asyncio.get_event_loop().run_in_executor(
+                    None,
+                    self.quantum_forge.process,
+                    user_message,
+                )
+                ai_text = str(forge_result.get("result", "No response generated"))
+            except Exception as forge_error:
+                logger.error(f"🔴 QuantumNexusForge processing failed: {forge_error}")
+                ai_text = "Cognitive processing error. Retrying with fallback."
+
+            structured_content = f"""
 **Summary:** {ai_text[:200]}...  # Brief overview
 
 **Plan:** Process through cognitive lenses and memory zones for optimal response.
@@ -280,23 +286,27 @@ class CognitiveOrchestrator(ChatService):
 
 **Next Step:** Review output and provide feedback for refinement.
 """
-        import time
-        response = {
-            "id": f"chat-{int(time.time())}",
-            "model": "sentinel-forge-cognitive",
-            "created": int(time.time()),
-            "choices": [
-                {
-                    "index": 0,
-                    "message": {
-                        "role": "assistant",
-                        "content": structured_content
-                    },
-                    "finish_reason": "stop"
+            import time
+            response = {
+                "id": f"chat-{int(time.time())}",
+                "model": "sentinel-forge-cognitive",
+                "created": int(time.time()),
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {
+                            "role": "assistant",
+                            "content": structured_content
+                        },
+                        "finish_reason": "stop"
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": len(user_message.split()),
+                    "completion_tokens": len(structured_content.split()),
+                    "total_tokens": len(user_message.split()) + len(structured_content.split())
                 }
-            ],
-            "usage": {"prompt_tokens": len(user_message.split()), "completion_tokens": len(structured_content.split()), "total_tokens": len(user_message.split()) + len(structured_content.split())}
-        }
+            }
         
         # 5. Extract response text and calculate output entropy
         choices = response.get("choices", [])

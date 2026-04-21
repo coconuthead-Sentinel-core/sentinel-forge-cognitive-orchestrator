@@ -140,12 +140,22 @@ class GlyphEventBridge:
         events: List[GlyphEvent] = []
         
         for match in metadata.matched_glyphs:
-            glyph_name = match.get("shape", "").upper()
+            if hasattr(match, "shape"):
+                glyph_name = match.shape.upper()
+                confidence = match.confidence
+                matched_seeds = match.matched_seeds
+                applied_rules = match.applied_rules
+            else:
+                glyph_name = str(match.get("shape", "")).upper()
+                confidence = float(match.get("confidence", 0.0))
+                matched_seeds = list(match.get("matched_seeds", []))
+                applied_rules = dict(match.get("applied_rules", {}))
+
             event = self.emit_glyph(
                 glyph_name=glyph_name,
-                confidence=match.get("confidence", 0.0),
-                matched_seeds=match.get("matched_seeds", []),
-                applied_rules=match.get("applied_rules", {}),
+                confidence=confidence,
+                matched_seeds=matched_seeds,
+                applied_rules=applied_rules,
                 source_text_hash=source_text_hash,
             )
             if event:

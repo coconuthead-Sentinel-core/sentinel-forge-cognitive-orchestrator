@@ -1,21 +1,17 @@
-# App Store Submission Readiness Template
+# App Store Submission Readiness
 
-## Submission Metadata
-- Date: [YYYY-MM-DD]
-- Release version: [Version]
-- Reviewer: [Name]
+## Submission Decision
+This repository release is not an App Store submission candidate.
 
-## Checklist
-- Bundle identifier confirmed: [Yes/No/N/A]
-- Signing and provisioning confirmed: [Yes/No/N/A]
-- Privacy manifest complete: [Yes/No/N/A]
-- Required screenshots ready: [Yes/No/N/A]
-- Export compliance reviewed: [Yes/No/N/A]
-- Review notes prepared: [Yes/No/N/A]
+## Reasons
+- No iOS app target is present.
+- No Apple signing, bundle, or archive workflow exists.
+- The current release is a repository review package for engineering and hiring review.
 
-## Blocking Items
-- [Blocking item]
+## Readiness Status
+- App Store submission required: No
+- App Store paperwork complete for this release: Yes, as a documented non-applicable outcome
+- Blocking items: None for the current release
 
-## Final Disposition
-- Result: [Ready / Not ready / N/A]
-- Notes: [Describe]
+## Reopen Condition
+Revisit this document only when the project adds an Apple application target intended for TestFlight or App Store distribution.

@@ -57,17 +57,23 @@ _orchestrator = CognitiveOrchestrator(_adapter)
 # # _chat_service = ChatService(_adapter)  # Old ChatService
 # _chat_service = ChatService(_adapter)  # Temporarily use old service
 
-@router.get("/dashboard/metrics")
-async def get_dashboard_metrics():
+@router.get("/dashboard/nexus-metrics")
+async def get_nexus_dashboard_metrics():
     """
-    Get aggregated metrics for the RNCS v3.8 Master Dashboard.
+    Compatibility metrics for the legacy Recursive Nexus dashboard view.
+
+    The canonical aggregated dashboard contract is `/api/dashboard/metrics`.
     """
+    status_data = await run_in_threadpool(service.status)
+    metrics_data = await run_in_threadpool(service.metrics)
+    avg_latency = float(metrics_data.get("avg_latency_ms", 0.0) or 0.0)
+    health_status = "green" if avg_latency < 50 else "yellow" if avg_latency < 100 else "red"
     return {
-        "health_status": "green",
-        "clarity_score": 0.967,
+        "health_status": health_status,
+        "clarity_score": round(max(0.0, 1.0 - min(avg_latency / 100.0, 1.0)), 3),
         "uptime_rating": 0.997,
-        "entropy_state": "CRYSTALLIZED",
-        "active_nodes": 3
+        "entropy_state": "CRYSTALLIZED" if status_data.get("total_executions", 0) else "ACTIVE",
+        "active_nodes": status_data.get("total_processors", 0),
     }
 
 @router.get("/dashboard/nexus", response_class=HTMLResponse)
@@ -82,22 +88,40 @@ async def get_cognitive_status():
     """
     Get the status of the Neurodivergent Cognitive Core.
     """
-    # Placeholder: Return cognitive metrics
-    return {"status": "active", "lenses": {"dyslexia": 85, "adhd": 78, "autism": 92}, "zones": ["green", "yellow", "red"]}
+    memory_manager = get_memory_manager()
+    zone_metrics = _orchestrator.get_zone_metrics()
+    memory_snapshot = memory_manager.get_metrics()
+    return {
+        "status": "active",
+        "default_lens": _orchestrator.default_lens.value,
+        "available_lenses": ["neurotypical", "adhd", "autism", "dyslexia"],
+        "event_listener_running": _orchestrator.is_event_listener_running(),
+        "orchestrator_metrics": zone_metrics,
+        "memory_manager": {
+            "active_count": memory_snapshot.active_count,
+            "pattern_count": memory_snapshot.pattern_count,
+            "crystal_count": memory_snapshot.crystal_count,
+            "avg_entropy": memory_snapshot.avg_entropy,
+            "last_transition": memory_snapshot.last_transition,
+        },
+    }
 
 @router.post("/task/orchestrate/start")
 async def start_task_orchestration():
-    """Initiates neurodivergent task orchestration using cognitive lenses."""
-    # Placeholder: Integrate with CognitiveOrchestrator for task management
-    orchestrator = CognitiveOrchestrator()
-    await orchestrator.initialize_lenses()  # Assuming a method exists
-    return {"status": "initiated", "protocol": "Neurodivergent Task Orchestration", "lenses": ["dyslexia", "adhd", "autism"]}
+    """Start the shared raw-event orchestration listener."""
+    _orchestrator.start_event_listener()
+    return {
+        "status": "initiated",
+        "protocol": "Neurodivergent Task Orchestration",
+        "listener_running": _orchestrator.is_event_listener_running(),
+        "lenses": ["neurotypical", "adhd", "autism", "dyslexia"],
+    }
 
 @router.post("/task/orchestrate/stop")
 async def stop_task_orchestration():
-    """Stops the task orchestration."""
-    # Placeholder: Stop orchestration
-    return {"status": "stopped"}
+    """Stop the shared raw-event orchestration listener."""
+    _orchestrator.stop_event_listener()
+    return {"status": "stopped", "listener_running": _orchestrator.is_event_listener_running()}
 
 # --- AI Routes ---
 # @ai_router.post("/chat")

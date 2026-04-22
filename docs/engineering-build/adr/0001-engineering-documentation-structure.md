@@ -1,47 +1,55 @@
-# ADR Template: Engineering Documentation Structure
+# ADR 0001: Keep Active Paperwork In-Repo And Archive Prior Filled Packets
 
 ## Context And Problem Statement
-- Problem: [What decision needs to be made]
-- Drivers and constraints: [Why this decision matters]
+- The repository accumulated multiple generations of paperwork, including previously filled narrative packets and new clean template surfaces.
+- Reviewers need a single active documentation path that matches `main`, while earlier filled artifacts still need to remain available as proof of past work.
 
 ## Decision Drivers
-- [Driver 1]
-- [Driver 2]
-- [Driver 3]
+- Reduce ambiguity for technical reviewers.
+- Preserve historical evidence without letting it define the active release.
+- Keep documentation maintenance inside the repository.
 
 ## Considered Options
-1. [Option 1]
-2. [Option 2]
-3. [Option 3]
+1. Keep all filled and active paperwork mixed together.
+2. Delete all older paperwork and keep only the newest files.
+3. Archive prior filled packets inside the repo and keep the active packet at canonical paths.
 
 ## Decision Outcome
-Chosen option: [Select one option]
+Chosen option: 3. Archive prior filled packets inside the repo and keep the active packet at canonical paths.
 
 ### Positive Consequences
-- [Positive consequence]
+- Reviewers can follow one documentation path through `docs/README.md`.
+- Historical artifacts are still available under `docs/archive/`.
+- Active paperwork can be updated without copying claims from older packets.
 
 ### Negative Consequences
-- [Negative consequence]
+- The repository contains more documentation files overall.
+- Maintainers must keep archive and active sections clearly separated.
 
 ## Pros And Cons Of The Options
-### [Option 1]
+### Keep all paperwork mixed together
 - Pros:
-  - [Pro]
+  - No file movement required.
 - Cons:
-  - [Con]
+  - Review confusion remains high.
+  - Contradictory statements are harder to detect.
 
-### [Option 2]
+### Delete older paperwork
 - Pros:
-  - [Pro]
+  - Repository appears simpler.
 - Cons:
-  - [Con]
+  - Historical evidence is lost.
+  - Prior work cannot be audited later.
 
-### [Option 3]
+### Archive prior filled packets inside the repo
 - Pros:
-  - [Pro]
+  - Clean active path with preserved evidence.
+  - Supports HR and technical review simultaneously.
 - Cons:
-  - [Con]
+  - Requires archive maintenance discipline.
 
 ## Links
-- Related ADRs: [List links]
-- Related docs: [List links]
+- Related docs:
+  - `../../README.md`
+  - `../../../docs/archive/filled-paperwork-2026-04-22/README.md`
+  - `../../../docs/README.md`

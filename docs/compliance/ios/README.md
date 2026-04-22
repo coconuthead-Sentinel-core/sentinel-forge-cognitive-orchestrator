@@ -1,15 +1,19 @@
-# iOS Compliance Template Index
+# iOS Compliance Packet
 
-## Purpose
-This folder is the blank iOS paperwork packet for this repository.
+## Result
+The current repository release is **not applicable** for iOS distribution paperwork because no Apple-platform app target is tracked in this repository.
 
-## Applicability Rule
-- If the repository does not currently ship an iOS target, record that outcome explicitly in the applicability assessment.
-- Do not mark items complete without evidence.
+## Evidence Basis
+- no tracked `.swift`, `.m`, `.mm`, `.pbxproj`, `.xcodeproj`, or `.xcworkspace` files
+- no `Info.plist` or `PrivacyInfo.xcprivacy` associated with an app target
+- no Xcode project or App Store packaging workflow in the repo
 
-## Included Templates
+## Packet Contents
 - `IOS_APPLICABILITY_ASSESSMENT.md`
 - `PRIVACY_MANIFEST_REVIEW.md`
 - `MASVS_CONTROL_MAPPING.md`
 - `IOS_SECURITY_VERIFICATION.md`
 - `APP_STORE_SUBMISSION_READINESS.md`
+
+## Review Rule
+This folder is complete for the current release because it captures a documented `not applicable` outcome with evidence. If an iOS target is added later, the packet must be reopened and converted into active delivery paperwork.

@@ -1,12 +1,12 @@
-# Phase Gates Template
+# Phase Gates
 
 ## Gate Summary
 | Phase | Entry Criteria | Exit Criteria | Owner | Status |
 |---|---|---|---|---|
-| [Discovery] | [Criteria] | [Criteria] | [Owner] | [Open/Closed] |
-| [Design] | [Criteria] | [Criteria] | [Owner] | [Open/Closed] |
-| [Build] | [Criteria] | [Criteria] | [Owner] | [Open/Closed] |
-| [Release] | [Criteria] | [Criteria] | [Owner] | [Open/Closed] |
+| Discovery | repo structure, branches, and active docs identified | inventory complete and release scope named | Shannon Bryan Kelly | Closed |
+| Design and paperwork | templates or stale docs detected | repo-specific paperwork completed | Shannon Bryan Kelly | Closed |
+| Build and repair | code and docs require coherence fixes | route fixes, tests, and doc refresh complete | Shannon Bryan Kelly | Closed |
+| Release | validation, push, and branch cleanup pending | `main` validated, pushed, and normalized as canonical branch | Shannon Bryan Kelly | Open until final release pass |
 
 ## Notes
-- [Record gate exceptions or approvals here]
+- Azure deployment, commercial launch, and iOS delivery are explicit exclusions for this release and do not reopen the gate.

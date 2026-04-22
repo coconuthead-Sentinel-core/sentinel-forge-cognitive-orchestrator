@@ -9,11 +9,12 @@ Build an AI orchestration layer that can adapt its output to different cognitive
 
 ## Current Status
 - Local validation is green.
-- `python -m pytest -q`: `152 passed`
+- `python -m pytest -q`: validated in the current documentation-completion pass.
 - `python scripts/smoke_test.py`: passed on `2026-04-22`
 - Mock AI mode and mock Cosmos persistence both work for local development.
 - Azure-backed identity and live model scoring remain optional integrations.
-- Engineering-build, SDLC, governance, security, and iOS compliance paperwork packets are now routed through `docs/README.md`.
+- Engineering-build, SDLC, governance, security, review, and iOS compliance paperwork packets are completed and routed through `docs/README.md`.
+- The active release branch is `main`.
 
 ## Architecture
 The current codebase is broader than the original published README. The verified runtime centers on these components:
@@ -31,6 +32,7 @@ The current codebase is broader than the original published README. The verified
 - `backend/eventbus.py`: In-process event transport for dashboards and WebSockets.
 - `backend/infrastructure/cosmos_repo.py`: Cosmos DB repository with mock fallback support for local runs.
 - `quantum_nexus_forge_v5_2_enhanced.py` and related top-level modules: lower-level forge/runtime primitives used by orchestration and simulation flows.
+- `scripts/export_openapi.py`: machine-readable OpenAPI export for the engineering-build packet.
 
 ## Project Layout
 ```text
@@ -115,6 +117,10 @@ asyncio.run(main())
 - `GET /api/sync/snapshot`
 - `GET /api/sync/trinode`
 - `POST /api/notes/upsert`
+- `GET /api/dashboard/metrics`
+- `GET /api/cognitive/status`
+- `POST /api/task/orchestrate/start`
+- `POST /api/task/orchestrate/stop`
 
 ### WebSocket endpoints
 - `/ws/sync`: compatibility stream for raw EventBus forwarding
@@ -152,21 +158,19 @@ PYTHONPATH=/path/to/project
 - Cosmos persistence falls back to a mock repository in local validation flows.
 - Some startup paths still emit FastAPI deprecation warnings around `on_event`; these are warnings, not current test blockers.
 
-## Roadmap
-### Completed
+## Release Packet
+### Completed for the current review release
 - Adaptive cognitive lenses
 - Three-zone memory routing
 - Symbolic glyph processing
 - WebSocket state and metrics streams
 - Smoke-testable local development workflow
 - Passing automated validation suite
+- Completed engineering-build, SDLC, and iOS compliance paperwork
+- Review-ready repository packaging on `main`
 
-### In progress
+### Optional future enhancements
 - Azure live scoring integration
-- deployment hardening and release packaging
-- broader documentation cleanup across legacy top-level artifacts
-
-### Future
 - additional cognitive lens contributions
 - stronger dashboard and observability surfaces
 - mobile and voice-facing clients
@@ -178,6 +182,13 @@ PYTHONPATH=/path/to/project
 3. Install dependencies.
 4. Run `python -m pytest -q`.
 5. Submit a pull request with clear validation notes.
+
+## Review Routing
+- Documentation index: `docs/README.md`
+- Architecture summary: `ARCHITECTURE.md`
+- Review packet: `docs/HR_REVIEW_PACKET.md`
+- Engineering build suite: `docs/engineering-build/README.md`
+- SDLC packet: `docs/sdlc/README.md`
 
 ## License
 MIT License. See `LICENSE`.

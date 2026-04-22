@@ -1,0 +1,2705 @@
+{
+  "components": {
+    "schemas": {
+      "AgentSnapshot": {
+        "properties": {
+          "agent": {
+            "title": "Agent",
+            "type": "string"
+          },
+          "glyphic_signature": {
+            "maxItems": 5,
+            "minItems": 5,
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Glyphic Signature",
+            "type": "array"
+          },
+          "payload": {
+            "additionalProperties": true,
+            "title": "Payload",
+            "type": "object"
+          },
+          "timestamp": {
+            "title": "Timestamp",
+            "type": "number"
+          }
+        },
+        "required": [
+          "agent",
+          "timestamp",
+          "payload",
+          "glyphic_signature"
+        ],
+        "title": "AgentSnapshot",
+        "type": "object"
+      },
+      "Body_add_friendship_api_friendships_post": {
+        "properties": {
+          "friend": {
+            "title": "Friend",
+            "type": "string"
+          },
+          "player": {
+            "title": "Player",
+            "type": "string"
+          }
+        },
+        "required": [
+          "player",
+          "friend"
+        ],
+        "title": "Body_add_friendship_api_friendships_post",
+        "type": "object"
+      },
+      "Body_create_guild_api_guilds_post": {
+        "properties": {
+          "guild_id": {
+            "title": "Guild Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "guild_id",
+          "name"
+        ],
+        "title": "Body_create_guild_api_guilds_post",
+        "type": "object"
+      },
+      "BootStep": {
+        "properties": {
+          "glyph": {
+            "title": "Glyph",
+            "type": "string"
+          },
+          "index": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "glyph",
+          "name",
+          "index"
+        ],
+        "title": "BootStep",
+        "type": "object"
+      },
+      "ChatChoice": {
+        "properties": {
+          "finish_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finish Reason"
+          },
+          "index": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "message": {
+            "$ref": "#/components/schemas/ChoiceMessage"
+          }
+        },
+        "required": [
+          "index",
+          "message"
+        ],
+        "title": "ChatChoice",
+        "type": "object"
+      },
+      "ChatMessage": {
+        "properties": {
+          "content": {
+            "title": "Content",
+            "type": "string"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "role": {
+            "enum": [
+              "system",
+              "user",
+              "assistant",
+              "tool"
+            ],
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "content"
+        ],
+        "title": "ChatMessage",
+        "type": "object"
+      },
+      "ChatRequest": {
+        "properties": {
+          "max_completion_tokens": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Completion Tokens"
+          },
+          "messages": {
+            "items": {
+              "$ref": "#/components/schemas/ChatMessage"
+            },
+            "minItems": 1,
+            "title": "Messages",
+            "type": "array"
+          },
+          "response_format": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Response Format"
+          },
+          "temperature": {
+            "anyOf": [
+              {
+                "maximum": 2.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": 0.2,
+            "title": "Temperature"
+          },
+          "tool_choice": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Choice"
+          },
+          "tools": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tools"
+          }
+        },
+        "required": [
+          "messages"
+        ],
+        "title": "ChatRequest",
+        "type": "object"
+      },
+      "ChatResponse": {
+        "additionalProperties": true,
+        "properties": {
+          "choices": {
+            "items": {
+              "$ref": "#/components/schemas/ChatChoice"
+            },
+            "title": "Choices",
+            "type": "array"
+          },
+          "created": {
+            "title": "Created",
+            "type": "integer"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          },
+          "usage": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Usage"
+          }
+        },
+        "required": [
+          "id",
+          "created",
+          "choices"
+        ],
+        "title": "ChatResponse",
+        "type": "object"
+      },
+      "ChoiceMessage": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          },
+          "role": {
+            "enum": [
+              "system",
+              "user",
+              "assistant",
+              "tool"
+            ],
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role"
+        ],
+        "title": "ChoiceMessage",
+        "type": "object"
+      },
+      "GlyphValidateRequest": {
+        "properties": {
+          "sequence": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sequence",
+            "type": "array"
+          }
+        },
+        "required": [
+          "sequence"
+        ],
+        "title": "GlyphValidateRequest",
+        "type": "object"
+      },
+      "GlyphValidateResponse": {
+        "properties": {
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "valid": {
+            "title": "Valid",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "valid",
+          "reason"
+        ],
+        "title": "GlyphValidateResponse",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "JobStatusResponse": {
+        "properties": {
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "job_id": {
+            "title": "Job Id",
+            "type": "string"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StressResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "job_id",
+          "status"
+        ],
+        "title": "JobStatusResponse",
+        "type": "object"
+      },
+      "JobSubmitResponse": {
+        "properties": {
+          "job_id": {
+            "title": "Job Id",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "job_id",
+          "status"
+        ],
+        "title": "JobSubmitResponse",
+        "type": "object"
+      },
+      "MemorySnapshot": {
+        "properties": {
+          "capacity": {
+            "title": "Capacity",
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "type": "integer"
+          },
+          "top_preview": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Top Preview",
+            "type": "array"
+          }
+        },
+        "required": [
+          "size",
+          "capacity"
+        ],
+        "title": "MemorySnapshot",
+        "type": "object"
+      },
+      "PoolCreateRequest": {
+        "properties": {
+          "initial_size": {
+            "default": 3,
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "title": "Initial Size",
+            "type": "integer"
+          },
+          "pool_id": {
+            "title": "Pool Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pool_id"
+        ],
+        "title": "PoolCreateRequest",
+        "type": "object"
+      },
+      "PrimeMetrics": {
+        "properties": {
+          "entropy": {
+            "title": "Entropy",
+            "type": "number"
+          },
+          "token_count": {
+            "title": "Token Count",
+            "type": "integer"
+          },
+          "top_tokens": {
+            "items": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "type": "array"
+            },
+            "title": "Top Tokens",
+            "type": "array"
+          },
+          "unique_tokens": {
+            "title": "Unique Tokens",
+            "type": "integer"
+          },
+          "window": {
+            "title": "Window",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "window",
+          "entropy",
+          "unique_tokens",
+          "token_count",
+          "top_tokens"
+        ],
+        "title": "PrimeMetrics",
+        "type": "object"
+      },
+      "ProcessRequest": {
+        "properties": {
+          "data": {
+            "description": "Data to process",
+            "maxLength": 10000,
+            "minLength": 1,
+            "title": "Data",
+            "type": "string"
+          },
+          "pool_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Optional pool ID",
+            "title": "Pool Id"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "title": "ProcessRequest",
+        "type": "object"
+      },
+      "ProcessResponse": {
+        "properties": {
+          "input_id": {
+            "title": "Input Id",
+            "type": "string"
+          },
+          "output_id": {
+            "title": "Output Id",
+            "type": "string"
+          },
+          "pool_used": {
+            "title": "Pool Used",
+            "type": "string"
+          },
+          "processing_time": {
+            "title": "Processing Time",
+            "type": "number"
+          },
+          "result": {
+            "title": "Result"
+          }
+        },
+        "required": [
+          "input_id",
+          "output_id",
+          "result",
+          "processing_time",
+          "pool_used"
+        ],
+        "title": "ProcessResponse",
+        "type": "object"
+      },
+      "RebuildRequest": {
+        "properties": {
+          "default_pools": {
+            "default": 2,
+            "maximum": 50.0,
+            "minimum": 0.0,
+            "title": "Default Pools",
+            "type": "integer"
+          },
+          "pool_size": {
+            "default": 5,
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "title": "Pool Size",
+            "type": "integer"
+          }
+        },
+        "title": "RebuildRequest",
+        "type": "object"
+      },
+      "SetRulesRequest": {
+        "properties": {
+          "rules": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Rules",
+            "type": "object"
+          }
+        },
+        "required": [
+          "rules"
+        ],
+        "title": "SetRulesRequest",
+        "type": "object"
+      },
+      "StatusResponse": {
+        "properties": {
+          "global_bridges": {
+            "title": "Global Bridges",
+            "type": "integer"
+          },
+          "log_entries": {
+            "title": "Log Entries",
+            "type": "integer"
+          },
+          "platform": {
+            "title": "Platform",
+            "type": "string"
+          },
+          "pool_status": {
+            "additionalProperties": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Pool Status",
+            "type": "object"
+          },
+          "system_id": {
+            "title": "System Id",
+            "type": "string"
+          },
+          "total_executions": {
+            "title": "Total Executions",
+            "type": "integer"
+          },
+          "total_pools": {
+            "title": "Total Pools",
+            "type": "integer"
+          },
+          "total_processors": {
+            "title": "Total Processors",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "system_id",
+          "total_pools",
+          "total_processors",
+          "total_executions",
+          "pool_status",
+          "global_bridges",
+          "log_entries",
+          "platform"
+        ],
+        "title": "StatusResponse",
+        "type": "object"
+      },
+      "StressRequest": {
+        "properties": {
+          "async_mode": {
+            "default": false,
+            "description": "Run asynchronously",
+            "title": "Async Mode",
+            "type": "boolean"
+          },
+          "concurrent": {
+            "description": "Concurrent workers",
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "title": "Concurrent",
+            "type": "integer"
+          },
+          "iterations": {
+            "description": "Number of iterations",
+            "maximum": 10000.0,
+            "minimum": 1.0,
+            "title": "Iterations",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "iterations",
+          "concurrent"
+        ],
+        "title": "StressRequest",
+        "type": "object"
+      },
+      "StressResult": {
+        "properties": {
+          "failures": {
+            "title": "Failures",
+            "type": "integer"
+          },
+          "iterations": {
+            "title": "Iterations",
+            "type": "integer"
+          },
+          "success_rate": {
+            "title": "Success Rate",
+            "type": "number"
+          },
+          "successes": {
+            "title": "Successes",
+            "type": "integer"
+          },
+          "system_status": {
+            "additionalProperties": true,
+            "title": "System Status",
+            "type": "object"
+          },
+          "throughput": {
+            "title": "Throughput",
+            "type": "number"
+          },
+          "total_time": {
+            "title": "Total Time",
+            "type": "number"
+          }
+        },
+        "required": [
+          "iterations",
+          "successes",
+          "failures",
+          "success_rate",
+          "total_time",
+          "throughput",
+          "system_status"
+        ],
+        "title": "StressResult",
+        "type": "object"
+      },
+      "Suggestions": {
+        "properties": {
+          "suggestions": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Suggestions",
+            "type": "array"
+          }
+        },
+        "required": [
+          "suggestions"
+        ],
+        "title": "Suggestions",
+        "type": "object"
+      },
+      "SymbolicRules": {
+        "properties": {
+          "rules": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Rules",
+            "type": "object"
+          }
+        },
+        "required": [
+          "rules"
+        ],
+        "title": "SymbolicRules",
+        "type": "object"
+      },
+      "SyncSnapshot": {
+        "properties": {
+          "agents": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Agents",
+            "type": "array"
+          },
+          "events": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Events",
+            "type": "array"
+          },
+          "sequence": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sequence",
+            "type": "array"
+          },
+          "sequence_validation": {
+            "additionalProperties": true,
+            "title": "Sequence Validation",
+            "type": "object"
+          },
+          "session_id": {
+            "title": "Session Id",
+            "type": "string"
+          },
+          "states": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/AgentSnapshot"
+            },
+            "title": "States",
+            "type": "object"
+          }
+        },
+        "required": [
+          "session_id",
+          "agents",
+          "sequence",
+          "sequence_validation",
+          "states",
+          "events"
+        ],
+        "title": "SyncSnapshot",
+        "type": "object"
+      },
+      "SyncUpdateRequest": {
+        "properties": {
+          "agent": {
+            "title": "Agent",
+            "type": "string"
+          },
+          "state": {
+            "additionalProperties": true,
+            "title": "State",
+            "type": "object"
+          }
+        },
+        "required": [
+          "agent"
+        ],
+        "title": "SyncUpdateRequest",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "Neurodivergent AI Middleware",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/activate/{preset}": {
+      "post": {
+        "description": "Run a safe activation sequence (standard|enhanced).",
+        "operationId": "activate_api_activate__preset__post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "preset",
+            "required": true,
+            "schema": {
+              "title": "Preset",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Activate Api Activate  Preset  Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Activate"
+      }
+    },
+    "/api/chat": {
+      "post": {
+        "description": "Process a chat request through the Cognitive Pipeline.\nEnforces Sentinel Forge product contract:\n1. Voice input (or text) \u2192 2. AI processing \u2192 3. Memory zoning \u2192 4. Glyph visualization \u2192 5. Structured output (Summary, Plan, Assumptions, Next Step)",
+        "operationId": "chat_api_chat_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Chat"
+      }
+    },
+    "/api/cog/matrix": {
+      "get": {
+        "operationId": "cog_matrix_api_cog_matrix_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "top_k",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "title": "Top K",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Cog Matrix Api Cog Matrix Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cog Matrix"
+      }
+    },
+    "/api/cog/memory": {
+      "delete": {
+        "operationId": "cog_memory_clear_api_cog_memory_delete",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Cog Memory Clear Api Cog Memory Delete"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Cog Memory Clear"
+      },
+      "get": {
+        "operationId": "cog_memory_snapshot_api_cog_memory_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemorySnapshot"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Cog Memory Snapshot"
+      }
+    },
+    "/api/cog/prime": {
+      "get": {
+        "operationId": "cog_prime_metrics_api_cog_prime_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrimeMetrics"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Cog Prime Metrics"
+      }
+    },
+    "/api/cog/process": {
+      "post": {
+        "operationId": "cog_process_api_cog_process_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Cog Process Api Cog Process Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cog Process"
+      }
+    },
+    "/api/cog/rules": {
+      "get": {
+        "operationId": "cog_get_rules_api_cog_rules_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SymbolicRules"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Cog Get Rules"
+      },
+      "put": {
+        "operationId": "cog_set_rules_api_cog_rules_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetRulesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SymbolicRules"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cog Set Rules"
+      }
+    },
+    "/api/cog/seeds": {
+      "get": {
+        "operationId": "cog_seeds_get_api_cog_seeds_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Cog Seeds Get Api Cog Seeds Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Cog Seeds Get"
+      },
+      "post": {
+        "operationId": "cog_seeds_add_api_cog_seeds_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "title": "Payload",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Cog Seeds Add Api Cog Seeds Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cog Seeds Add"
+      }
+    },
+    "/api/cog/stats": {
+      "get": {
+        "operationId": "cog_stats_api_cog_stats_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Cog Stats Api Cog Stats Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Cog Stats"
+      }
+    },
+    "/api/cog/status": {
+      "get": {
+        "operationId": "cog_status_api_cog_status_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Cog Status Api Cog Status Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Cog Status"
+      }
+    },
+    "/api/cog/suggest": {
+      "get": {
+        "operationId": "cog_suggestions_api_cog_suggest_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 5,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Suggestions"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cog Suggestions"
+      }
+    },
+    "/api/cog/threads": {
+      "get": {
+        "operationId": "cog_threads_api_cog_threads_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "topic",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Topic"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Cog Threads Api Cog Threads Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cog Threads"
+      }
+    },
+    "/api/cog/threads/{thread_id}": {
+      "get": {
+        "operationId": "cog_thread_detail_api_cog_threads__thread_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "thread_id",
+            "required": true,
+            "schema": {
+              "title": "Thread Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Cog Thread Detail Api Cog Threads  Thread Id  Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cog Thread Detail"
+      }
+    },
+    "/api/cognitive/metrics": {
+      "get": {
+        "description": "Get current cognitive processing metrics.",
+        "operationId": "cognitive_metrics_api_cognitive_metrics_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Cognitive Metrics Api Cognitive Metrics Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Cognitive Metrics"
+      }
+    },
+    "/api/cognitive/status": {
+      "get": {
+        "description": "Get the status of the Neurodivergent Cognitive Core.",
+        "operationId": "get_cognitive_status_api_cognitive_status_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Cognitive Status"
+      }
+    },
+    "/api/config": {
+      "get": {
+        "operationId": "get_config_api_config_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Config Api Config Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Config"
+      }
+    },
+    "/api/dashboard": {
+      "get": {
+        "description": "Phase 2 Dashboard Route (dep_A1_to_V1)\n\nServes the interactive dashboard with real-time metrics visualization.\nIntegrates with:\n- Three-zone memory system from quantum_nexus_forge_v5_2_enhanced.py\n- Cognitive lenses (ADHD, Autism, Dyslexia, Neurotypical)\n- Chart.js for real-time visualization",
+        "operationId": "dashboard_view_api_dashboard_get",
+        "responses": {
+          "200": {
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Dashboard View"
+      }
+    },
+    "/api/dashboard/activity": {
+      "get": {
+        "description": "Recent activity feed for dashboard.",
+        "operationId": "dashboard_activity_api_dashboard_activity_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Dashboard Activity Api Dashboard Activity Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Dashboard Activity"
+      }
+    },
+    "/api/dashboard/metrics": {
+      "get": {
+        "description": "Aggregated metrics optimized for dashboard consumption.",
+        "operationId": "dashboard_metrics_api_dashboard_metrics_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Dashboard Metrics Api Dashboard Metrics Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Dashboard Metrics"
+      }
+    },
+    "/api/dashboard/nexus": {
+      "get": {
+        "description": "Serves the Recursive Nexus Sigil Dashboard (Phase I Synapse).",
+        "operationId": "get_nexus_dashboard_api_dashboard_nexus_get",
+        "responses": {
+          "200": {
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Nexus Dashboard"
+      }
+    },
+    "/api/dashboard/nexus-metrics": {
+      "get": {
+        "description": "Compatibility metrics for the legacy Recursive Nexus dashboard view.\n\nThe canonical aggregated dashboard contract is `/api/dashboard/metrics`.",
+        "operationId": "get_nexus_dashboard_metrics_api_dashboard_nexus_metrics_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Nexus Dashboard Metrics"
+      }
+    },
+    "/api/dashboard/sentinel": {
+      "get": {
+        "description": "Sentinel profile data for dashboard.",
+        "operationId": "dashboard_sentinel_api_dashboard_sentinel_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Dashboard Sentinel Api Dashboard Sentinel Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Dashboard Sentinel"
+      }
+    },
+    "/api/events": {
+      "get": {
+        "description": "Stream recent events in NDJSON (newline-delimited JSON).\n\nContent-Type: application/x-ndjson",
+        "operationId": "stream_events_api_events_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Stream Events"
+      }
+    },
+    "/api/events/history": {
+      "get": {
+        "description": "Return up to `limit` most recent events as a JSON array (newest last).",
+        "operationId": "events_history_api_events_history_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Events History Api Events History Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Events History"
+      }
+    },
+    "/api/friendships": {
+      "get": {
+        "operationId": "list_friendships_api_friendships_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "player",
+            "required": true,
+            "schema": {
+              "title": "Player",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response List Friendships Api Friendships Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Friendships"
+      },
+      "post": {
+        "operationId": "add_friendship_api_friendships_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_add_friendship_api_friendships_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Add Friendship Api Friendships Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Add Friendship"
+      }
+    },
+    "/api/glyphs/boot": {
+      "get": {
+        "operationId": "glyphs_boot_api_glyphs_boot_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/BootStep"
+                  },
+                  "title": "Response Glyphs Boot Api Glyphs Boot Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Glyphs Boot"
+      }
+    },
+    "/api/glyphs/interpret": {
+      "post": {
+        "operationId": "glyphs_interpret_api_glyphs_interpret_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "title": "Payload",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Glyphs Interpret Api Glyphs Interpret Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Glyphs Interpret"
+      }
+    },
+    "/api/glyphs/pack": {
+      "post": {
+        "operationId": "glyphs_pack_api_glyphs_pack_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "title": "Payload",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Glyphs Pack Api Glyphs Pack Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Glyphs Pack"
+      }
+    },
+    "/api/glyphs/validate": {
+      "post": {
+        "operationId": "glyphs_validate_api_glyphs_validate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GlyphValidateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlyphValidateResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Glyphs Validate"
+      }
+    },
+    "/api/guilds": {
+      "post": {
+        "operationId": "create_guild_api_guilds_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_create_guild_api_guilds_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Create Guild Api Guilds Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Guild"
+      }
+    },
+    "/api/guilds/{guild_id}": {
+      "get": {
+        "operationId": "get_guild_api_guilds__guild_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "guild_id",
+            "required": true,
+            "schema": {
+              "title": "Guild Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Guild Api Guilds  Guild Id  Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Guild"
+      }
+    },
+    "/api/guilds/{guild_id}/members": {
+      "post": {
+        "operationId": "add_guild_member_api_guilds__guild_id__members_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "guild_id",
+            "required": true,
+            "schema": {
+              "title": "Guild Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Player",
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Add Guild Member Api Guilds  Guild Id  Members Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Add Guild Member"
+      }
+    },
+    "/api/healthz": {
+      "get": {
+        "operationId": "healthz_api_healthz_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Healthz"
+      }
+    },
+    "/api/jobs/{job_id}": {
+      "get": {
+        "operationId": "job_status_api_jobs__job_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "title": "Job Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobStatusResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Job Status"
+      }
+    },
+    "/api/log_event": {
+      "post": {
+        "description": "Append a JSON event to the server event queue.\n\nThis lightweight endpoint allows clients/tests to push\ninstrumentation or playtesting events that can be streamed\nvia /api/events (SSE\u2011like).",
+        "operationId": "log_event_api_log_event_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "title": "Ev",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Log Event Api Log Event Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Log Event"
+      }
+    },
+    "/api/metrics": {
+      "get": {
+        "description": "Phase 2 Enhanced Metrics Endpoint (dep_AllFiles_L2R_to_Z1)\n\nData Domains:\n- memory_zones: Three-zone memory system metrics (active/pattern/crystallized)\n- cognitive_lenses: Cognitive lens usage and statistics\n- system_health: Overall system health and performance",
+        "operationId": "get_metrics_api_metrics_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Metrics Api Metrics Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Metrics"
+      }
+    },
+    "/api/metrics/prom": {
+      "get": {
+        "description": "Prometheus-friendly text exposition for selected metrics.",
+        "operationId": "get_metrics_prom_api_metrics_prom_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Metrics Prom Api Metrics Prom Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Metrics Prom"
+      }
+    },
+    "/api/notes": {
+      "get": {
+        "description": "Lists all notes from Cosmos DB via Repository.",
+        "operationId": "notes_list_api_notes_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Notes List Api Notes Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Notes List"
+      }
+    },
+    "/api/notes/upsert": {
+      "post": {
+        "description": "Creates or updates a note via Repository.",
+        "operationId": "notes_upsert_api_notes_upsert_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "title": "Payload",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Notes Upsert Api Notes Upsert Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Notes Upsert"
+      }
+    },
+    "/api/ops": {
+      "get": {
+        "description": "Basic ops HTML that renders metrics, threads and counts.",
+        "operationId": "ops_page_api_ops_get",
+        "responses": {
+          "200": {
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Ops Page"
+      }
+    },
+    "/api/pools": {
+      "post": {
+        "operationId": "create_pool_api_pools_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PoolCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Create Pool Api Pools Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Pool"
+      }
+    },
+    "/api/process": {
+      "post": {
+        "operationId": "post_process_api_process_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Post Process"
+      }
+    },
+    "/api/readyz": {
+      "get": {
+        "operationId": "readyz_api_readyz_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Readyz"
+      }
+    },
+    "/api/rebuild": {
+      "post": {
+        "operationId": "rebuild_api_rebuild_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RebuildRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Rebuild Api Rebuild Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Rebuild"
+      }
+    },
+    "/api/sentinel/init": {
+      "post": {
+        "operationId": "sentinel_profile_init_api_sentinel_init_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Sentinel Profile Init Api Sentinel Init Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Sentinel Profile Init"
+      }
+    },
+    "/api/sentinel/profile": {
+      "get": {
+        "operationId": "sentinel_profile_get_api_sentinel_profile_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Sentinel Profile Get Api Sentinel Profile Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Sentinel Profile Get"
+      }
+    },
+    "/api/state": {
+      "get": {
+        "operationId": "state_dump_api_state_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response State Dump Api State Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "State Dump"
+      }
+    },
+    "/api/state/save": {
+      "post": {
+        "operationId": "state_save_api_state_save_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response State Save Api State Save Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "State Save"
+      }
+    },
+    "/api/status": {
+      "get": {
+        "operationId": "get_status_api_status_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Status"
+      }
+    },
+    "/api/stress": {
+      "post": {
+        "operationId": "stress_api_stress_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StressRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/StressResult"
+                    },
+                    {
+                      "$ref": "#/components/schemas/JobSubmitResponse"
+                    }
+                  ],
+                  "title": "Response Stress Api Stress Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Stress"
+      }
+    },
+    "/api/sync/snapshot": {
+      "get": {
+        "operationId": "sync_snapshot_api_sync_snapshot_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncSnapshot"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Sync Snapshot"
+      }
+    },
+    "/api/sync/trinode": {
+      "get": {
+        "operationId": "sync_trinode_api_sync_trinode_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Sync Trinode Api Sync Trinode Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Sync Trinode"
+      }
+    },
+    "/api/sync/update": {
+      "post": {
+        "operationId": "sync_update_api_sync_update_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Sync Update Api Sync Update Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Sync Update"
+      }
+    },
+    "/api/task/orchestrate/start": {
+      "post": {
+        "description": "Start the shared raw-event orchestration listener.",
+        "operationId": "start_task_orchestration_api_task_orchestrate_start_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Start Task Orchestration"
+      }
+    },
+    "/api/task/orchestrate/stop": {
+      "post": {
+        "description": "Stop the shared raw-event orchestration listener.",
+        "operationId": "stop_task_orchestration_api_task_orchestrate_stop_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Stop Task Orchestration"
+      }
+    },
+    "/api/teardown": {
+      "post": {
+        "operationId": "teardown_api_teardown_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Teardown Api Teardown Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Teardown"
+      }
+    },
+    "/api/test": {
+      "get": {
+        "operationId": "test_endpoint_api_test_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Test Endpoint"
+      }
+    },
+    "/api/testpost": {
+      "post": {
+        "operationId": "test_post_api_testpost_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Test Post"
+      }
+    },
+    "/api/triage/tuner": {
+      "get": {
+        "operationId": "triage_tuner_get_api_triage_tuner_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Triage Tuner Get Api Triage Tuner Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Triage Tuner Get"
+      },
+      "post": {
+        "operationId": "triage_tuner_set_api_triage_tuner_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "title": "Payload",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Triage Tuner Set Api Triage Tuner Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Triage Tuner Set"
+      }
+    },
+    "/api/upgrade/apply": {
+      "post": {
+        "operationId": "upgrade_apply_api_upgrade_apply_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Upgrade Apply Api Upgrade Apply Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Upgrade Apply"
+      }
+    },
+    "/api/upgrade/plan": {
+      "get": {
+        "operationId": "upgrade_plan_api_upgrade_plan_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Upgrade Plan Api Upgrade Plan Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Upgrade Plan"
+      }
+    },
+    "/api/version": {
+      "get": {
+        "description": "Return build/version metadata for debugging and Prometheus info.",
+        "operationId": "get_version_api_version_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Version Api Version Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Version"
+      }
+    }
+  }
+}

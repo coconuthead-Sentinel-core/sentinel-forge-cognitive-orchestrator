@@ -113,6 +113,7 @@ class CognitiveOrchestrator(ChatService):
         self.dyslexia_lens = create_dyslexia_lens()
         self._zone_counts = {zone: 0 for zone in CognitiveZone}
         self._event_bus_task: Optional[asyncio.Task] = None
+        self._event_bus_queue: Optional[asyncio.Queue] = None
         
         # NEW: Initialize QuantumNexusForge for brain modeling
         self.quantum_forge = QuantumNexusForge()
@@ -123,8 +124,8 @@ class CognitiveOrchestrator(ChatService):
         """Start listening to the event bus for raw events."""
         if self._event_bus_task is None:
             loop = asyncio.get_event_loop()
-            queue = bus.subscribe(loop, topic="raw_events")
-            self._event_bus_task = loop.create_task(self._process_event_queue(queue))
+            self._event_bus_queue = bus.subscribe(loop, topic="raw_events")
+            self._event_bus_task = loop.create_task(self._process_event_queue(self._event_bus_queue))
             logger.info("👂 Event bus listener started for 'raw_events' topic.")
 
     def stop_event_listener(self):
@@ -132,7 +133,14 @@ class CognitiveOrchestrator(ChatService):
         if self._event_bus_task:
             self._event_bus_task.cancel()
             self._event_bus_task = None
+        if self._event_bus_queue is not None:
+            bus.unsubscribe(self._event_bus_queue)
+            self._event_bus_queue = None
             logger.info("🛑 Event bus listener stopped.")
+
+    def is_event_listener_running(self) -> bool:
+        """Return True when the raw-event listener task is active."""
+        return self._event_bus_task is not None and not self._event_bus_task.done()
 
     async def _process_event_queue(self, queue: asyncio.Queue):
         """Process incoming events from the subscription queue."""

@@ -11,10 +11,10 @@ Repository review release for `main`
 - [x] iOS packet is resolved with evidence
 - [x] Focused API completion tests pass
 - [x] Smoke test passes
-- [ ] Full suite pass recorded
-- [ ] OpenAPI export recorded
-- [ ] `main` push recorded
-- [ ] Extra branches removed
+- [x] Full suite pass recorded
+- [x] OpenAPI export recorded
+- [x] `main` push recorded
+- [x] Extra branches removed
 
 ## Scope Clarification
 This checklist certifies the repository as ready to ship for review. It does not certify:

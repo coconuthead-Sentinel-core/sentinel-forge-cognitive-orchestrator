@@ -9,7 +9,7 @@
 | iOS applicability review | Completed |
 | Runtime coherence fixes | Completed |
 | Focused validation and smoke pass | Completed |
-| Final suite, push, and branch cleanup | Final release pass |
+| Final suite, push, and branch cleanup | Completed |
 
 ## Scheduling Rule
 The current release is complete when the final release pass records validation, push, and branch cleanup on `main`.

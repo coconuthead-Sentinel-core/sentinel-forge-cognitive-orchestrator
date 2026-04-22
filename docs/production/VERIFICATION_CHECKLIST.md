@@ -21,13 +21,13 @@ This checklist captures the required release-level verification for the current 
 ## Validation Gates
 - [x] Focused API completion tests passed
 - [x] Smoke test passed
-- [ ] Full automated suite recorded in final release pass
-- [ ] OpenAPI export recorded in final release pass
-- [ ] `git diff --check` recorded in final release pass
+- [x] Full automated suite recorded in final release pass
+- [x] OpenAPI export recorded in final release pass
+- [x] `git diff --check` recorded in final release pass
 
 ## Release Hygiene
-- [ ] Local and remote branch cleanup recorded in final release pass
-- [ ] `main` mirror state recorded in final release pass
+- [x] Local and remote branch cleanup recorded in final release pass
+- [x] `main` mirror state recorded in final release pass
 
 ## Sign-Off Rule
 This checklist is complete when the remaining final-release items are recorded in `docs/sdlc/QA_RELEASE_READINESS.md`.

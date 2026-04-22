@@ -10,9 +10,10 @@ Build an AI orchestration layer that can adapt its output to different cognitive
 ## Current Status
 - Local validation is green.
 - `python -m pytest -q`: `152 passed`
-- `python scripts/smoke_test.py`: passed on `2026-04-21`
+- `python scripts/smoke_test.py`: passed on `2026-04-22`
 - Mock AI mode and mock Cosmos persistence both work for local development.
 - Azure-backed identity and live model scoring remain optional integrations.
+- Engineering-build, SDLC, governance, security, and iOS compliance paperwork packets are now routed through `docs/README.md`.
 
 ## Architecture
 The current codebase is broader than the original published README. The verified runtime centers on these components:

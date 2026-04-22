@@ -1,15 +1,18 @@
-# Privacy Manifest Review
+# Privacy Manifest Review Template
 
-## Checklist Result
-- Confirm whether the app, bundled SDKs, or frameworks require a privacy manifest update: not applicable
-- Review the current manifest against the shipped capability set: not applicable
-- Check required-reason API usage and capture the matching reason codes: not applicable
-- Verify data-collection declarations match actual runtime behavior: not applicable
-- Verify third-party SDK declarations are not silently missing: not applicable
-- Record the final manifest file path and reviewer: no manifest file because no iOS target exists
+## Review Metadata
+- Date: [YYYY-MM-DD]
+- Reviewer: [Name]
 
-## Reviewer
-Codex-prepared review on 2026-04-22
+## Inventory
+| Item | Present | Notes |
+|---|---|---|
+| `PrivacyInfo.xcprivacy` | [Yes/No] | [Notes] |
+| Required reasons APIs | [Yes/No] | [Notes] |
+| SDK declarations | [Yes/No] | [Notes] |
 
-## Final Manifest File Path
-None in current repository state
+## Findings
+- [Finding]
+
+## Remediation
+- [Action]

@@ -1,15 +1,23 @@
-# AI Governance Home
+# AI Governance Template
 
-## Canonical Governance Documents
-- AI policy: `../../compliance/AI_POLICY.md`
-- FRIA: `../../compliance/FRIA.md`
-- DPIA: `../../compliance/DPIA.md`
-- processing register: `../../compliance/PROCESSING_ACTIVITIES_REGISTER.md`
-- statement of applicability: `../../compliance/STATEMENT_OF_APPLICABILITY.md`
-- incident log: `../../compliance/INCIDENT_LOG.md`
+## Scope
+Use this file to capture project-specific AI governance notes that are not already covered by policy or RMF paperwork.
 
-## Governance Position
-- model outputs are advisory, not autonomous business decisions
-- live Azure dependencies are optional for local development
-- mock mode is available for validation without external inference
-- incidents and exclusions must be documented in the compliance and SDLC packets
+## Intended AI Use
+- Capability: [Describe]
+- User-facing purpose: [Describe]
+- Human oversight model: [Describe]
+
+## Guardrails
+- Prompt controls: [Describe]
+- Output handling rules: [Describe]
+- Escalation rules: [Describe]
+
+## Operational Controls
+- Logging and audit: [Describe]
+- Change control: [Describe]
+- Incident path: [Describe]
+
+## Linked Documents
+- RMF workspace: `../nist-ai-rmf/README.md`
+- Compliance packet: `../../compliance/`

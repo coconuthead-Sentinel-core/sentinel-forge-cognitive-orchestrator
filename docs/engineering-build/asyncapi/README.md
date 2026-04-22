@@ -1,29 +1,25 @@
-# AsyncAPI Home
+# AsyncAPI Template Workspace
 
-## Scope
-The repo does not currently use an external broker such as Kafka, RabbitMQ, or Service Bus. Its asynchronous interface is the internal EventBus plus WebSocket delivery.
+## Purpose
+Use this file to describe asynchronous flows for this project if they exist.
+
+## Applicability
+- Async interface present: [Yes/No]
+- If no, write `N/A` and explain why.
 
 ## Channels
-- `cognitive`
-- `symbolic`
-- `glyph`
-- `raw_events`
-
-## Consumers
-- `/ws/cognitive`
-- `/ws/metrics`
-- `/ws/sync`
+| Channel | Producer | Consumer | Payload | Notes |
+|---|---|---|---|---|
+| [channel] | [producer] | [consumer] | [schema] | [notes] |
 
 ## Event Types
-- `zone.classified`
-- `symbolic.matched`
-- `glyph.parsed`
-- compatibility pass-through events on `/ws/sync`
+- [event.type]: [Purpose]
 
-## Contract Source
-- publisher code: `../../../backend/services/cognitive_orchestrator.py`
-- event bus: `../../../backend/eventbus.py`
-- websocket transport: `../../../backend/ws_api.py`
+## Delivery Rules
+- Ordering: [Describe]
+- Retry behavior: [Describe]
+- Failure handling: [Describe]
 
-## Current Decision
-A lightweight AsyncAPI-style channel catalog is sufficient for the repo because no external broker contract has to be versioned yet.
+## Transport Notes
+- Broker or transport: [Describe]
+- Internal-only or external contract: [Describe]

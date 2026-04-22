@@ -1,20 +1,29 @@
-# OpenAPI Home
+# OpenAPI Template Workspace
 
-## Current Contract Sources
-- Human-readable API reference: `../../API.md`
-- Usage examples: `../../API_EXAMPLES.md`
-- Implemented routes: `../../../backend/api.py`
+## Purpose
+Use this file to draft the HTTP contract before or alongside route implementation.
 
-## Current Position
-This repo uses FastAPI route declarations as the executable contract source. The narrative documentation in `docs/API.md` is the reviewed human-facing surface. A separately checked-in `openapi.json` is not currently required for the local validation path.
+## Contract Metadata
+- API name: [Name]
+- Version: [Version]
+- Base path: [Base path]
+- Authentication: [Scheme]
 
-## Contract Coverage
-- health, status, and metrics routes
-- chat processing
-- glyph interpretation and validation
-- cognitive processing
-- sync endpoints
-- note upsert flow
+## Paths
+### [METHOD] [PATH]
+- Summary: [Short description]
+- Request body: [Schema or fields]
+- Success response: [Schema or fields]
+- Error responses: [List status codes]
 
-## Review Rule
-If routes change, update `docs/API.md` and this index in the same change set.
+## Shared Schemas
+- [Schema name]: [Purpose]
+
+## Operational Notes
+- Rate limits: [Describe]
+- Idempotency: [Describe]
+- Versioning rule: [Describe]
+
+## Links
+- Human-readable contract: `../../API.md`
+- Example payloads: `../../API_EXAMPLES.md`

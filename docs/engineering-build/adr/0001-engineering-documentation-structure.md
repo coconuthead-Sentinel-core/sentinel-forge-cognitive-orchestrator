@@ -1,28 +1,47 @@
-# ADR 0001: Establish A Named Engineering Documentation Structure
+# ADR Template: Engineering Documentation Structure
 
-## Status
-Accepted
+## Context And Problem Statement
+- Problem: [What decision needs to be made]
+- Drivers and constraints: [Why this decision matters]
 
-## Date
-2026-04-22
+## Decision Drivers
+- [Driver 1]
+- [Driver 2]
+- [Driver 3]
 
-## Context
-The repository had working code, SDLC notes, legal paperwork, and compliance documents, but no single engineering-build index showing where architecture, API, message flow, threat modeling, and AI governance artifacts lived. The Codex project-development paperwork package requires named homes for those artifacts.
+## Considered Options
+1. [Option 1]
+2. [Option 2]
+3. [Option 3]
 
-## Decision
-Create `docs/engineering-build/` as the routing layer for:
-- arc42
-- ADR/MADR
-- C4
-- OpenAPI
-- AsyncAPI
-- threat modeling
-- AI governance
-- NIST AI RMF
+## Decision Outcome
+Chosen option: [Select one option]
 
-The existing validated repo documents remain authoritative. The engineering-build suite points to them and adds missing connective paperwork.
+### Positive Consequences
+- [Positive consequence]
 
-## Consequences
-- The repo now has a deterministic paperwork entry point.
-- Future contributors can find the architecture and compliance stack without guessing.
-- Documentation claims can be reviewed against a stable index before release.
+### Negative Consequences
+- [Negative consequence]
+
+## Pros And Cons Of The Options
+### [Option 1]
+- Pros:
+  - [Pro]
+- Cons:
+  - [Con]
+
+### [Option 2]
+- Pros:
+  - [Pro]
+- Cons:
+  - [Con]
+
+### [Option 3]
+- Pros:
+  - [Pro]
+- Cons:
+  - [Con]
+
+## Links
+- Related ADRs: [List links]
+- Related docs: [List links]

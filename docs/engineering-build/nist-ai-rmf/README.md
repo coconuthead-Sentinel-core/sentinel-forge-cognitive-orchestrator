@@ -1,13 +1,41 @@
-# NIST AI RMF Home
+# NIST AI RMF Template
 
-## Position
-This repo's NIST AI RMF-aligned home is routed through the compliance packet rather than a standalone large workbook.
+## System Metadata
+- AI system name: Sentinel Forge Cognitive AI Orchestration Platform
+- AI capability: [genai/ml/rules+ml/none]
+- Model(s): [List models or write N/A]
+- Intended users: [Describe]
+- Deployment context: [Describe]
 
-## Mapped Sources
-- Govern: `../../compliance/AI_POLICY.md`
-- Map: `../../sdlc/PRD.md`, `../../sdlc/SYSTEM_DESIGN.md`
-- Measure: `../../sdlc/TEST_STRATEGY.md`, `../../production/VERIFICATION_CHECKLIST.md`
-- Manage: `../../sdlc/RISK_REGISTER.md`, `../../sdlc/QA_RELEASE_READINESS.md`, `../../compliance/INCIDENT_LOG.md`
+## GOVERN
+- Roles and responsibilities:
+  - Owner: [Name]
+  - Approver: [Name]
+  - Security: [Name]
+  - Legal or privacy: [Name]
+- Policies:
+  - Data handling: [Describe]
+  - Model update control: [Describe]
+- Audit requirements: [Describe]
 
-## Current State
-The repo now has a named home for AI RMF evidence, with each function mapped to an existing maintained document.
+## MAP
+- Intended purpose: [Describe]
+- Misuse or abuse cases: [Describe]
+- Affected stakeholders: [Describe]
+- Harm types: [List applicable harms]
+
+## MEASURE
+- Quality metrics: [Metric and target]
+- Safety metrics: [Metric and target]
+- Adversarial testing: [Approach]
+- Monitoring and drift: [Signals]
+
+## MANAGE
+- Controls and mitigations: [List controls]
+- Incident response: [Describe triggers and actions]
+- Rollback or disable path: [Describe]
+
+## Data And Privacy
+- Data sources: [List]
+- PII handling: [Describe]
+- Retention: [Describe]

@@ -1,12 +1,16 @@
+import pytest
 from fastapi.testclient import TestClient
 
 from backend.main import app
 
 
-client = TestClient(app)
+@pytest.fixture(scope="module")
+def client():
+    with TestClient(app) as test_client:
+        yield test_client
 
 
-def test_dashboard_metrics_returns_structured_payload():
+def test_dashboard_metrics_returns_structured_payload(client):
     response = client.get("/api/dashboard/metrics")
     assert response.status_code == 200
     payload = response.json()
@@ -16,7 +20,7 @@ def test_dashboard_metrics_returns_structured_payload():
     assert "cognition" in payload
 
 
-def test_nexus_dashboard_metrics_route_is_distinct():
+def test_nexus_dashboard_metrics_route_is_distinct(client):
     response = client.get("/api/dashboard/nexus-metrics")
     assert response.status_code == 200
     payload = response.json()
@@ -24,17 +28,19 @@ def test_nexus_dashboard_metrics_route_is_distinct():
     assert "clarity_score" in payload
 
 
-def test_cognitive_status_reports_live_orchestrator_state():
+def test_cognitive_status_reports_live_orchestrator_state(client):
     response = client.get("/api/cognitive/status")
     assert response.status_code == 200
     payload = response.json()
     assert payload["status"] == "active"
     assert "default_lens" in payload
     assert "event_listener_running" in payload
+    assert "ai_runtime" in payload
+    assert "storage_runtime" in payload
     assert "orchestrator_metrics" in payload
 
 
-def test_task_orchestration_start_and_stop_are_safe():
+def test_task_orchestration_start_and_stop_are_safe(client):
     start_response = client.post("/api/task/orchestrate/start")
     assert start_response.status_code == 200
     start_payload = start_response.json()
@@ -46,3 +52,13 @@ def test_task_orchestration_start_and_stop_are_safe():
     stop_payload = stop_response.json()
     assert stop_payload["status"] == "stopped"
     assert stop_payload["listener_running"] is False
+
+
+def test_ai_readiness_endpoint_reports_market_state(client):
+    response = client.get("/api/runtime/ai-readiness")
+    assert response.status_code == 200
+    payload = response.json()
+    assert "market_ready" in payload
+    assert "blockers" in payload
+    assert "ai" in payload
+    assert "storage" in payload

@@ -1,7 +1,7 @@
 import asyncio
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
+from typing import Any, Dict, List, Optional, Sequence, Union
 
 import httpx
 from azure.identity.aio import DefaultAzureCredential
@@ -47,14 +47,27 @@ class AzureCognitiveTokenProvider:
 
 class AzureOpenAIAdapter:
     """
-    Minimal Azure OpenAI adapter with AAD (no API key).
+    Minimal Azure OpenAI adapter with Azure AD or API key authentication.
     """
-    def __init__(self, http: httpx.AsyncClient, token_provider: AzureCognitiveTokenProvider):
+    def __init__(
+        self,
+        http: httpx.AsyncClient,
+        token_provider: Optional[AzureCognitiveTokenProvider] = None,
+        api_key: str = "",
+    ):
         self._http = http
         self._token_provider = token_provider
+        self._api_key = api_key.strip()
         self._base = str(settings.AOAI_ENDPOINT)
 
     async def _headers(self) -> Dict[str, str]:
+        if self._api_key:
+            return {
+                "api-key": self._api_key,
+                "Content-Type": "application/json",
+            }
+        if self._token_provider is None:
+            raise RuntimeError("Azure OpenAI adapter is missing both API key and token provider.")
         token = await self._token_provider.get_token()
         return {
             "Authorization": f"Bearer {token}",

@@ -88,4 +88,26 @@ class CosmosDBRepository:
             logger.error(f"Cosmos Query Error: {e}")
             return []
 
+    @classmethod
+    def diagnostics(cls) -> Dict[str, Any]:
+        endpoint = (settings.COSMOS_ENDPOINT or "").strip().lower()
+        endpoint_type = "missing"
+        if endpoint:
+            endpoint_type = "local_emulator" if "localhost" in endpoint or "127.0.0.1" in endpoint else "azure_cloud"
+
+        if _mock_db_mode or not cls._container_proxy:
+            selected_backend = "mock"
+        elif endpoint_type == "local_emulator":
+            selected_backend = "local_cosmos_emulator"
+        else:
+            selected_backend = "azure_cosmos"
+
+        return {
+            "selected_backend": selected_backend,
+            "endpoint_type": endpoint_type,
+            "database": settings.COSMOS_DATABASE_NAME,
+            "container": settings.COSMOS_CONTAINER_NAME,
+            "verified_live_storage": selected_backend == "azure_cosmos",
+        }
+
 cosmos_repo = CosmosDBRepository

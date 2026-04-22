@@ -8,9 +8,6 @@ from fastapi import APIRouter, HTTPException, Depends, Body, Response, status, R
 from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import StreamingResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
-# import json
-# import httpx
-
 from .schemas import (
     JobStatusResponse, PoolCreateRequest, ProcessRequest, ProcessResponse,
     RebuildRequest, StatusResponse, StressRequest, StressResult,
@@ -21,9 +18,8 @@ from .schemas import (
 )
 from .service import service
 from .core.security import api_key_guard
-# from .adapters.azure_openai import AzureOpenAIAdapter, AzureCognitiveTokenProvider, AIO_TIMEOUT
-from .mock_adapter import MockOpenAIAdapter
 from .core.config import settings
+from .runtime_ai import ai_runtime
 # from .eventbus import bus
 
 # NEW: Import Domain, Infrastructure, and Services
@@ -35,22 +31,10 @@ from .services.memory_zones import get_memory_manager
 from .services.uismt import uismt
 
 router = APIRouter()
-# ai_router = APIRouter(prefix="/ai", tags=["ai"])
 
-# Initialize Jinja2 templates for Phase 2 dashboard
 templates = Jinja2Templates(directory="templates")
 
-# Shared client + adapter
-# _http_client = httpx.AsyncClient(timeout=AIO_TIMEOUT)
-# _token_provider = AzureCognitiveTokenProvider()
-
-# if settings.MOCK_AI:
-logging.warning("⚠️  RUNNING IN MOCK AI MODE.")
-_adapter = MockOpenAIAdapter()
-# else:
-#     _adapter = AzureOpenAIAdapter(_http_client, _token_provider)
-
-# Initialize CognitiveOrchestrator
+_adapter = ai_runtime.adapter
 _orchestrator = CognitiveOrchestrator(_adapter)
 
 # # Initialize Chat Service
@@ -96,6 +80,8 @@ async def get_cognitive_status():
         "default_lens": _orchestrator.default_lens.value,
         "available_lenses": ["neurotypical", "adhd", "autism", "dyslexia"],
         "event_listener_running": _orchestrator.is_event_listener_running(),
+        "ai_runtime": ai_runtime.get_status(),
+        "storage_runtime": cosmos_repo.diagnostics(),
         "orchestrator_metrics": zone_metrics,
         "memory_manager": {
             "active_count": memory_snapshot.active_count,
@@ -104,6 +90,30 @@ async def get_cognitive_status():
             "avg_entropy": memory_snapshot.avg_entropy,
             "last_transition": memory_snapshot.last_transition,
         },
+    }
+
+
+@router.get("/runtime/ai-readiness")
+async def get_ai_readiness():
+    """
+    Return a truth-first readiness snapshot for AI and persistence.
+    """
+    ai_status = await ai_runtime.probe()
+    storage_status = cosmos_repo.diagnostics()
+
+    blockers = []
+    if ai_status.get("endpoint_dns_resolves") is False:
+        blockers.append("The configured Azure OpenAI endpoint does not resolve in DNS.")
+    if not ai_status["verified_live_access"]:
+        blockers.append("Azure OpenAI live scoring is not verified on this machine.")
+    if not storage_status["verified_live_storage"]:
+        blockers.append("Persistence is not running against Azure Cosmos DB cloud storage.")
+
+    return {
+        "market_ready": not blockers,
+        "blockers": blockers,
+        "ai": ai_status,
+        "storage": storage_status,
     }
 
 @router.post("/task/orchestrate/start")

@@ -5,8 +5,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .api import router as api_router
 from .ws_api import router as ws_router
-from .adapters.azure_openai import AzureCognitiveTokenProvider
 from .infrastructure.cosmos_repo import CosmosDBRepository
+from .runtime_ai import ai_runtime
 from .services.cno_ax_engine import cno_ax_engine
 from .services.uismt import uismt
 import uvicorn
@@ -26,15 +26,11 @@ async def lifespan(app: FastAPI):
     await CosmosDBRepository.initialize()
     logger.info("Cosmos DB Repository initialized.")
 
-    # Warm up token to fail-fast on bad identity/env.
-    provider = AzureCognitiveTokenProvider()
-    try:
-        await provider.get_token()
-        logger.info("AAD token warmup successful.")
-    except Exception as exc:
-        logger.warning("AAD warmup failed: %s", exc)
-    finally:
-        await provider.aclose()
+    ai_status = await ai_runtime.probe()
+    if ai_status["verified_live_access"]:
+        logger.info("AI runtime probe successful: %s", ai_status["selected_provider"])
+    else:
+        logger.warning("AI runtime is not verified for live scoring: %s", ai_status["auth_detail"])
     
     # Auto-start 1000 Strikes Simulation
     logger.info("🚀 Auto-starting 1000 Strikes Protocol...")
@@ -45,8 +41,9 @@ async def lifespan(app: FastAPI):
     
     # Cleanup on shutdown
     await CosmosDBRepository.close()
+    await ai_runtime.aclose()
 
-app = FastAPI(title="Neurodivergent AI Middleware")
+app = FastAPI(title="Neurodivergent AI Middleware", lifespan=lifespan)
 
 # Add CORS
 app.add_middleware(

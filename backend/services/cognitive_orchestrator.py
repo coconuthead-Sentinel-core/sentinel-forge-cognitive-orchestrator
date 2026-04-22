@@ -272,6 +272,8 @@ class CognitiveOrchestrator(ChatService):
         # 4. Prefer the configured AI adapter to preserve the chat contract.
         try:
             response = await super().process_message(user_message, adjusted_context)
+            response["provider"] = type(self.ai_adapter).__name__
+            response["live_response"] = type(self.ai_adapter).__name__ == "AzureOpenAIAdapter"
         except Exception as e:
             logger.warning(f"⚠️ Primary AI adapter failed, falling back to QuantumNexusForge: {e}")
             try:
@@ -299,6 +301,8 @@ class CognitiveOrchestrator(ChatService):
                 "id": f"chat-{int(time.time())}",
                 "model": "sentinel-forge-cognitive",
                 "created": int(time.time()),
+                "provider": "QuantumNexusForgeFallback",
+                "live_response": False,
                 "choices": [
                     {
                         "index": 0,

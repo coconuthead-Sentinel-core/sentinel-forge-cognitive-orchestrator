@@ -13,7 +13,8 @@ Build an AI orchestration layer that can adapt its output to different cognitive
 - `python scripts/smoke_test.py`: passed on `2026-04-22`
 - `python scripts/export_openapi.py`: passed on `2026-04-22`
 - Mock AI mode and mock Cosmos persistence both work for local development.
-- Azure-backed identity and live model scoring remain optional integrations.
+- Live Azure scoring is config-driven and can be checked directly with `GET /api/runtime/ai-readiness`.
+- The system is only market-ready when `/api/runtime/ai-readiness` reports `market_ready=true`.
 - Engineering-build, SDLC, governance, security, review, legal, production, and iOS paperwork packets are completed and routed through `docs/README.md`.
 - The only active local and remote branch is `main`.
 
@@ -157,6 +158,7 @@ PYTHONPATH=/path/to/project
 ### Runtime notes
 - If Azure credentials are absent, local development can still run in mock mode.
 - Cosmos persistence falls back to a mock repository in local validation flows.
+- `GET /api/runtime/ai-readiness` distinguishes verified live Azure access from mock or blocked local mode.
 - Some startup paths still emit FastAPI deprecation warnings around `on_event`; these are warnings, not current test blockers.
 
 ## Release Packet

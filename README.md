@@ -1,8 +1,14 @@
-# Sentinel Forge Cognitive AI Orchestration Platform
+# Sentinel Forge Cognitive AI Orchestrator
 
 ![CI](https://github.com/coconuthead-Sentinel-core/sentinel-forge-cognitive-orchestrator/workflows/Python%20application/badge.svg)
 
 Neurodivergent-aware cognitive orchestration for FastAPI-based chat, symbolic routing, adaptive presentation lenses, and real-time cognitive state streaming.
+
+## Project Identity
+
+The canonical public name for this repo is **Sentinel Forge Cognitive AI Orchestrator**.
+Approved short form: `SFCO`.
+This project is distinct from **Sovereign Forge** and **Sentinel-of-sentinel-s-Forge**.
 
 ## Mission
 Build an AI orchestration layer that can adapt its output to different cognitive processing styles while keeping the runtime observable, testable, and safe to extend.
